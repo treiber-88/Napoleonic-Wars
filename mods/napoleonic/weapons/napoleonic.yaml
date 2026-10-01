@@ -1,0 +1,318 @@
+# Napoleonic weapons.
+# Casualty warheads: "Casualties" is hundredths of a figure lost per figure struck, so 12 = 0.12 of a figure.
+# A line infantry figure stands for 50 men, a grenadier 10, a cavalryman 2, a gun 100 points.
+# Armor types: Infantry, Grenadier, Cavalry, HeavyCavalry, Artillery, Ship, Wood (buildings).
+
+^Smallarms:
+	ValidTargets: Ground, Water, GroundActor, WaterActor
+	Projectile: Bullet
+		Speed: 420
+		Image: musketball
+		Inaccuracy: 640
+		Blockable: false
+		ContrailLength: 5
+		ContrailStartWidth: 20
+		ContrailStartColor: E6E2D6
+		ContrailStartColorAlpha: 170
+		ContrailEndColorAlpha: 0
+	Warhead@1Cas: Casualty
+		ValidTargets: Ground, GroundActor, Water, WaterActor
+		Spread: 112
+		Casualties: 12
+		Damage: 6
+		ValidRelationships: Enemy, Neutral
+		DamageTypes: Musket
+		Versus:
+			Infantry: 100
+			Grenadier: 100
+			Cavalry: 100
+			HeavyCavalry: 60
+			Artillery: 30
+			Ship: 10
+			Wood: 10
+	Warhead@2Eff: CreateEffect
+		Explosions: piff
+		ValidTargets: Ground
+	Warhead@3EffWater: CreateEffect
+		Explosions: small_splash
+		ValidTargets: Water
+
+# Charleville / Brown Bess: 5 s reload for the whole battalion.
+Musket:
+	Inherits: ^Smallarms
+	ReloadDelay: 125
+	Range: 5c0
+	Report: gun11.aud
+
+LightMusket:
+	Inherits: Musket
+	Range: 5c512
+	Projectile: Bullet
+		Inaccuracy: 560
+
+# Bayonet: only used while charging. Short range, heavy shock to morale.
+Bayonet:
+	ReloadDelay: 40
+	Range: 1c512
+	ValidTargets: Ground, GroundActor
+	Projectile: InstantHit
+	Warhead@1Cas: Casualty
+		ValidTargets: Ground, GroundActor, Water, WaterActor
+		Spread: 1c0
+		Casualties: 6
+		Damage: 5
+		ValidRelationships: Enemy, Neutral
+		DamageTypes: Melee
+		Versus:
+			Infantry: 100
+			Grenadier: 80
+			Cavalry: 60
+			HeavyCavalry: 40
+			Artillery: 120
+			Wood: 20
+
+GrenadierBayonet:
+	Inherits: Bayonet
+	Warhead@1Cas: Casualty
+		ValidTargets: Ground, GroundActor, Water, WaterActor
+		Casualties: 11
+
+# Lit iron grenades lobbed by the grenadiers, one per four men.
+HandGrenade:
+	ReloadDelay: 125
+	Range: 3c0
+	MinRange: 1c0
+	Report: grenade1.aud
+	ValidTargets: Ground, GroundActor
+	Projectile: Bullet
+		Speed: 150
+		Image: grenade
+		LaunchAngle: 80
+		Inaccuracy: 512
+		Blockable: false
+		Shadow: true
+	Warhead@1Cas: Casualty
+		ValidTargets: Ground, GroundActor, Water, WaterActor
+		Spread: 320
+		MaxModels: 4
+		Casualties: 35
+		Damage: 60
+		ValidRelationships: Enemy, Neutral
+		DamageTypes: Explosion
+		Versus:
+			Infantry: 100
+			Grenadier: 100
+			Cavalry: 100
+			HeavyCavalry: 70
+			Artillery: 60
+			Wood: 100
+	Warhead@2Eff: CreateEffect
+		Explosions: small_explosion
+		ImpactSounds: kaboom12.aud
+		ValidTargets: Ground
+
+# Cavalry pistols: 3 s reload, each rider fires on his own.
+HorsePistol:
+	Inherits: ^Smallarms
+	ReloadDelay: 75
+	Range: 2c512
+	Report: gun27.aud
+	Projectile: Bullet
+		Inaccuracy: 768
+	Warhead@1Cas: Casualty
+		ValidTargets: Ground, GroundActor, Water, WaterActor
+		Casualties: 8
+
+Sabre:
+	ReloadDelay: 25
+	Range: 1c512
+	ValidTargets: Ground, GroundActor
+	Projectile: InstantHit
+	Warhead@1Cas: Casualty
+		ValidTargets: Ground, GroundActor, Water, WaterActor
+		Spread: 1c0
+		Casualties: 10
+		Damage: 7
+		ValidRelationships: Enemy, Neutral
+		DamageTypes: Melee
+		Versus:
+			Infantry: 100
+			Grenadier: 70
+			Cavalry: 100
+			HeavyCavalry: 60
+			Artillery: 150
+			Wood: 5
+
+# Cossack lance: long reach, between the sabre and the heavy sabre.
+Lance:
+	Inherits: Sabre
+	Range: 1c768
+	Warhead@1Cas: Casualty
+		ValidTargets: Ground, GroundActor, Water, WaterActor
+		Casualties: 12
+
+HeavySabre:
+	Inherits: Sabre
+	Warhead@1Cas: Casualty
+		ValidTargets: Ground, GroundActor, Water, WaterActor
+		Casualties: 15
+
+# Artillery: 10 s reload, all guns of the battery together.
+^NWCannon:
+	ReloadDelay: 250
+	Report: cannon1.aud
+	ValidTargets: Ground, Water, GroundActor, WaterActor
+
+# Solid (round) shot: long range, strikes where it lands, best against buildings.
+SolidShot:
+	Inherits: ^NWCannon
+	Range: 14c0
+	Projectile: Bullet
+		Speed: 320
+		Image: roundshot
+		Shadow: true
+		Inaccuracy: 1c0
+		LaunchAngle: 12
+		Blockable: false
+		ContrailLength: 8
+		ContrailStartWidth: 32
+		ContrailStartColor: 5A5550
+		ContrailStartColorAlpha: 150
+	Warhead@1Cas: Casualty
+		ValidTargets: Ground, GroundActor, Water, WaterActor
+		Spread: 160
+		MaxModels: 1
+		Casualties: 6
+		Damage: 150
+		DamageTypes: Explosion
+		Versus:
+			Infantry: 100
+			Grenadier: 100
+			Cavalry: 100
+			HeavyCavalry: 100
+			Artillery: 100
+			Ship: 100
+			Wood: 100
+	Warhead@2Smu: LeaveSmudge
+		SmudgeType: Crater
+		ValidTargets: Ground
+	Warhead@3Eff: CreateEffect
+		Explosions: piffs
+		ValidTargets: Ground
+	Warhead@4EffWater: CreateEffect
+		Explosions: small_splash
+		ImpactSounds: splash9.aud
+		ValidTargets: Water
+
+# Common shell: explodes in the air or on landing, hits everything around it.
+Shell:
+	Inherits: ^NWCannon
+	Range: 12c0
+	MinRange: 3c0
+	Projectile: Bullet
+		Speed: 220
+		Image: roundshot
+		Shadow: true
+		LaunchAngle: 90
+		Inaccuracy: 1c256
+		Blockable: false
+		ContrailLength: 10
+		ContrailStartWidth: 24
+		ContrailStartColor: 707070
+		ContrailStartColorAlpha: 120
+	Warhead@1Cas: Casualty
+		ValidTargets: Ground, GroundActor, Water, WaterActor
+		Spread: 512
+		MaxModels: 2
+		Casualties: 4
+		Damage: 80
+		DamageTypes: Explosion
+		Versus:
+			Infantry: 100
+			Grenadier: 100
+			Cavalry: 100
+			HeavyCavalry: 80
+			Artillery: 80
+			Ship: 60
+			Wood: 60
+	Warhead@2Smu: LeaveSmudge
+		SmudgeType: Crater
+		ValidTargets: Ground
+	Warhead@3Eff: CreateEffect
+		Explosions: med_explosion
+		ImpactSounds: kaboom25.aud
+		ValidTargets: Ground
+	Warhead@4EffWater: CreateEffect
+		Explosions: med_splash
+		ValidTargets: Water
+
+# Canister: a tin of musket balls, devastating at short range.
+Canister:
+	Inherits: ^NWCannon
+	Range: 5c0
+	Projectile: Bullet
+		Speed: 480
+		Image: musketball
+		Inaccuracy: 1c256
+		Blockable: false
+		ContrailLength: 4
+		ContrailStartWidth: 20
+		ContrailStartColor: E6E2D6
+		ContrailStartColorAlpha: 150
+	Warhead@1Cas: Casualty
+		ValidTargets: Ground, GroundActor, Water, WaterActor
+		Spread: 112
+		Casualties: 4
+		Damage: 5
+		ValidRelationships: Enemy, Neutral
+		DamageTypes: Canister
+		Versus:
+			Infantry: 100
+			Grenadier: 100
+			Cavalry: 100
+			HeavyCavalry: 80
+			Artillery: 40
+			Ship: 5
+			Wood: 5
+	Warhead@2Eff: CreateEffect
+		Explosions: piff
+		ValidTargets: Ground
+
+# Naval great guns: a full broadside every 10 s.
+NavalGun:
+	Inherits: ^NWCannon
+	Range: 9c0
+	Report: cannon2.aud
+	Projectile: Bullet
+		Speed: 340
+		Image: roundshot
+		Shadow: true
+		Inaccuracy: 1c0
+		LaunchAngle: 16
+		Blockable: false
+		ContrailLength: 6
+		ContrailStartWidth: 28
+		ContrailStartColor: 5A5550
+		ContrailStartColorAlpha: 150
+	Warhead@1Cas: Casualty
+		ValidTargets: Ground, GroundActor, Water, WaterActor
+		Spread: 192
+		MaxModels: 2
+		Casualties: 8
+		Damage: 120
+		DamageTypes: Explosion
+		Versus:
+			Infantry: 100
+			Grenadier: 100
+			Cavalry: 100
+			HeavyCavalry: 100
+			Artillery: 100
+			Ship: 100
+			Wood: 100
+	Warhead@2Eff: CreateEffect
+		Explosions: small_explosion
+		ValidTargets: Ground, Ship
+	Warhead@3EffWater: CreateEffect
+		Explosions: small_splash
+		ImpactSounds: splash9.aud
+		ValidTargets: Water

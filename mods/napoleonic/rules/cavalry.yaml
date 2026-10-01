@@ -1,0 +1,208 @@
+# Cavalry: 30 riders, numerical value 60. Placeholder: RA dog sprite until the horse models exist.
+
+^Dragoons:
+	Inherits: ^Cavalry
+
+^Cuirassiers:
+	Inherits: ^Cavalry
+	Valued:
+		Cost: 1300
+	Armor:
+		Type: HeavyCavalry
+	Mobile:
+		Speed: 75
+	Morale:
+		LossPerPercent: 14
+	VolleyArmament@SABRE:
+		Weapon: HeavySabre
+
+FR_DRAGOON:
+	Inherits: ^Dragoons
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~barracks, ~structures.france
+		Description: actor-fr-dragoon.description
+	Tooltip:
+		Name: actor-fr-dragoon.name
+	RenderSprites:
+		Image: fr_dragoon
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2
+	VolleyArmament@SABRE:
+		ShootSequence: slash
+
+FR_CUIRASSIER:
+	Inherits: ^Cuirassiers
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~barracks, ~structures.france
+		Description: actor-fr-cuirassier.description
+	Tooltip:
+		Name: actor-fr-cuirassier.name
+	RenderSprites:
+		Image: fr_cuirassier
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2
+	VolleyArmament@SABRE:
+		ShootSequence: slash
+
+GB_DRAGOON:
+	Inherits: ^Dragoons
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~barracks, ~structures.england
+		Description: actor-gb-dragoon.description
+	Tooltip:
+		Name: actor-gb-dragoon.name
+	RenderSprites:
+		Image: gb_dragoon
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2
+	VolleyArmament@SABRE:
+		ShootSequence: slash
+
+GB_HOUSEHOLD:
+	Inherits: ^Cuirassiers
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~barracks, ~structures.england
+		Description: actor-gb-household.description
+	Tooltip:
+		Name: actor-gb-household.name
+	RenderSprites:
+		Image: gb_household
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2
+	VolleyArmament@SABRE:
+		ShootSequence: slash
+
+# Cossacks: irregular light horse - fast and furious, lance and pistol, lighter and cheaper.
+^Cossacks:
+	Inherits: ^Cavalry
+	Valued:
+		Cost: 700
+	Mobile:
+		Speed: 125
+	Morale:
+		LossPerPercent: 26
+	VolleyArmament@SABRE:
+		Weapon: Lance
+
+# ---- Russia ----
+RU_DRAGOON:
+	Inherits: ^Dragoons
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~barracks, ~structures.russia
+		Description: actor-ru-dragoon.description
+	Tooltip:
+		Name: actor-ru-dragoon.name
+	RenderSprites:
+		Image: ru_dragoon
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2
+	VolleyArmament@SABRE:
+		ShootSequence: slash
+
+RU_CUIRASSIER:
+	Inherits: ^Cuirassiers
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~barracks, ~structures.russia
+		Description: actor-ru-cuirassier.description
+	Tooltip:
+		Name: actor-ru-cuirassier.name
+	RenderSprites:
+		Image: ru_cuirassier
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2
+	VolleyArmament@SABRE:
+		ShootSequence: slash
+
+RU_COSSACK:
+	Inherits: ^Cossacks
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~barracks, ~structures.russia
+		Description: actor-ru-cossack.description
+	Tooltip:
+		Name: actor-ru-cossack.name
+	RenderSprites:
+		Image: ru_cossack
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2
+	VolleyArmament@SABRE:
+		ShootSequence: slash
+
+# ---- Prussia ----
+PR_DRAGOON:
+	Inherits: ^Dragoons
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~barracks, ~structures.prussia
+		Description: actor-pr-dragoon.description
+	Tooltip:
+		Name: actor-pr-dragoon.name
+	RenderSprites:
+		Image: pr_dragoon
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2
+	VolleyArmament@SABRE:
+		ShootSequence: slash
+
+PR_CUIRASSIER:
+	Inherits: ^Cuirassiers
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~barracks, ~structures.prussia
+		Description: actor-pr-cuirassier.description
+	Tooltip:
+		Name: actor-pr-cuirassier.name
+	RenderSprites:
+		Image: pr_cuirassier
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2
+	VolleyArmament@SABRE:
+		ShootSequence: slash
+
+# ---- Austria ----
+AU_DRAGOON:
+	Inherits: ^Dragoons
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~barracks, ~structures.austria
+		Description: actor-au-dragoon.description
+	Tooltip:
+		Name: actor-au-dragoon.name
+	RenderSprites:
+		Image: au_dragoon
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2
+	VolleyArmament@SABRE:
+		ShootSequence: slash
+
+AU_CUIRASSIER:
+	Inherits: ^Cuirassiers
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~barracks, ~structures.austria
+		Description: actor-au-cuirassier.description
+	Tooltip:
+		Name: actor-au-cuirassier.name
+	RenderSprites:
+		Image: au_cuirassier
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2
+	VolleyArmament@SABRE:
+		ShootSequence: slash

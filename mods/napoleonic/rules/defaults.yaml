@@ -1,0 +1,382 @@
+# Shared templates for Napoleonic units and buildings.
+# Reload times: infantry 5 s (125 ticks), cavalry 3 s (75), artillery 10 s (250). 25 ticks = 1 s.
+
+^NWBuilding:
+	Inherits: ^Building
+	-SpawnActorsOnSell:
+	-AcceptsDeliveredCash:
+	-GpsDot:
+	Armor:
+		Type: Wood
+	RevealsShroud:
+		MinRange: 4c0
+		Range: 6c0
+		RevealGeneratedShroud: False
+	RevealsShroud@GAPGEN:
+		Range: 4c0
+
+# Any unit drawn as a Formation of figures: infantry, cavalry and artillery.
+^Formation:
+	Inherits@1: ^ExistsInWorld
+	Inherits@bounty: ^GlobalBounty
+	Inherits@selection: ^SelectableCombatUnit
+	Inherits@handicaps: ^PlayerHandicaps
+	Huntable:
+	OwnerLostAction:
+		Action: Kill
+	UpdatesPlayerStatistics:
+	HiddenUnderFog:
+	BodyOrientation:
+		QuantizedFacings: 0
+	RenderSprites:
+	Targetable:
+		TargetTypes: Ground, GroundActor, Regiment
+	HitShape:
+	Mobile:
+		Locomotor: regiment
+		TurnSpeed: 12
+		Speed: 40
+	RevealsShroud:
+		Range: 8c0
+	AttackFrontal:
+		FacingTolerance: 48
+		RequiresCondition: !routed || at-bay
+	AutoTarget:
+		RequiresCondition: !routed || at-bay
+		ScanRadius: 8
+		AttackAnythingCondition: stance-attackanything
+	AutoTargetPriority@DEFAULT:
+		RequiresCondition: !stance-attackanything
+		ValidTargets: Regiment, Ship
+	AutoTargetPriority@ATTACKANYTHING:
+		RequiresCondition: stance-attackanything
+		ValidTargets: Regiment, Ship, Structure
+	AttackMove:
+	Guard:
+	Guardable:
+	DivisionName:
+	RejectsOrders@ROUTED:
+		RequiresCondition: routed
+	SpeedMultiplier@ROUTED:
+		RequiresCondition: routed && !at-bay
+		Modifier: 170
+	Morale:
+		ShockDamageTypes: Melee
+	MustBeDestroyed:
+	ActorLostNotification:
+	Voiced:
+		VoiceSet: GenericVoice
+	MapEditorData:
+		Categories: Infantry
+	# ---- National bonuses (the unit's faction comes from the building that raised it) ----
+	GrantConditionOnFaction@RUSSIA:
+		Condition: faction-russia
+		Factions: russia
+	GrantConditionOnFaction@PRUSSIA:
+		Condition: faction-prussia
+		Factions: prussia
+	GrantConditionOnFaction@BRITAIN:
+		Condition: faction-britain
+		Factions: england
+	GrantConditionOnFaction@AUSTRIA:
+		Condition: faction-austria
+		Factions: austria
+	# Russia - Stubbornness: 30% less morale lost, so they rout less easily.
+	MoraleLossMultiplier@STUBBORNNESS:
+		RequiresCondition: faction-russia
+		Modifier: 70
+	# Russia - Scorched Earth: routed Russians destroy every bridge span they cross.
+	ScorchedEarth@RUSSIA:
+		RequiresCondition: faction-russia && routed
+	# Prussia - For the Fatherland: +10% fighting near their headquarters.
+	ExternalCondition@FATHERLAND:
+		Condition: fatherland
+	FirepowerMultiplier@FATHERLAND:
+		RequiresCondition: faction-prussia && fatherland
+		Modifier: 110
+	# Britain - Bulldog Resolve: +10% fighting against an enemy force of 5,000 men or more.
+	GrantConditionOnEnemyStrength@BULLDOG:
+		RequiresCondition: faction-britain
+		Condition: bulldog
+		Threshold: 5000
+		Range: 12c0
+	FirepowerMultiplier@BULLDOG:
+		RequiresCondition: bulldog
+		Modifier: 110
+	# Austria - Coffee Houses: 5% faster, and form up 5% faster.
+	SpeedMultiplier@COFFEEHOUSES:
+		RequiresCondition: faction-austria
+		Modifier: 105
+	FormationSpeedMultiplier@COFFEEHOUSES:
+		RequiresCondition: faction-austria
+		Modifier: 105
+
+
+# Infantry and cavalry: numerical value above the unit and the Charge / Run / Stand commands.
+^Regiment:
+	Inherits: ^Formation
+	NumericalDisplay:
+	RegimentCommands:
+	SpeedMultiplier@RUN:
+		RequiresCondition: running && !charging
+		Modifier: 180
+	SpeedMultiplier@CHARGE:
+		RequiresCondition: charging
+		Modifier: 200
+	RenderSprites:
+		Image: e1
+	Formation:
+		ShootSequence: shoot
+	FirepowerMultiplier@STAND:
+		RequiresCondition: standing
+		Modifier: 115
+	Armor:
+		Type: Infantry
+	Tooltip:
+		GenericName: meta-regiment-generic-name
+
+^LineInfantry:
+	Inherits: ^Regiment
+	Buildable:
+		Queue: Infantry
+		BuildDuration: 750
+		BuildDurationModifier: 100
+	Valued:
+		Cost: 800
+	Health:
+		HP: 3000
+	Formation:
+		Models: 60
+		Shape: Line
+		Ranks: 2
+		Spacing: 224
+		RankSpacing: 256
+		ReformSpeed: 16
+	Mobile:
+		Speed: 36
+		TurnSpeed: 8
+	VolleyArmament@MUSKET:
+		Weapon: Musket
+		RequiresCondition: !charging && !routed
+		PauseOnCondition: forming
+		VolleyEffectImage: explosion
+		VolleyEffectSequence: piff
+	VolleyArmament@BAYONET:
+		Weapon: Bayonet
+		RequiresCondition: (charging && !routed) || at-bay
+		MaxStagger: 20
+
+^LightInfantry:
+	Inherits: ^LineInfantry
+	Valued:
+		Cost: 500
+	Buildable:
+		BuildDuration: 500
+	Health:
+		HP: 2000
+	Formation:
+		Models: 40
+		Spacing: 256
+		ReformSpeed: 32
+	Mobile:
+		Speed: 48
+		TurnSpeed: 16
+	Morale:
+		LossPerPercent: 30
+	VolleyArmament@MUSKET:
+		Weapon: LightMusket
+		MaxStagger: 12
+
+^Grenadiers:
+	Inherits: ^Regiment
+	Buildable:
+		Queue: Infantry
+		BuildDuration: 750
+	Valued:
+		Cost: 700
+	Health:
+		HP: 200
+	Armor:
+		Type: Grenadier
+	RenderSprites:
+		Image: e2
+	Formation:
+		Models: 20
+		Shape: Block
+		Files: 5
+		Spacing: 224
+		RankSpacing: 224
+		ReformSpeed: 24
+		ShootSequence: throw
+	Mobile:
+		Speed: 42
+		TurnSpeed: 16
+	Morale:
+		LossPerPercent: 10
+	VolleyArmament@MUSKET:
+		Weapon: Musket
+		RequiresCondition: !charging && !routed
+		PauseOnCondition: forming
+		VolleyEffectImage: explosion
+		VolleyEffectSequence: piff
+	VolleyArmament@GRENADE:
+		Weapon: HandGrenade
+		RequiresCondition: !charging && !routed
+		PauseOnCondition: forming
+		ModelsPerProjectile: 4
+		ShootSequence: throw
+		MaxStagger: 15
+	VolleyArmament@BAYONET:
+		Weapon: GrenadierBayonet
+		RequiresCondition: (charging && !routed) || at-bay
+		MaxStagger: 20
+
+# Cavalry: 30 riders, numerical value 60, loose group. Riders fire their pistols independently.
+^Cavalry:
+	Inherits: ^Regiment
+	Buildable:
+		Queue: Vehicle
+		BuildAtProductionType: Cavalry
+		BuildDuration: 750
+	Valued:
+		Cost: 1000
+	Health:
+		HP: 60
+	Armor:
+		Type: Cavalry
+	RenderSprites:
+		Image: dog
+	Formation:
+		Models: 30
+		Shape: Loose
+		Files: 6
+		Spacing: 544
+		RankSpacing: 833
+		LooseJitter: 128
+		ReformSpeed: 48
+		MoveSequence: run
+		ShootSequence:
+	Mobile:
+		Locomotor: horse
+		Speed: 90
+		TurnSpeed: 24
+	Morale:
+		LossPerPercent: 20
+	VolleyArmament@PISTOL:
+		Weapon: HorsePistol
+		RequiresCondition: !charging && !routed
+		PauseOnCondition: forming
+		MaxStagger: 70
+	VolleyArmament@SABRE:
+		Weapon: Sabre
+		RequiresCondition: (charging && !routed) || at-bay
+		MaxStagger: 20
+	MapEditorData:
+		Categories: Cavalry
+
+# Artillery battery: 8 guns deployed in a single line. No numerical value; each gun is a figure.
+^Battery:
+	Inherits: ^Formation
+	Buildable:
+		Queue: Vehicle
+		BuildAtProductionType: Artillery
+		BuildDuration: 1000
+	Valued:
+		Cost: 800
+	Health:
+		HP: 800
+	Armor:
+		Type: Artillery
+	Tooltip:
+		GenericName: meta-battery-generic-name
+	RenderSprites:
+		Image: nwcannon
+	Formation:
+		Models: 8
+		Shape: Battery
+		Spacing: 640
+		StandSequence: idle
+		MoveSequence: idle
+		ShootSequence:
+		DeathSequences:
+		ReformSpeed: 12
+		CanBeDisordered: false
+	Mobile:
+		Locomotor: guns
+		Speed: 30
+		TurnSpeed: 6
+	Morale:
+		LossPerPercent: 15
+	FireModes:
+		Modes: solidshot, shell, canister
+	AttackFrontal:
+		FacingTolerance: 64
+	AutoTarget:
+		ScanRadius: 14
+	VolleyArmament@SOLIDSHOT:
+		Weapon: SolidShot
+		RequiresCondition: solidshot && (!routed || at-bay)
+		PauseOnCondition: forming
+		MaxStagger: 8
+		MuzzleHeight: 96
+		VolleyEffectImage: nwcannon
+		VolleyEffectSequence: muzzle
+	VolleyArmament@SHELL:
+		Weapon: Shell
+		RequiresCondition: shell && (!routed || at-bay)
+		PauseOnCondition: forming
+		MaxStagger: 8
+		MuzzleHeight: 96
+		VolleyEffectImage: nwcannon
+		VolleyEffectSequence: muzzle
+	VolleyArmament@CANISTER:
+		Weapon: Canister
+		RequiresCondition: canister && (!routed || at-bay)
+		PauseOnCondition: forming
+		ProjectilesPerModel: 4
+		AimScatter: 512
+		MaxStagger: 4
+		MuzzleHeight: 96
+		VolleyEffectImage: nwcannon
+		VolleyEffectSequence: muzzle
+	Voiced:
+		VoiceSet: VehicleVoice
+	MapEditorData:
+		Categories: Artillery
+
+# Ships of the line fire every gun at once. Guns are spread along the hull as LocalOffsets.
+^NWShip:
+	Inherits: ^Ship
+	-RepairableNear:
+	-Chronoshiftable:
+	-GpsDot:
+	Buildable:
+		Queue: Ship
+		BuildAtProductionType: Warship
+		BuildDuration: 1500
+	Armor:
+		Type: Ship
+	RevealsShroud:
+		Range: 9c0
+	Mobile:
+		TurnSpeed: 8
+		Speed: 60
+	AttackFrontal:
+		FacingTolerance: 512
+	AutoTarget:
+		ScanRadius: 10
+		AttackAnythingCondition: stance-attackanything
+	AutoTargetPriority@DEFAULT:
+		RequiresCondition: !stance-attackanything
+		ValidTargets: Regiment, Ship
+	AutoTargetPriority@ATTACKANYTHING:
+		RequiresCondition: stance-attackanything
+		ValidTargets: Regiment, Ship, Structure
+	VolleyArmament@BROADSIDE:
+		Weapon: NavalGun
+		LocalOffset: 480,0,128, 240,0,128, 0,0,128, -240,0,128, -480,0,128
+		MaxStagger: 6
+		VolleyEffectImage: nwcannon
+		VolleyEffectSequence: muzzle
+	Tooltip:
+		GenericName: meta-warship-generic-name

@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>OpenRA.Mods.Napoleonic</AssemblyName>
+    <RootNamespace>OpenRA.Mods.Napoleonic</RootNamespace>
+    <TargetFramework>net8.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <Optimize>true</Optimize>
+    <NoWarn>$(NoWarn);MSB3277</NoWarn>
+    <!-- Build straight into the game folder (engine BinDir). -->
+    <GameDir>$(MSBuildThisFileDirectory)..\..\</GameDir>
+    <OutputPath>$(GameDir)</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Compile against the stock engine binaries shipped in the game folder. -->
+    <Reference Include="OpenRA.Game"><HintPath>$(GameDir)OpenRA.Game.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="OpenRA.Mods.Common"><HintPath>$(GameDir)OpenRA.Mods.Common.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="Eluant"><HintPath>$(GameDir)Eluant.dll</HintPath><Private>False</Private></Reference>
+  </ItemGroup>
+</Project>

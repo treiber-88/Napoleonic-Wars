@@ -1,0 +1,1029 @@
+# Projectile images. Placeholders point at stock Red Alert sprites; replace the filenames with the
+# Blender renders later without touching the weapons.
+
+musketball:
+	idle:
+		Filename: 50cal.shp
+		ZOffset: 1023
+
+roundshot:
+	idle:
+		Filename: 120mm.shp
+		ZOffset: 1023
+
+grenade:
+	idle:
+		Filename: bomb.shp
+		Length: *
+		ZOffset: 1023
+
+# Gribeauval 8-pounder field gun, rendered in Blender (art/blender/cannon_8pdr.blend).
+nwcannon:
+	idle:
+		Filename: nwcannon.png
+		Facings: 32
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon:
+		Filename: icons/nwcannon.png
+		Offset: 0,0
+
+# French infantry, rendered in Blender (art/blender: scene NW_FrenchInfantry) at 10 px/m. 56x56 frames,
+# 8 facings anticlockwise from north; sprites are lifted 10 px so the feet sit on the figure's position.
+
+fr_ligne:
+	Defaults:
+		Filename: fr_ligne.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 110
+	shoot:
+		Start: 56
+		Length: 6
+		Facings: 8
+		Tick: 100
+	die1:
+		Start: 104
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die2:
+		Start: 168
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die3:
+		Start: 232
+		Length: 8
+		Facings: 8
+		Tick: 90
+	icon:
+		Filename: icons/fr_line.png
+		Offset: 0,0
+
+
+# French line grenadier (bearskin), with a grenade-throw animation. Same projection and scale as the fusiliers.
+fr_grenadier:
+	Defaults:
+		Filename: fr_grenadier.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 110
+	shoot:
+		Start: 56
+		Length: 6
+		Facings: 8
+		Tick: 100
+	throw:
+		Start: 104
+		Length: 6
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 152
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die2:
+		Start: 216
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die3:
+		Start: 280
+		Length: 8
+		Facings: 8
+		Tick: 90
+	icon:
+		Filename: icons/fr_grenadier.png
+		Offset: 0,0
+
+# British line infantryman 1812-15 (Belgic shako); also used by British light infantry.
+gb_line:
+	Defaults:
+		Filename: gb_line.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 110
+	shoot:
+		Start: 56
+		Length: 6
+		Facings: 8
+		Tick: 100
+	die1:
+		Start: 104
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die2:
+		Start: 168
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die3:
+		Start: 232
+		Length: 8
+		Facings: 8
+		Tick: 90
+	icon:
+		Filename: icons/gb_line.png
+		Offset: 0,0
+
+# French Temeraire-class 74 (Sane's standard design), rendered in Blender (art/blender/ships_french.blend).
+# 2 px/m, 256x256 frames, 32 facings; the camera centre is 25 m above the waterline, so lift 50 px.
+fr_temeraire_class:
+	idle:
+		Filename: fr_temeraire_class.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-france:
+		Filename: icons/warship_france.png
+		Offset: 0,0
+	icon-england:
+		Filename: icons/warship_england.png
+		Offset: 0,0
+	icon-russia:
+		Filename: icons/warship_russia.png
+		Offset: 0,0
+	icon-prussia:
+		Filename: icons/warship_prussia.png
+		Offset: 0,0
+	icon-austria:
+		Filename: icons/warship_austria.png
+		Offset: 0,0
+	icon:
+		Filename: icons/warship_france.png
+		Offset: 0,0
+
+# Russian musketeer 1812 (kiwer, dark green kollet, greatcoat roll across the body); also used by Jagers.
+ru_line:
+	Defaults:
+		Filename: ru_line.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 110
+	shoot:
+		Start: 56
+		Length: 6
+		Facings: 8
+		Tick: 100
+	die1:
+		Start: 104
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die2:
+		Start: 168
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die3:
+		Start: 232
+		Length: 8
+		Facings: 8
+		Tick: 90
+	icon:
+		Filename: icons/ru_line.png
+		Offset: 0,0
+
+# Austrian German line infantry 1806-15 (white coat, double-peaked shako, national cockade); also used by Grenzer.
+at_line:
+	Defaults:
+		Filename: at_line.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 110
+	shoot:
+		Start: 56
+		Length: 6
+		Facings: 8
+		Tick: 100
+	die1:
+		Start: 104
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die2:
+		Start: 168
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die3:
+		Start: 232
+		Length: 8
+		Facings: 8
+		Tick: 90
+	icon:
+		Filename: icons/at_line.png
+		Offset: 0,0
+
+# Prussian musketeer 1813 (covered shako, dark blue kollet, greatcoat across the shoulder); also used by Fusiliere.
+pr_line:
+	Defaults:
+		Filename: pr_line.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 110
+	shoot:
+		Start: 56
+		Length: 6
+		Facings: 8
+		Tick: 100
+	die1:
+		Start: 104
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die2:
+		Start: 168
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die3:
+		Start: 232
+		Length: 8
+		Facings: 8
+		Tick: 90
+	icon:
+		Filename: icons/pr_line.png
+		Offset: 0,0
+
+# British grenadier company 1812-15: white plume, laced wings. Throws grenades.
+gb_grenadier:
+	Defaults:
+		Filename: gb_grenadier.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 110
+	shoot:
+		Start: 56
+		Length: 6
+		Facings: 8
+		Tick: 100
+	throw:
+		Start: 104
+		Length: 6
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 152
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die2:
+		Start: 216
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die3:
+		Start: 280
+		Length: 8
+		Facings: 8
+		Tick: 90
+	icon:
+		Filename: icons/gb_grenadier.png
+		Offset: 0,0
+
+# Russian grenadier 1812: kiwer with three-flamed grenade and tall black plume. Throws grenades.
+ru_grenadier:
+	Defaults:
+		Filename: ru_grenadier.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 110
+	shoot:
+		Start: 56
+		Length: 6
+		Facings: 8
+		Tick: 100
+	throw:
+		Start: 104
+		Length: 6
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 152
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die2:
+		Start: 216
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die3:
+		Start: 280
+		Length: 8
+		Facings: 8
+		Tick: 90
+	icon:
+		Filename: icons/ru_grenadier.png
+		Offset: 0,0
+
+# Prussian grenadier 1813: shako with tall black plume. Throws grenades.
+pr_grenadier:
+	Defaults:
+		Filename: pr_grenadier.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 110
+	shoot:
+		Start: 56
+		Length: 6
+		Facings: 8
+		Tick: 100
+	throw:
+		Start: 104
+		Length: 6
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 152
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die2:
+		Start: 216
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die3:
+		Start: 280
+		Length: 8
+		Facings: 8
+		Tick: 90
+	icon:
+		Filename: icons/pr_grenadier.png
+		Offset: 0,0
+
+# Austrian grenadier 1806-15: tall bearskin with brass front plate and laced top patch. Throws grenades.
+at_grenadier:
+	Defaults:
+		Filename: at_grenadier.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 110
+	shoot:
+		Start: 56
+		Length: 6
+		Facings: 8
+		Tick: 100
+	throw:
+		Start: 104
+		Length: 6
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 152
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die2:
+		Start: 216
+		Length: 8
+		Facings: 8
+		Tick: 90
+	die3:
+		Start: 280
+		Length: 8
+		Facings: 8
+		Tick: 90
+	icon:
+		Filename: icons/at_grenadier.png
+		Offset: 0,0
+
+# French dragoon: green coat, brass helmet with leopard-skin turban and black mane.
+fr_dragoon:
+	Defaults:
+		Filename: fr_dragoon.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 80
+	shoot:
+		Start: 56
+		Length: 4
+		Facings: 8
+		Tick: 110
+	slash:
+		Start: 88
+		Length: 4
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 120
+		Length: 8
+		Facings: 8
+		Tick: 100
+	die2:
+		Start: 184
+		Length: 8
+		Facings: 8
+		Tick: 100
+	icon:
+		Filename: icons/fr_dragoon.png
+		Offset: 0,0
+
+# French cuirassier: blue coat, steel cuirass, steel helmet with brass crest, black mane and red plume; black horse.
+fr_cuirassier:
+	Defaults:
+		Filename: fr_cuirassier.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 80
+	shoot:
+		Start: 56
+		Length: 4
+		Facings: 8
+		Tick: 110
+	slash:
+		Start: 88
+		Length: 4
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 120
+		Length: 8
+		Facings: 8
+		Tick: 100
+	die2:
+		Start: 184
+		Length: 8
+		Facings: 8
+		Tick: 100
+	icon:
+		Filename: icons/fr_cuirassier.png
+		Offset: 0,0
+
+# British heavy dragoons 1812-15: red coat, brass helmet with black horsehair crest; bay horse.
+gb_dragoon:
+	Defaults:
+		Filename: gb_dragoon.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 80
+	shoot:
+		Start: 56
+		Length: 4
+		Facings: 8
+		Tick: 110
+	slash:
+		Start: 88
+		Length: 4
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 120
+		Length: 8
+		Facings: 8
+		Tick: 100
+	die2:
+		Start: 184
+		Length: 8
+		Facings: 8
+		Tick: 100
+	icon:
+		Filename: icons/gb_dragoon.png
+		Offset: 0,0
+
+# British Household Cavalry (Life Guards) 1815: red coat, brass helmet with black crest and white plume; black horse.
+gb_household:
+	Defaults:
+		Filename: gb_household.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 80
+	shoot:
+		Start: 56
+		Length: 4
+		Facings: 8
+		Tick: 110
+	slash:
+		Start: 88
+		Length: 4
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 120
+		Length: 8
+		Facings: 8
+		Tick: 100
+	die2:
+		Start: 184
+		Length: 8
+		Facings: 8
+		Tick: 100
+	icon:
+		Filename: icons/gb_household.png
+		Offset: 0,0
+
+# Russian dragoon: dark green coat, black leather helmet with brush crest; chestnut horse. 8.5 px/m.
+ru_dragoon:
+	Defaults:
+		Filename: ru_dragoon.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 80
+	shoot:
+		Start: 56
+		Length: 4
+		Facings: 8
+		Tick: 110
+	slash:
+		Start: 88
+		Length: 4
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 120
+		Length: 8
+		Facings: 8
+		Tick: 100
+	die2:
+		Start: 184
+		Length: 8
+		Facings: 8
+		Tick: 100
+	icon:
+		Filename: icons/ru_dragoon.png
+		Offset: 0,0
+
+# Russian cuirassier 1812: white coat, black-lacquered cuirass, black leather helmet with brush crest; black horse. 8.5 px/m.
+ru_cuirassier:
+	Defaults:
+		Filename: ru_cuirassier.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 80
+	shoot:
+		Start: 56
+		Length: 4
+		Facings: 8
+		Tick: 110
+	slash:
+		Start: 88
+		Length: 4
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 120
+		Length: 8
+		Facings: 8
+		Tick: 100
+	die2:
+		Start: 184
+		Length: 8
+		Facings: 8
+		Tick: 100
+	icon:
+		Filename: icons/ru_cuirassier.png
+		Offset: 0,0
+
+# Don Cossack: dark blue kaftan and trousers, tall fur cap, lance; grey steppe horse. 8.5 px/m.
+ru_cossack:
+	Defaults:
+		Filename: ru_cossack.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 80
+	shoot:
+		Start: 56
+		Length: 4
+		Facings: 8
+		Tick: 110
+	slash:
+		Start: 88
+		Length: 4
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 120
+		Length: 8
+		Facings: 8
+		Tick: 100
+	die2:
+		Start: 184
+		Length: 8
+		Facings: 8
+		Tick: 100
+	icon:
+		Filename: icons/ru_cossack.png
+		Offset: 0,0
+
+# Prussian dragoon 1813: light blue litewka, grey overalls, covered shako; bay horse. 8.5 px/m.
+pr_dragoon:
+	Defaults:
+		Filename: pr_dragoon.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 80
+	shoot:
+		Start: 56
+		Length: 4
+		Facings: 8
+		Tick: 110
+	slash:
+		Start: 88
+		Length: 4
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 120
+		Length: 8
+		Facings: 8
+		Tick: 100
+	die2:
+		Start: 184
+		Length: 8
+		Facings: 8
+		Tick: 100
+	icon:
+		Filename: icons/pr_dragoon.png
+		Offset: 0,0
+
+# Prussian cuirassier 1814: white coat, black cuirass (Russian-supplied 1814), Russian-style helmet; black horse. 8.5 px/m.
+pr_cuirassier:
+	Defaults:
+		Filename: pr_cuirassier.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 80
+	shoot:
+		Start: 56
+		Length: 4
+		Facings: 8
+		Tick: 110
+	slash:
+		Start: 88
+		Length: 4
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 120
+		Length: 8
+		Facings: 8
+		Tick: 100
+	die2:
+		Start: 184
+		Length: 8
+		Facings: 8
+		Tick: 100
+	icon:
+		Filename: icons/pr_cuirassier.png
+		Offset: 0,0
+
+# Austrian dragoon: white coat, black leather helmet with brass comb and crest; bay horse. 8.5 px/m.
+au_dragoon:
+	Defaults:
+		Filename: au_dragoon.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 80
+	shoot:
+		Start: 56
+		Length: 4
+		Facings: 8
+		Tick: 110
+	slash:
+		Start: 88
+		Length: 4
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 120
+		Length: 8
+		Facings: 8
+		Tick: 100
+	die2:
+		Start: 184
+		Length: 8
+		Facings: 8
+		Tick: 100
+	icon:
+		Filename: icons/au_dragoon.png
+		Offset: 0,0
+
+# Austrian cuirassier: white coat, black-lacquered front plate, black leather helmet with brass comb; black horse. 8.5 px/m.
+au_cuirassier:
+	Defaults:
+		Filename: au_cuirassier.png
+		Offset: 0,-10
+	stand:
+		Facings: 8
+	run:
+		Start: 8
+		Length: 6
+		Facings: 8
+		Tick: 80
+	shoot:
+		Start: 56
+		Length: 4
+		Facings: 8
+		Tick: 110
+	slash:
+		Start: 88
+		Length: 4
+		Facings: 8
+		Tick: 110
+	die1:
+		Start: 120
+		Length: 8
+		Facings: 8
+		Tick: 100
+	die2:
+		Start: 184
+		Length: 8
+		Facings: 8
+		Tick: 100
+	icon:
+		Filename: icons/au_cuirassier.png
+		Offset: 0,0
+
+# Buildings, rendered in Blender (art/blender/scripts/nw_buildings.py) at 2.4 px/m: idle + 8-frame construction.
+bld_headquarters:
+	idle:
+		Filename: bld_headquarters.png
+	make:
+		Filename: bld_headquarters.png
+		Start: 1
+		Length: 8
+		Tick: 120
+	icon:
+		Filename: icons/bld_headquarters.png
+		Offset: 0,0
+
+bld_barracks:
+	idle:
+		Filename: bld_barracks.png
+	make:
+		Filename: bld_barracks.png
+		Start: 1
+		Length: 8
+		Tick: 120
+	icon:
+		Filename: icons/bld_barracks.png
+		Offset: 0,0
+
+bld_foundry:
+	idle:
+		Filename: bld_foundry.png
+	make:
+		Filename: bld_foundry.png
+		Start: 1
+		Length: 8
+		Tick: 120
+	icon:
+		Filename: icons/bld_foundry.png
+		Offset: 0,0
+
+bld_shipyard:
+	idle:
+		Filename: bld_shipyard.png
+	make:
+		Filename: bld_shipyard.png
+		Start: 1
+		Length: 8
+		Tick: 120
+	icon:
+		Filename: icons/bld_shipyard.png
+		Offset: 0,0
+
+bld_countinghouse:
+	idle:
+		Filename: bld_countinghouse.png
+	make:
+		Filename: bld_countinghouse.png
+		Start: 1
+		Length: 8
+		Tick: 120
+	icon:
+		Filename: icons/bld_countinghouse.png
+		Offset: 0,0
+
+# Warship icons: Temeraire-class portrait with the nation's flag (art/tools/wire_icons.py).
+ca:
+	icon-france:
+		Filename: icons/warship_france.png
+		Offset: 0,0
+	icon-england:
+		Filename: icons/warship_england.png
+		Offset: 0,0
+	icon-russia:
+		Filename: icons/warship_russia.png
+		Offset: 0,0
+	icon-prussia:
+		Filename: icons/warship_prussia.png
+		Offset: 0,0
+	icon-austria:
+		Filename: icons/warship_austria.png
+		Offset: 0,0
+dd:
+	icon-france:
+		Filename: icons/warship_france.png
+		Offset: 0,0
+	icon-england:
+		Filename: icons/warship_england.png
+		Offset: 0,0
+	icon-russia:
+		Filename: icons/warship_russia.png
+		Offset: 0,0
+	icon-prussia:
+		Filename: icons/warship_prussia.png
+		Offset: 0,0
+	icon-austria:
+		Filename: icons/warship_austria.png
+		Offset: 0,0
+pt:
+	icon-france:
+		Filename: icons/warship_france.png
+		Offset: 0,0
+	icon-england:
+		Filename: icons/warship_england.png
+		Offset: 0,0
+	icon-russia:
+		Filename: icons/warship_russia.png
+		Offset: 0,0
+	icon-prussia:
+		Filename: icons/warship_prussia.png
+		Offset: 0,0
+	icon-austria:
+		Filename: icons/warship_austria.png
+		Offset: 0,0
+
+fr_bucentaure_class:
+	idle:
+		Filename: fr_bucentaure_class.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-france:
+		Filename: icons/warship_france.png
+		Offset: 0,0
+	icon:
+		Filename: icons/warship_france.png
+		Offset: 0,0
+
+fr_ocean_class:
+	idle:
+		Filename: fr_ocean_class.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-france:
+		Filename: icons/warship_france.png
+		Offset: 0,0
+	icon:
+		Filename: icons/warship_france.png
+		Offset: 0,0
+
+gb_firstrate:
+	idle:
+		Filename: gb_firstrate.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-england:
+		Filename: icons/warship_england.png
+		Offset: 0,0
+	icon:
+		Filename: icons/warship_england.png
+		Offset: 0,0
+
+gb_neptune_class:
+	idle:
+		Filename: gb_neptune_class.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-england:
+		Filename: icons/warship_england.png
+		Offset: 0,0
+	icon:
+		Filename: icons/warship_england.png
+		Offset: 0,0
+
+gb_arrogant_class:
+	idle:
+		Filename: gb_arrogant_class.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-england:
+		Filename: icons/warship_england.png
+		Offset: 0,0
+	icon:
+		Filename: icons/warship_england.png
+		Offset: 0,0

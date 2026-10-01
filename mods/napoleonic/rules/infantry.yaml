@@ -1,0 +1,205 @@
+# Infantry. France and Britain share core stats; uniforms will differ once the Blender art is in.
+# Placeholders: e1 (line and light), e2 (grenadiers).
+
+FR_LIGNE:
+	Inherits: ^LineInfantry
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~barracks, ~structures.france
+		Description: actor-fr-ligne.description
+	Tooltip:
+		Name: actor-fr-ligne.name
+	RenderSprites:
+		Image: fr_ligne
+	Formation:
+		DeathSequences: die1, die2, die3
+
+FR_LEGERE:
+	Inherits: ^LightInfantry
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~barracks, ~structures.france
+		Description: actor-fr-legere.description
+	Tooltip:
+		Name: actor-fr-legere.name
+	RenderSprites:
+		Image: fr_ligne
+	Formation:
+		DeathSequences: die1, die2, die3
+
+FR_GRENADIER:
+	Inherits: ^Grenadiers
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~barracks, ~structures.france
+		Description: actor-fr-grenadier.description
+	Tooltip:
+		Name: actor-fr-grenadier.name
+	RenderSprites:
+		Image: fr_grenadier
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2, die3
+
+GB_LINE:
+	Inherits: ^LineInfantry
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~barracks, ~structures.england
+		Description: actor-gb-line.description
+	Tooltip:
+		Name: actor-gb-line.name
+	RenderSprites:
+		Image: gb_line
+	Formation:
+		DeathSequences: die1, die2, die3
+
+GB_LIGHT:
+	Inherits: ^LightInfantry
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~barracks, ~structures.england
+		Description: actor-gb-light.description
+	Tooltip:
+		Name: actor-gb-light.name
+	RenderSprites:
+		Image: gb_line
+	Formation:
+		DeathSequences: die1, die2, die3
+
+GB_GRENADIER:
+	Inherits: ^Grenadiers
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~barracks, ~structures.england
+		Description: actor-gb-grenadier.description
+	Tooltip:
+		Name: actor-gb-grenadier.name
+	RenderSprites:
+		Image: gb_grenadier
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2, die3
+
+# ---- Russia (placeholders: RA e1 / e2) ----
+RU_MUSKETEER:
+	Inherits: ^LineInfantry
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~barracks, ~structures.russia
+		Description: actor-ru-musketeer.description
+	Tooltip:
+		Name: actor-ru-musketeer.name
+	RenderSprites:
+		Image: ru_line
+	Formation:
+		DeathSequences: die1, die2, die3
+
+RU_JAGER:
+	Inherits: ^LightInfantry
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~barracks, ~structures.russia
+		Description: actor-ru-jager.description
+	Tooltip:
+		Name: actor-ru-jager.name
+	RenderSprites:
+		Image: ru_line
+	Formation:
+		DeathSequences: die1, die2, die3
+
+RU_GRENADIER:
+	Inherits: ^Grenadiers
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~barracks, ~structures.russia
+		Description: actor-ru-grenadier.description
+	Tooltip:
+		Name: actor-ru-grenadier.name
+	RenderSprites:
+		Image: ru_grenadier
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2, die3
+
+# ---- Prussia ----
+PR_MUSKETEER:
+	Inherits: ^LineInfantry
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~barracks, ~structures.prussia
+		Description: actor-pr-musketeer.description
+	Tooltip:
+		Name: actor-pr-musketeer.name
+	RenderSprites:
+		Image: pr_line
+	Formation:
+		DeathSequences: die1, die2, die3
+
+PR_FUSILIER:
+	Inherits: ^LightInfantry
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~barracks, ~structures.prussia
+		Description: actor-pr-fusilier.description
+	Tooltip:
+		Name: actor-pr-fusilier.name
+	RenderSprites:
+		Image: pr_line
+	Formation:
+		DeathSequences: die1, die2, die3
+
+PR_GRENADIER:
+	Inherits: ^Grenadiers
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~barracks, ~structures.prussia
+		Description: actor-pr-grenadier.description
+	Tooltip:
+		Name: actor-pr-grenadier.name
+	RenderSprites:
+		Image: pr_grenadier
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2, die3
+
+# ---- Austria ----
+AU_FUSILIER:
+	Inherits: ^LineInfantry
+	Buildable:
+		BuildPaletteOrder: 10
+		Prerequisites: ~barracks, ~structures.austria
+		Description: actor-au-fusilier.description
+	Tooltip:
+		Name: actor-au-fusilier.name
+	RenderSprites:
+		Image: at_line
+	Formation:
+		DeathSequences: die1, die2, die3
+
+AU_GRENZER:
+	Inherits: ^LightInfantry
+	Buildable:
+		BuildPaletteOrder: 20
+		Prerequisites: ~barracks, ~structures.austria
+		Description: actor-au-grenzer.description
+	Tooltip:
+		Name: actor-au-grenzer.name
+	RenderSprites:
+		Image: at_line
+	Formation:
+		DeathSequences: die1, die2, die3
+
+AU_GRENADIER:
+	Inherits: ^Grenadiers
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~barracks, ~structures.austria
+		Description: actor-au-grenadier.description
+	Tooltip:
+		Name: actor-au-grenadier.name
+	RenderSprites:
+		Image: at_grenadier
+	Formation:
+		ShootSequence: shoot
+		DeathSequences: die1, die2, die3

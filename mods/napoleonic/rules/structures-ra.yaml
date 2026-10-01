@@ -1,0 +1,307 @@
+# Walls and tree husks used by stock Red Alert maps (copied from ra rules).
+
+T01.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: __ x_
+		Dimensions: 2,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+T02.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: __ x_
+		Dimensions: 2,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+T03.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: __ x_
+		Dimensions: 2,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+T04.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: __ x_
+		Dimensions: 2,2
+	MapEditorData:
+		ExcludeTilesets: TEMPERAT, SNOW, INTERIOR
+
+T05.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: __ x_
+		Dimensions: 2,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+T06.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: __ x_
+		Dimensions: 2,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+T07.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: __ x_
+		Dimensions: 2,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+T08.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: x_
+		Dimensions: 2,1
+
+T09.Husk:
+	Inherits: ^TreeHusk
+	MapEditorData:
+		ExcludeTilesets: TEMPERAT, SNOW, INTERIOR
+
+T10.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: __ xx
+		Dimensions: 2,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+T11.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: __ xx
+		Dimensions: 2,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+T12.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: __ x_
+		Dimensions: 2,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+T13.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: __ x_
+		Dimensions: 2,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+T14.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: ___ xx_
+		Dimensions: 3,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+T15.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: ___ xx_
+		Dimensions: 3,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+T16.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: __ x_
+		Dimensions: 2,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+T17.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: __ x_
+		Dimensions: 2,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+TC01.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: ___ xx_
+		Dimensions: 3,2
+	MapEditorData:
+		ExcludeTilesets: INTERIOR
+
+TC02.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: _x_ xx_
+		Dimensions: 3,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+TC03.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: xx_ xx_
+		Dimensions: 3,2
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+TC04.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: ____ xxx_ x___
+		Dimensions: 4,3
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+TC05.Husk:
+	Inherits: ^TreeHusk
+	Building:
+		Footprint: __x_ xxx_ _xx_
+		Dimensions: 4,3
+	MapEditorData:
+		ExcludeTilesets: DESERT, INTERIOR
+
+SBAG:
+	Inherits: ^Wall
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 10
+		Prerequisites: nwhq
+		Description: actor-sbag.description
+	Valued:
+		Cost: 30
+	CustomSellValue:
+		Value: 0
+	Tooltip:
+		Name: actor-sbag.name
+	Health:
+		HP: 15000
+	Armor:
+		Type: Wood
+	LineBuild:
+		NodeTypes: sandbag
+	LineBuildNode:
+		Types: sandbag
+	WithWallSpriteBody:
+		Type: sandbag
+
+FENC:
+	Inherits: ^Wall
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 20
+		Prerequisites: nwhq
+		Description: actor-fenc.description
+	Valued:
+		Cost: 30
+	CustomSellValue:
+		Value: 0
+	Tooltip:
+		Name: actor-fenc.name
+	Health:
+		HP: 15000
+	Armor:
+		Type: Wood
+	LineBuild:
+		NodeTypes: fence
+	LineBuildNode:
+		Types: fence
+	WithWallSpriteBody:
+		Type: fence
+
+BRIK:
+	Inherits: ^Wall
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 30
+		Prerequisites: nwhq
+		Description: actor-brik.description
+	Valued:
+		Cost: 200
+	CustomSellValue:
+		Value: 0
+	Tooltip:
+		Name: actor-brik.name
+	SoundOnDamageTransition:
+		DamagedSounds: crmble2.aud
+		DestroyedSounds: kaboom30.aud
+	Health:
+		HP: 40000
+	Armor:
+		Type: Concrete
+	Crushable:
+		CrushClasses: heavywall
+	BlocksProjectiles:
+	LineBuild:
+		NodeTypes: concrete
+	LineBuildNode:
+		Types: concrete
+	WithWallSpriteBody:
+		Type: concrete
+
+CYCL:
+	Inherits: ^Wall
+	Tooltip:
+		Name: actor-cycl-name
+	Armor:
+		Type: Wood
+	LineBuild:
+		NodeTypes: chain
+	LineBuildNode:
+		Types: chain
+	WithWallSpriteBody:
+		Type: chain
+
+BARB:
+	Inherits: ^Wall
+	Tooltip:
+		Name: actor-barb-name
+	Armor:
+		Type: Wood
+	LineBuild:
+		NodeTypes: barbwire
+	LineBuildNode:
+		Types: barbwire
+	WithWallSpriteBody:
+		Type: barbwire
+
+WOOD:
+	Inherits: ^Wall
+	Tooltip:
+		Name: actor-wood-name
+	Armor:
+		Type: Wood
+	LineBuild:
+		NodeTypes: woodfence
+	LineBuildNode:
+		Types: woodfence
+	WithWallSpriteBody:
+		Type: woodfence
+
+RAILMINE:
+	Inherits@1: ^SpriteActor
+	Interactable:
+	HiddenUnderShroud:
+	Tooltip:
+		Name: actor-railmine-name
+	RenderSprites:
+		Palette: player
+	WithSpriteBody:
+	Building:
+		Footprint: xx
+		Dimensions: 2,1
+	MapEditorData:
+		ExcludeTilesets: INTERIOR
+		Categories: Civilian building
+	RequiresSpecificOwners:
+		ValidOwnerNames: Neutral

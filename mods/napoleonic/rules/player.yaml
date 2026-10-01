@@ -1,0 +1,11 @@
+# Napoleonic overrides on top of ra|rules/player.yaml.
+
+Player:
+	-ClassicProductionQueue@Aircraft:
+	-ClassicProductionQueue@Defense:
+	-LobbyPrerequisiteCheckbox@GLOBALFACTUNDEPLOY:
+	-LobbyPrerequisiteCheckbox@REUSABLEENGINEERS:
+	-ResourceStorageWarning:
+	DivisionRegistry:
+	ClassicProductionQueue@Vehicle:
+		QueuedAudio: Training

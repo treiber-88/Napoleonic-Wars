@@ -1,0 +1,29 @@
+RegimentCharge: G
+	Description: hotkey-description-regimentcharge
+	Types: Unit
+	Contexts: player
+
+RegimentRun: J
+	Description: hotkey-description-regimentrun
+	Types: Unit
+	Contexts: player
+
+RegimentStand: K
+	Description: hotkey-description-regimentstand
+	Types: Unit
+	Contexts: player
+
+BatteryCanister: O
+	Description: hotkey-description-batterycanister
+	Types: Unit
+	Contexts: player
+
+BatterySolidShot: P
+	Description: hotkey-description-batterysolidshot
+	Types: Unit
+	Contexts: player
+
+BatteryShell: L
+	Description: hotkey-description-batteryshell
+	Types: Unit
+	Contexts: player

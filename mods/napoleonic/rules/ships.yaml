@@ -1,0 +1,314 @@
+# Ships of the line (Ship Yard) and trading ships (Trading Post).
+# Placeholders: ca (first rates / 80s), dd (74s), lst (merchantman).
+
+^FirstRate:
+	Inherits: ^NWShip
+	Valued:
+		Cost: 3500
+	Health:
+		HP: 6000
+	Mobile:
+		Speed: 50
+	RenderSprites:
+		Image: ca
+	VolleyArmament@BROADSIDE:
+		ProjectilesPerModel: 10
+
+^EightyGun:
+	Inherits: ^NWShip
+	Valued:
+		Cost: 2800
+	Health:
+		HP: 5000
+	Mobile:
+		Speed: 55
+	RenderSprites:
+		Image: ca
+	VolleyArmament@BROADSIDE:
+		ProjectilesPerModel: 8
+
+^SeventyFour:
+	Inherits: ^NWShip
+	Valued:
+		Cost: 2200
+	Health:
+		HP: 4200
+	Mobile:
+		Speed: 60
+	RenderSprites:
+		Image: dd
+	VolleyArmament@BROADSIDE:
+		ProjectilesPerModel: 7
+
+FR_BUCENTAURE80:
+	Inherits: ^EightyGun
+	Buildable:
+		Icon: icon-france
+		BuildPaletteOrder: 20
+		Prerequisites: ~shipyard, ~structures.france
+		Description: actor-fr-bucentaure80.description
+	Tooltip:
+		Name: actor-fr-bucentaure80.name
+	RenderSprites:
+		Image: fr_bucentaure_class
+	Selectable:
+		Bounds: 4352, 4352, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -1822,-704,200, -911,-704,200, 0,-704,200, 911,-704,200, 1822,-704,200, -1822,704,200, -911,704,200, 0,704,200, 911,704,200, 1822,704,200
+		ProjectilesPerModel: 4
+
+# 50- to 64-gun two-deckers: between a frigate and a 74. Placeholder: RA dd.
+^SmallTwoDecker:
+	Inherits: ^NWShip
+	Valued:
+		Cost: 1800
+	Health:
+		HP: 3400
+	Mobile:
+		Speed: 65
+		TurnSpeed: 10
+	RenderSprites:
+		Image: dd
+	VolleyArmament@BROADSIDE:
+		ProjectilesPerModel: 5
+
+FR_TEMERAIRE74:
+	Inherits: ^SeventyFour
+	Buildable:
+		Icon: icon-france
+		BuildPaletteOrder: 10
+		Prerequisites: ~shipyard, ~structures.france
+		Description: actor-fr-temeraire74.description
+	Tooltip:
+		Name: actor-fr-temeraire74.name
+	RenderSprites:
+		Image: fr_temeraire_class
+	Selectable:
+		Bounds: 4096, 4096, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -1800,-700,200, -900,-700,200, 0,-700,200, 900,-700,200, 1800,-700,200, -1800,700,200, -900,700,200, 0,700,200, 900,700,200, 1800,700,200
+		ProjectilesPerModel: 4
+
+FR_OCEAN118:
+	Inherits: ^FirstRate
+	Valued:
+		Cost: 4200
+	Health:
+		HP: 7000
+	Buildable:
+		Icon: icon-france
+		BuildPaletteOrder: 30
+		Prerequisites: ~shipyard, ~structures.france
+		Description: actor-fr-ocean118.description
+	Tooltip:
+		Name: actor-fr-ocean118.name
+	RenderSprites:
+		Image: fr_ocean_class
+	Selectable:
+		Bounds: 4736, 4736, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -2003,-744,200, -1001,-744,200, 0,-744,200, 1001,-744,200, 2003,-744,200, -2003,744,200, -1001,744,200, 0,744,200, 1001,744,200, 2003,744,200
+		ProjectilesPerModel: 6
+
+GB_FIRSTRATE104:
+	Inherits: ^FirstRate
+	Buildable:
+		Icon: icon-england
+		BuildPaletteOrder: 30
+		Prerequisites: ~shipyard, ~structures.england
+		Description: actor-gb-firstrate104.description
+	Tooltip:
+		Name: actor-gb-firstrate104.name
+	RenderSprites:
+		Image: gb_firstrate
+	Selectable:
+		Bounds: 4096, 4096, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -1742,-721,200, -871,-721,200, 0,-721,200, 871,-721,200, 1742,-721,200, -1742,721,200, -871,721,200, 0,721,200, 871,721,200, 1742,721,200
+		ProjectilesPerModel: 5
+
+GB_NEPTUNE98:
+	Inherits: ^FirstRate
+	Valued:
+		Cost: 3300
+	Health:
+		HP: 5800
+	Buildable:
+		Icon: icon-england
+		BuildPaletteOrder: 20
+		Prerequisites: ~shipyard, ~structures.england
+		Description: actor-gb-neptune98.description
+	Tooltip:
+		Name: actor-gb-neptune98.name
+	RenderSprites:
+		Image: gb_neptune_class
+	Selectable:
+		Bounds: 4096, 4096, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -1720,-717,200, -860,-717,200, 0,-717,200, 860,-717,200, 1720,-717,200, -1720,717,200, -860,717,200, 0,717,200, 860,717,200, 1720,717,200
+		ProjectilesPerModel: 5
+
+GB_ARROGANT74:
+	Inherits: ^SeventyFour
+	Buildable:
+		Icon: icon-england
+		BuildPaletteOrder: 10
+		Prerequisites: ~shipyard, ~structures.england
+		Description: actor-gb-arrogant74.description
+	Tooltip:
+		Name: actor-gb-arrogant74.name
+	RenderSprites:
+		Image: gb_arrogant_class
+	Selectable:
+		Bounds: 3712, 3712, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -1573,-657,200, -786,-657,200, 0,-657,200, 786,-657,200, 1573,-657,200, -1573,657,200, -786,657,200, 0,657,200, 786,657,200, 1573,657,200
+		ProjectilesPerModel: 4
+
+# Heavy frigates / small two-deckers (44-64 guns) for the minor navies. Placeholder: RA pt.
+^Frigate:
+	Inherits: ^NWShip
+	Valued:
+		Cost: 1400
+	Health:
+		HP: 2600
+	Mobile:
+		Speed: 75
+		TurnSpeed: 12
+	RenderSprites:
+		Image: pt
+	VolleyArmament@BROADSIDE:
+		ProjectilesPerModel: 4
+
+# ---- Russia ----
+RU_CHESMA100:
+	Inherits: ^FirstRate
+	Buildable:
+		Icon: icon-russia
+		BuildPaletteOrder: 30
+		Prerequisites: ~shipyard, ~structures.russia
+		Description: actor-ru-chesma100.description
+	Tooltip:
+		Name: actor-ru-chesma100.name
+
+RU_SELAFAIL74:
+	Inherits: ^SeventyFour
+	Buildable:
+		Icon: icon-russia
+		BuildPaletteOrder: 10
+		Prerequisites: ~shipyard, ~structures.russia
+		Description: actor-ru-selafail74.description
+	Tooltip:
+		Name: actor-ru-selafail74.name
+
+RU_YAROSLAV74:
+	Inherits: ^SeventyFour
+	Buildable:
+		Icon: icon-russia
+		BuildPaletteOrder: 20
+		Prerequisites: ~shipyard, ~structures.russia
+		Description: actor-ru-yaroslav74.description
+	Tooltip:
+		Name: actor-ru-yaroslav74.name
+	Valued:
+		Cost: 2000
+	Health:
+		HP: 3900
+
+# ---- Prussia (no ships of the line in this period; names chosen for gameplay, see descriptions) ----
+PR_LINE74:
+	Inherits: ^SeventyFour
+	Buildable:
+		Icon: icon-prussia
+		BuildPaletteOrder: 30
+		Prerequisites: ~shipyard, ~structures.prussia
+		Description: actor-pr-line74.description
+	Tooltip:
+		Name: actor-pr-line74.name
+
+PR_TWODECKER50:
+	Inherits: ^SmallTwoDecker
+	Buildable:
+		Icon: icon-prussia
+		BuildPaletteOrder: 10
+		Prerequisites: ~shipyard, ~structures.prussia
+		Description: actor-pr-twodecker50.description
+	Tooltip:
+		Name: actor-pr-twodecker50.name
+
+PR_FRIGATE44:
+	Inherits: ^Frigate
+	Buildable:
+		Icon: icon-prussia
+		BuildPaletteOrder: 20
+		Prerequisites: ~shipyard, ~structures.prussia
+		Description: actor-pr-frigate44.description
+	Tooltip:
+		Name: actor-pr-frigate44.name
+
+# ---- Austria (the ex-Venetian Adriatic navy) ----
+AU_VENETIAN74:
+	Inherits: ^SeventyFour
+	Buildable:
+		Icon: icon-austria
+		BuildPaletteOrder: 30
+		Prerequisites: ~shipyard, ~structures.austria
+		Description: actor-au-venetian74.description
+	Tooltip:
+		Name: actor-au-venetian74.name
+
+AU_VENETIAN64:
+	Inherits: ^SmallTwoDecker
+	Buildable:
+		Icon: icon-austria
+		BuildPaletteOrder: 10
+		Prerequisites: ~shipyard, ~structures.austria
+		Description: actor-au-venetian64.description
+	Tooltip:
+		Name: actor-au-venetian64.name
+
+AU_FRIGATE44:
+	Inherits: ^Frigate
+	Buildable:
+		Icon: icon-austria
+		BuildPaletteOrder: 20
+		Prerequisites: ~shipyard, ~structures.austria
+		Description: actor-au-frigate44.description
+	Tooltip:
+		Name: actor-au-frigate44.name
+
+TRADESHIP:
+	Inherits: ^Ship
+	-RepairableNear:
+	-Chronoshiftable:
+	-GpsDot:
+	-MustBeDestroyed:
+	-AttackMove:
+	-Guard:
+	Buildable:
+		Queue: Ship
+		BuildAtProductionType: Trade
+		BuildPaletteOrder: 100
+		Prerequisites: ~shipyard
+		BuildDuration: 500
+		Description: actor-tradeship.description
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: actor-tradeship.name
+		GenericName: meta-merchant-generic-name
+	Health:
+		HP: 600
+	Armor:
+		Type: Ship
+	RevealsShroud:
+		Range: 6c0
+	Mobile:
+		Speed: 70
+		TurnSpeed: 16
+	RenderSprites:
+		Image: lst
+	TradeShip:
+		Payment: 500
+	Selectable:
+		Priority: 6

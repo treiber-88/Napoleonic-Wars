@@ -1,0 +1,13 @@
+# Period national flags for the lobby (france, england = Britain, russia, prussia, austria).
+flags:
+	Image: nwflags.png
+	Image2x: nwflags-2x.png
+	Image3x: nwflags-3x.png
+	Regions:
+		france: 0, 0, 30, 15
+		england: 30, 0, 30, 15
+		russia: 60, 0, 30, 15
+		prussia: 90, 0, 30, 15
+		austria: 120, 0, 30, 15
+		Random: 150, 0, 30, 15
+		spectator: 150, 0, 30, 15

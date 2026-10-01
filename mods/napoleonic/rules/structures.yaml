@@ -1,0 +1,271 @@
+# Napoleonic buildings. Placeholders use stock Red Alert structures:
+# Headquarters, Barracks, Foundry, Ship Yard and Counting House use Blender art; the neutral port still uses RA's spen.
+
+NWHQ:
+	Inherits: ^NWBuilding
+	Selectable:
+		Bounds: 3072, 3072
+	RenderSprites:
+		Image: bld_headquarters
+	Building:
+		Footprint: xxX xxx XxX ===
+		Dimensions: 3,4
+		LocalCenterOffset: 0,-512,0
+	HitShape:
+		TargetableOffsets: 1273,939,0, -980,-640,0, -980,640,0
+		Type: Rectangle
+			TopLeft: -1536, -1536
+			BottomRight: 1536, 1536
+	Tooltip:
+		Name: actor-nwhq.name
+	Health:
+		HP: 8000
+	Valued:
+		Cost: 3000
+	Production:
+		Produces: Building
+	ProductionBar@Building:
+		ProductionType: Building
+	BaseBuilding:
+	BaseProvider:
+		PauseOnCondition: being-captured
+		Range: 16c0
+	ProvidesPrerequisite@france:
+		Factions: france
+		Prerequisite: structures.france
+	ProvidesPrerequisite@england:
+		Factions: england
+		Prerequisite: structures.england
+	ProvidesPrerequisite@russia:
+		Factions: russia
+		Prerequisite: structures.russia
+	ProvidesPrerequisite@prussia:
+		Factions: prussia
+		Prerequisite: structures.prussia
+	ProvidesPrerequisite@austria:
+		Factions: austria
+		Prerequisite: structures.austria
+	ProvidesPrerequisite@buildingname:
+	# Prussia - For the Fatherland: troops near a Prussian headquarters fight 10% harder.
+	GrantConditionOnFaction@PRUSSIA:
+		Condition: faction-prussia
+		Factions: prussia
+	ProximityExternalCondition@FATHERLAND:
+		RequiresCondition: faction-prussia
+		Condition: fatherland
+		Range: 14c0
+
+nwhq.colorpicker:
+	Inherits: NWHQ
+	-MapEditorData:
+	-BaseBuilding:
+	RenderSprites:
+		Image: bld_headquarters
+		Palette: colorpicker
+
+BARRACKS:
+	Inherits: ^NWBuilding
+	Inherits@shape: ^2x2Shape
+	Inherits@PRIMARY: ^PrimaryBuilding
+	Selectable:
+		Bounds: 2048, 2048
+	RenderSprites:
+		Image: bld_barracks
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 10
+		Prerequisites: nwhq
+		Description: actor-barracks.description
+	Valued:
+		Cost: 500
+	Tooltip:
+		Name: actor-barracks.name
+	Building:
+		Footprint: xx xx ==
+		Dimensions: 2,3
+		LocalCenterOffset: 0,-512,0
+	Health:
+		HP: 3000
+	RallyPoint:
+		ForceSetType: Infantry
+	CommandBarBlacklist:
+		DisableStop: false
+	Exit@1:
+		RequiresCondition: !being-captured
+		SpawnOffset: -42,810,0
+		ExitCell: 1,2
+	Production:
+		Produces: Infantry, Vehicle, Cavalry
+	ProductionBar:
+		ProductionType: Infantry
+	ProductionBar@Cavalry:
+		ProductionType: Vehicle
+		Color: 8A8A8A
+	ProvidesPrerequisite@barracks:
+		Prerequisite: barracks
+
+
+FOUNDRY:
+	Inherits: ^NWBuilding
+	Inherits@shape: ^3x2Shape
+	Inherits@PRIMARY: ^PrimaryBuilding
+	Selectable:
+		Bounds: 3072, 2048
+	RenderSprites:
+		Image: bld_foundry
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 30
+		Prerequisites: barracks
+		Description: actor-foundry.description
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: actor-foundry.name
+	Building:
+		Footprint: xxx xxx ===
+		Dimensions: 3,3
+		LocalCenterOffset: 0,-512,0
+	Health:
+		HP: 5000
+	RallyPoint:
+		ForceSetType: Vehicle
+	CommandBarBlacklist:
+		DisableStop: false
+	Exit@1:
+		RequiresCondition: !being-captured
+		SpawnOffset: 213,-128,0
+		ExitCell: 1,2
+	Production:
+		Produces: Vehicle, Artillery
+	ProductionBar:
+		ProductionType: Vehicle
+	ProvidesPrerequisite@foundry:
+		Prerequisite: foundry
+
+SHIPYARD:
+	Inherits: ^NWBuilding
+	Inherits@PRIMARY: ^PrimaryBuilding
+	Selectable:
+		Bounds: 3072, 2048
+	RenderSprites:
+		Image: bld_shipyard
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 40
+		Prerequisites: nwhq
+		Description: actor-shipyard.description
+	Valued:
+		Cost: 1500
+	Tooltip:
+		Name: actor-shipyard.name
+	Targetable:
+		TargetTypes: WaterActor, Structure
+	Building:
+		Footprint: XXX xxx XXX
+		Dimensions: 3,3
+		TerrainTypes: Water
+	RequiresBuildableArea:
+		Adjacent: 8
+	-GivesBuildableArea:
+	Health:
+		HP: 5000
+	Exit@1:
+		RequiresCondition: !being-captured
+		SpawnOffset: -1024,1024,0
+		Facing: 640
+		ExitCell: 0,2
+	Exit@2:
+		RequiresCondition: !being-captured
+		SpawnOffset: 1024,1024,0
+		Facing: 896
+		ExitCell: 2,2
+	Exit@3:
+		RequiresCondition: !being-captured
+		SpawnOffset: -1024,-1024,0
+		Facing: 384
+		ExitCell: 0,0
+	Exit@4:
+		RequiresCondition: !being-captured
+		SpawnOffset: 1024,-1024,0
+		Facing: 128
+		ExitCell: 2,0
+	Production:
+		Produces: Ship, Warship, Trade
+	TradingPost:
+	RepairsUnits:
+		HpPerStep: 50
+		StartRepairingNotification: Repairing
+		StartRepairingTextNotification: notification-repairing
+		FinishRepairingNotification: UnitRepaired
+		FinishRepairingTextNotification: notification-unit-repaired
+	RallyPoint:
+		ForceSetType: Ship
+	CommandBarBlacklist:
+		DisableStop: false
+	ProductionBar:
+		ProductionType: Ship
+	ProvidesPrerequisite@shipyard:
+		Prerequisite: shipyard
+	MapEditorData:
+		ExcludeTilesets: INTERIOR
+
+
+# A neutral port for map makers: trade ships from every nation call here and bring $500 home to their ship yard.
+TRADEPOST.NEUTRAL:
+	Inherits: ^NWBuilding
+	-Sellable:
+	-Capturable:
+	-CapturableProgressBar:
+	-CapturableProgressBlink:
+	-MustBeDestroyed:
+	-GivesBuildableArea:
+	-RequiresBuildableArea:
+	Selectable:
+		Bounds: 3072, 2048
+	RenderSprites:
+		Image: spen
+	Tooltip:
+		Name: actor-tradepost-neutral.name
+	Targetable:
+		TargetTypes: WaterActor, Structure
+	Building:
+		Footprint: XXX xxx XXX
+		Dimensions: 3,3
+		TerrainTypes: Water
+	Health:
+		HP: 20000
+	HitShape:
+		Type: Rectangle
+			TopLeft: -1536, -598
+			BottomRight: 1536, 598
+	TradingPost:
+	MapEditorData:
+		ExcludeTilesets: INTERIOR
+		Categories: Trade
+
+# Counting House: merchants and bankers financing the war. $500 every 30 seconds.
+COUNTINGHOUSE:
+	Inherits: ^NWBuilding
+	Inherits@shape: ^2x2Shape
+	Selectable:
+		Bounds: 2048, 2048
+	RenderSprites:
+		Image: bld_countinghouse
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 50
+		Prerequisites: nwhq
+		Description: actor-countinghouse.description
+	Valued:
+		Cost: 2000
+	Tooltip:
+		Name: actor-countinghouse.name
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	Health:
+		HP: 3000
+	CashTrickler:
+		Interval: 750
+		Amount: 500

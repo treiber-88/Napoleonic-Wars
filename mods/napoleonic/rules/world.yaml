@@ -1,0 +1,127 @@
+# Napoleonic overrides on top of ra|rules/world.yaml.
+
+^BaseWorld:
+	-Faction@germany:
+	-Faction@ukraine:
+	-Faction@randomallies:
+	-Faction@randomsoviet:
+	Faction@france:
+		Name: faction-nw-france.name
+		InternalName: france
+		Side: France
+		Description: faction-nw-france.description
+	Faction@england:
+		Name: faction-nw-britain.name
+		InternalName: england
+		Side: Britain
+		Description: faction-nw-britain.description
+	Faction@russia:
+		Name: faction-nw-russia.name
+		InternalName: russia
+		Side: Russia
+		Description: faction-nw-russia.description
+	Faction@prussia:
+		Name: faction-nw-prussia.name
+		InternalName: prussia
+		Side: Prussia
+		Description: faction-nw-prussia.description
+	Faction@austria:
+		Name: faction-nw-austria.name
+		InternalName: austria
+		Side: Austria
+		Description: faction-nw-austria.description
+	Faction@random:
+		Name: faction-nw-random.name
+		InternalName: Random
+		RandomFactionMembers: france, england, russia, prussia, austria
+		Side: Random
+		Description: faction-nw-random.description
+	Locomotor@REGIMENT:
+		Name: regiment
+		Crushes: crate
+		TerrainSpeeds:
+			Clear: 100
+			Rough: 70
+			Road: 110
+			Bridge: 110
+			Ore: 90
+			Gems: 90
+			Beach: 70
+	Locomotor@HORSE:
+		Name: horse
+		Crushes: crate
+		TerrainSpeeds:
+			Clear: 100
+			Rough: 60
+			Road: 115
+			Bridge: 115
+			Ore: 90
+			Gems: 90
+			Beach: 70
+	Locomotor@GUNS:
+		Name: guns
+		Crushes: crate
+		TerrainSpeeds:
+			Clear: 100
+			Rough: 45
+			Road: 125
+			Bridge: 125
+			Ore: 80
+			Gems: 80
+			Beach: 50
+
+World:
+	-CrateSpawner:
+	-StartingUnits@mcvonly:
+	-StartingUnits@lightallies:
+	-StartingUnits@lightsoviet:
+	-StartingUnits@heavyallies:
+	-StartingUnits@heavysoviet:
+	CorpseLayer:
+	StartingUnits@hqonly:
+		Class: none
+		ClassName: options-starting-units.hq-only
+		Factions: france, england, russia, prussia, austria
+		BaseActor: nwhq
+	StartingUnits@france:
+		Class: light
+		ClassName: options-starting-units.light-support
+		Factions: france
+		BaseActor: nwhq
+		SupportActors: fr_ligne, fr_legere
+		InnerSupportRadius: 5
+		OuterSupportRadius: 8
+	StartingUnits@england:
+		Class: light
+		ClassName: options-starting-units.light-support
+		Factions: england
+		BaseActor: nwhq
+		SupportActors: gb_line, gb_light
+		InnerSupportRadius: 5
+		OuterSupportRadius: 8
+	StartingUnits@russia:
+		Class: light
+		ClassName: options-starting-units.light-support
+		Factions: russia
+		BaseActor: nwhq
+		SupportActors: ru_musketeer, ru_jager
+		InnerSupportRadius: 5
+		OuterSupportRadius: 8
+	StartingUnits@prussia:
+		Class: light
+		ClassName: options-starting-units.light-support
+		Factions: prussia
+		BaseActor: nwhq
+		SupportActors: pr_musketeer, pr_fusilier
+		InnerSupportRadius: 5
+		OuterSupportRadius: 8
+	StartingUnits@austria:
+		Class: light
+		ClassName: options-starting-units.light-support
+		Factions: austria
+		BaseActor: nwhq
+		SupportActors: au_fusilier, au_grenzer
+		InnerSupportRadius: 5
+		OuterSupportRadius: 8
+	ColorPickerManager:
+		PreviewActor: nwhq.colorpicker

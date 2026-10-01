@@ -1,0 +1,10 @@
+# Foot artillery battery: 8 guns, $800, shared by all nations. Placeholder: RA arty sprite.
+
+BATTERY:
+	Inherits: ^Battery
+	Buildable:
+		BuildPaletteOrder: 30
+		Prerequisites: ~foundry
+		Description: actor-battery.description
+	Tooltip:
+		Name: actor-battery.name

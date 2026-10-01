@@ -1,0 +1,9 @@
+D:\Napoleonic Wars\source\OpenRA.Mods.Napoleonic\obj\Release\OpenRA.Mods.Napoleonic.csproj.AssemblyReference.cache
+D:\Napoleonic Wars\source\OpenRA.Mods.Napoleonic\obj\Release\OpenRA.Mods.Napoleonic.GeneratedMSBuildEditorConfig.editorconfig
+D:\Napoleonic Wars\source\OpenRA.Mods.Napoleonic\obj\Release\OpenRA.Mods.Napoleonic.csproj.CoreCompileInputs.cache
+D:\Napoleonic Wars\source\OpenRA.Mods.Napoleonic\obj\Release\OpenRA.Mods.Napoleonic.dll
+D:\Napoleonic Wars\source\OpenRA.Mods.Napoleonic\obj\Release\refint\OpenRA.Mods.Napoleonic.dll
+D:\Napoleonic Wars\source\OpenRA.Mods.Napoleonic\obj\Release\OpenRA.Mods.Napoleonic.pdb
+D:\Napoleonic Wars\OpenRA.Mods.Napoleonic.dll
+D:\Napoleonic Wars\source\OpenRA.Mods.Napoleonic\obj\Release\ref\OpenRA.Mods.Napoleonic.dll
+D:\Napoleonic Wars\OpenRA.Mods.Napoleonic.pdb

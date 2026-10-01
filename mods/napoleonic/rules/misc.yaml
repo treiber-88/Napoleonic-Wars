@@ -1,0 +1,114 @@
+# Map furniture needed by stock Red Alert maps.
+
+MINE:
+	Inherits@1: ^SpriteActor
+	Interactable:
+	HiddenUnderShroud:
+	Tooltip:
+		Name: actor-mine-name
+	RenderSprites:
+		Palette: terrain
+	WithSpriteBody:
+	Building:
+		Footprint: x
+		Dimensions: 1,1
+	AppearsOnRadar:
+	RadarColorFromTerrain:
+		Terrain: Ore
+	AppearsOnMapPreview:
+		Terrain: Ore
+	SeedsResource:
+	MapEditorData:
+		Categories: Resource spawn
+	RequiresSpecificOwners:
+		ValidOwnerNames: Neutral
+
+GMINE:
+	Inherits@1: ^SpriteActor
+	Interactable:
+	HiddenUnderShroud:
+	Tooltip:
+		Name: actor-gmine-name
+	RenderSprites:
+		Palette: player
+	WithSpriteBody:
+	Building:
+		Footprint: x
+		Dimensions: 1,1
+	AppearsOnRadar:
+	RadarColorFromTerrain:
+		Terrain: Gems
+	AppearsOnMapPreview:
+		Terrain: Gems
+	SeedsResource:
+		ResourceType: Gems
+	MapEditorData:
+		Categories: Resource spawn
+	RequiresSpecificOwners:
+		ValidOwnerNames: Neutral
+
+CAMERA:
+	Interactable:
+	EditorOnlyTooltip:
+		Name: actor-camera-name
+	Immobile:
+		OccupiesSpace: false
+	RevealsShroud:
+		Range: 10c0
+		Type: CenterPosition
+	BodyOrientation:
+		QuantizedFacings: 1
+	WithSpriteBody:
+	RenderSpritesEditorOnly:
+		Image: camera
+	MapEditorData:
+		Categories: System
+
+FLARE:
+	Immobile:
+		OccupiesSpace: false
+	RevealsShroud:
+		Range: 3c0
+		Type: CenterPosition
+	RenderSprites:
+		Image: smokland
+	WithSpriteBody:
+		StartSequence: open
+	BodyOrientation:
+		QuantizedFacings: 1
+	HiddenUnderFog:
+		Type: CenterPosition
+	Interactable:
+	Tooltip:
+		Name: actor-flare-name
+		ShowOwnerRow: false
+	MapEditorData:
+		Categories: Decoration
+
+mpspawn:
+	Interactable:
+	EditorOnlyTooltip:
+		Name: actor-mpspawn-name
+	Immobile:
+		OccupiesSpace: false
+	WithSpriteBody:
+	RenderSpritesEditorOnly:
+	BodyOrientation:
+		QuantizedFacings: 1
+	MapEditorData:
+		Categories: System
+	RequiresSpecificOwners:
+		ValidOwnerNames: Neutral
+
+waypoint:
+	Interactable:
+	EditorOnlyTooltip:
+		Name: actor-waypoint-name
+	Immobile:
+		OccupiesSpace: false
+	WithSpriteBody:
+	RenderSpritesEditorOnly:
+	BodyOrientation:
+		QuantizedFacings: 1
+	MapEditorData:
+		Categories: System

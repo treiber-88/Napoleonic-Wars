@@ -1,0 +1,117 @@
+# One skirmish AI. It builds up an army at home and only marches out once it has a large force.
+
+Player:
+	ModularBot@Marshal:
+		Name: bot-marshal.name
+		Type: marshal
+	GrantConditionOnBotOwner@marshal:
+		Condition: enable-marshal-ai
+		Bots: marshal
+	BaseBuilderBotModule@marshal:
+		RequiresCondition: enable-marshal-ai
+		ConstructionYardTypes: nwhq
+		ProductionTypes: barracks, foundry
+		NavalProductionTypes: shipyard
+		InititalMinimumRefineryCount: 0
+		AdditionalMinimumRefineryCount: 0
+		NewProductionCashThreshold: 4000
+		MaxBaseRadius: 16
+		BuildingLimits:
+			barracks: 3
+			foundry: 2
+			shipyard: 2
+			countinghouse: 4
+		BuildingFractions:
+			barracks: 4
+			countinghouse: 3
+			foundry: 2
+			shipyard: 1
+		BuildingDelays:
+			foundry: 2000
+			countinghouse: 500
+			shipyard: 3000
+	BuildingRepairBotModule:
+		RequiresCondition: enable-marshal-ai
+	SquadManagerBotModule@marshal:
+		RequiresCondition: enable-marshal-ai
+		# A "large force": 12 to 15 regiments/batteries gathered at home before any attack.
+		SquadSize: 12
+		SquadSizeRandomBonus: 4
+		# Never send small early raids.
+		RushInterval: 1000000
+		AttackForceInterval: 150
+		MinimumAttackForceDelay: 3000
+		ConstructionYardTypes: nwhq
+		NavalProductionTypes: shipyard
+		NavalUnitsTypes: fr_bucentaure80, fr_temeraire74, fr_ocean118, gb_firstrate104, gb_neptune98, gb_arrogant74, ru_chesma100, ru_selafail74, ru_yaroslav74, pr_line74, pr_twodecker50, pr_frigate44, au_venetian74, au_venetian64, au_frigate44
+		ExcludeFromSquadsTypes: tradeship
+		ProtectionTypes: nwhq, barracks, foundry, shipyard, countinghouse, tradeship
+		ProtectUnitScanRadius: 15
+		ProtectionScanRadius: 14
+		MaxBaseRadius: 24
+	UnitBuilderBotModule@marshal:
+		RequiresCondition: enable-marshal-ai
+		UnitsToBuild:
+			fr_ligne: 40
+			fr_legere: 25
+			fr_grenadier: 10
+			fr_dragoon: 15
+			fr_cuirassier: 10
+			gb_line: 40
+			gb_light: 25
+			gb_grenadier: 10
+			gb_dragoon: 15
+			gb_household: 10
+			ru_musketeer: 40
+			ru_jager: 25
+			ru_grenadier: 10
+			ru_dragoon: 12
+			ru_cuirassier: 8
+			ru_cossack: 12
+			pr_musketeer: 40
+			pr_fusilier: 25
+			pr_grenadier: 10
+			pr_dragoon: 15
+			pr_cuirassier: 10
+			au_fusilier: 40
+			au_grenzer: 25
+			au_grenadier: 10
+			au_dragoon: 15
+			au_cuirassier: 10
+			battery: 15
+			fr_temeraire74: 4
+			fr_bucentaure80: 3
+			fr_ocean118: 2
+			gb_arrogant74: 4
+			gb_neptune98: 3
+			gb_firstrate104: 2
+			ru_selafail74: 4
+			ru_yaroslav74: 3
+			ru_chesma100: 2
+			pr_twodecker50: 4
+			pr_frigate44: 4
+			pr_line74: 2
+			au_venetian64: 4
+			au_frigate44: 4
+			au_venetian74: 2
+			tradeship: 6
+		UnitLimits:
+			battery: 4
+			tradeship: 3
+			fr_ocean118: 1
+			gb_firstrate104: 1
+			ru_chesma100: 1
+	PicketBotModule@marshal:
+		RequiresCondition: enable-marshal-ai
+		# Post a regiment forward from the HQ as soon as one exists.
+		UnitTypes: fr_ligne, fr_legere, gb_line, gb_light, ru_musketeer, ru_jager, pr_musketeer, pr_fusilier, au_fusilier, au_grenzer
+		BaseTypes: nwhq
+		Pickets: 1
+		Distance: 14c0
+		Interval: 50
+	RegimentTacticsBotModule@marshal:
+		RequiresCondition: enable-marshal-ai
+		# Charge guns, routed/shaken units and weaker cavalry; run in when shot at from out of range.
+		CavalryTypes: fr_dragoon, fr_cuirassier, gb_dragoon, gb_household, ru_dragoon, ru_cuirassier, ru_cossack, pr_dragoon, pr_cuirassier, au_dragoon, au_cuirassier
+		GrenadierTypes: fr_grenadier, gb_grenadier, ru_grenadier, pr_grenadier, au_grenadier
+		ArtilleryTypes: battery
