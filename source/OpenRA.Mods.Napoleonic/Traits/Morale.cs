@@ -71,6 +71,10 @@ namespace OpenRA.Mods.Napoleonic.Traits
 		[Desc("A unit at bay resumes regrouping once no enemy has been in range for this many ticks.")]
 		public readonly int LeaveAtBayTicks = 100;
 
+		[Desc("A unit reduced to this percentage of its full strength (or less) is broken: it routs whatever its morale,",
+			"and it will not turn at bay while it is this weak.")]
+		public readonly int BrokenStrengthPercent = 10;
+
 		public override object Create(ActorInitializer init) { return new Morale(init.Self, this); }
 	}
 
@@ -104,6 +108,9 @@ namespace OpenRA.Mods.Napoleonic.Traits
 
 		/// <summary>Morale as a percentage of a fresh unit's.</summary>
 		public int Percent => Value * 100 / Math.Max(1, info.MaxMorale);
+
+		/// <summary>Too few men left to fight on: the unit routs and will not turn at bay.</summary>
+		public bool IsBroken => health.HP * 100 <= (long)health.MaxHP * info.BrokenStrengthPercent;
 
 		public Morale(Actor self, MoraleInfo info)
 		{
@@ -143,9 +150,9 @@ namespace OpenRA.Mods.Napoleonic.Traits
 
 			Value = Math.Min(Value - Math.Max(1, loss), MoraleCap);
 
-			if (Value <= 0)
+			if (Value <= 0 || IsBroken)
 			{
-				Value = 0;
+				Value = Math.Max(0, Value);
 				if (!IsRouted)
 					Rout(self);
 				else if (self.IsIdle && !IsAtBay)
@@ -186,6 +193,22 @@ namespace OpenRA.Mods.Napoleonic.Traits
 
 		void UpdateAtBay(Actor self)
 		{
+			// A broken unit only runs: it stops fighting if it was at bay, and never turns.
+			if (IsBroken)
+			{
+				if (IsAtBay)
+				{
+					atBayToken = self.RevokeCondition(atBayToken);
+					formation?.AddDisorder();
+					self.CancelActivity();
+					fleeTicks = 0;
+					stuckTicks = 0;
+					Flee(self);
+				}
+
+				return;
+			}
+
 			if (IsAtBay)
 			{
 				// Keep fighting while the enemy is close, then go back to regrouping.
@@ -263,6 +286,9 @@ namespace OpenRA.Mods.Napoleonic.Traits
 			var dest = world.Map.Clamp(world.Map.CellContaining(pos + away * info.FleeDistance.Length / 1024));
 			self.QueueActivity(false, move.MoveTo(dest, 4));
 		}
+
+		/// <summary>Reports something this unit did ("is routed!") to players who can see it.</summary>
+		public void Announce(Actor self, string what, Color color) { Notify(self, what, color); }
 
 		void Notify(Actor self, string what, Color color)
 		{

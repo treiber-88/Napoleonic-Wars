@@ -962,10 +962,10 @@ fr_bucentaure_class:
 		Filename: gunfire2.shp
 		Length: 5
 	icon-france:
-		Filename: icons/warship_france.png
+		Filename: icons/fr_bucentaure_class.png
 		Offset: 0,0
 	icon:
-		Filename: icons/warship_france.png
+		Filename: icons/fr_bucentaure_class.png
 		Offset: 0,0
 
 fr_ocean_class:
@@ -977,10 +977,10 @@ fr_ocean_class:
 		Filename: gunfire2.shp
 		Length: 5
 	icon-france:
-		Filename: icons/warship_france.png
+		Filename: icons/fr_ocean_class.png
 		Offset: 0,0
 	icon:
-		Filename: icons/warship_france.png
+		Filename: icons/fr_ocean_class.png
 		Offset: 0,0
 
 gb_firstrate:
@@ -992,10 +992,10 @@ gb_firstrate:
 		Filename: gunfire2.shp
 		Length: 5
 	icon-england:
-		Filename: icons/warship_england.png
+		Filename: icons/gb_firstrate.png
 		Offset: 0,0
 	icon:
-		Filename: icons/warship_england.png
+		Filename: icons/gb_firstrate.png
 		Offset: 0,0
 
 gb_neptune_class:
@@ -1007,10 +1007,10 @@ gb_neptune_class:
 		Filename: gunfire2.shp
 		Length: 5
 	icon-england:
-		Filename: icons/warship_england.png
+		Filename: icons/gb_neptune_class.png
 		Offset: 0,0
 	icon:
-		Filename: icons/warship_england.png
+		Filename: icons/gb_neptune_class.png
 		Offset: 0,0
 
 gb_arrogant_class:
@@ -1022,8 +1022,155 @@ gb_arrogant_class:
 		Filename: gunfire2.shp
 		Length: 5
 	icon-england:
-		Filename: icons/warship_england.png
+		Filename: icons/gb_arrogant_class.png
 		Offset: 0,0
 	icon:
-		Filename: icons/warship_england.png
+		Filename: icons/gb_arrogant_class.png
+		Offset: 0,0
+
+ru_chesma_class:
+	idle:
+		Filename: ru_chesma_class.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-russia:
+		Filename: icons/ru_chesma_class.png
+		Offset: 0,0
+	icon:
+		Filename: icons/ru_chesma_class.png
+		Offset: 0,0
+
+ru_selafail_class:
+	idle:
+		Filename: ru_selafail_class.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-russia:
+		Filename: icons/ru_selafail_class.png
+		Offset: 0,0
+	icon:
+		Filename: icons/ru_selafail_class.png
+		Offset: 0,0
+
+ru_yaroslav_class:
+	idle:
+		Filename: ru_yaroslav_class.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-russia:
+		Filename: icons/ru_yaroslav_class.png
+		Offset: 0,0
+	icon:
+		Filename: icons/ru_yaroslav_class.png
+		Offset: 0,0
+
+pr_line74:
+	idle:
+		Filename: pr_line74.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-prussia:
+		Filename: icons/pr_line74.png
+		Offset: 0,0
+	icon:
+		Filename: icons/pr_line74.png
+		Offset: 0,0
+
+pr_twodecker50:
+	idle:
+		Filename: pr_twodecker50.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-prussia:
+		Filename: icons/pr_twodecker50.png
+		Offset: 0,0
+	icon:
+		Filename: icons/pr_twodecker50.png
+		Offset: 0,0
+
+pr_frigate44:
+	idle:
+		Filename: pr_frigate44.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-prussia:
+		Filename: icons/pr_frigate44.png
+		Offset: 0,0
+	icon:
+		Filename: icons/pr_frigate44.png
+		Offset: 0,0
+
+au_venetian74:
+	idle:
+		Filename: au_venetian74.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-austria:
+		Filename: icons/au_venetian74.png
+		Offset: 0,0
+	icon:
+		Filename: icons/au_venetian74.png
+		Offset: 0,0
+
+au_venetian64:
+	idle:
+		Filename: au_venetian64.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-austria:
+		Filename: icons/au_venetian64.png
+		Offset: 0,0
+	icon:
+		Filename: icons/au_venetian64.png
+		Offset: 0,0
+
+au_frigate44:
+	idle:
+		Filename: au_frigate44.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon-austria:
+		Filename: icons/au_frigate44.png
+		Offset: 0,0
+	icon:
+		Filename: icons/au_frigate44.png
+		Offset: 0,0
+
+nw_merchantman:
+	idle:
+		Filename: nw_merchantman.png
+		Facings: 32
+		Offset: 0,-50
+	muzzle:
+		Filename: gunfire2.shp
+		Length: 5
+	icon:
+		Filename: icons/nw_merchantman.png
 		Offset: 0,0

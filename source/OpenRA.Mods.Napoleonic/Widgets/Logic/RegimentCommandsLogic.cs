@@ -22,6 +22,7 @@ namespace OpenRA.Mods.Napoleonic.Widgets.Logic
 		int selectionHash = -1;
 		Actor[] regiments = [];
 		Actor[] batteries = [];
+		Actor[] surrenderers = [];
 
 		[ObjectCreator.UseCtor]
 		public RegimentCommandsLogic(Widget widget, World world)
@@ -72,6 +73,14 @@ namespace OpenRA.Mods.Napoleonic.Widgets.Logic
 				stand.OnKeyPress = _ => stand.OnClick();
 			}
 
+			var surrenderPanel = widget.GetOrNull("SURRENDER_COMMANDS");
+			if (surrenderPanel != null)
+				surrenderPanel.IsVisible = () => { Update(); return surrenderers.Length > 0; };
+
+			var surrender = widget.GetOrNull<ButtonWidget>("SURRENDER");
+			if (surrender != null)
+				surrender.OnClick = () => IssueToAll(surrenderers, a => new Order(Surrenders.OrderID, a, false));
+
 			BindFireMode(widget, "CANISTER", "canister");
 			BindFireMode(widget, "SOLIDSHOT", "solidshot");
 			BindFireMode(widget, "SHELL", "shell");
@@ -105,6 +114,7 @@ namespace OpenRA.Mods.Napoleonic.Widgets.Logic
 			var mine = world.Selection.Actors.Where(a => a.Owner == world.LocalPlayer && a.IsInWorld && !a.IsDead).ToArray();
 			regiments = mine.Where(a => a.Info.HasTraitInfo<RegimentCommandsInfo>()).ToArray();
 			batteries = mine.Where(a => a.Info.HasTraitInfo<FireModesInfo>()).ToArray();
+			surrenderers = mine.Where(a => a.Info.HasTraitInfo<SurrendersInfo>()).ToArray();
 			selectionHash = world.Selection.Hash;
 		}
 	}

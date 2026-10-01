@@ -481,8 +481,8 @@ def gpu_temp():
         return 0
 
 
-def render(key, first=0, last=32, out_root=r"D:\Napoleonic Wars\art\renders", max_temp=66,
-           throttle_hi=60, throttle_lo=55, budget_s=200):
+def render(key, first=0, last=32, out_root=r"C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\art\renders", max_temp=76,
+           throttle_hi=74, throttle_lo=70, budget_s=200):
     """Render facings first..last-1, duty-cycling the GPU: at throttle_hi pause until it is back to throttle_lo.
     Stops early at max_temp or after budget_s seconds; returns (out_dir, next_frame)."""
     import os, time
@@ -529,13 +529,13 @@ ORDER = ["fr_bucentaure_class", "fr_ocean_class", "gb_firstrate", "gb_neptune_cl
          "au_venetian74", "au_venetian64", "au_frigate44", "nw_merchantman"]
 
 
-def missing(key, out_root=r"D:\Napoleonic Wars\art\renders"):
+def missing(key, out_root=r"C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\art\renders"):
     import os
     d = os.path.join(out_root, key)
     return [i for i in range(32) if not os.path.exists(os.path.join(d, f"idle_{i:02d}.png"))]
 
 
-def render_queue(budget_s=200, start_max=54):
+def render_queue(budget_s=200, start_max=70):
     """One cooled batch: render the next missing frames across all classes (in ORDER) until the budget or
     heat limit is hit. Refuses to start unless the GPU is below start_max."""
     import time
@@ -546,7 +546,7 @@ def render_queue(budget_s=200, start_max=54):
     todo = [(key, i) for key in ORDER for i in missing(key)]
     for key, i in todo:
         left = budget_s - (time.time() - t0)
-        if left <= 0 or gpu_temp() >= 66:
+        if left <= 0 or gpu_temp() >= 76:
             break
         render(key, i, i + 1, budget_s=left)
         done.append(f"{key}:{i}")

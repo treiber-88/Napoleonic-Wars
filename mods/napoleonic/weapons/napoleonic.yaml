@@ -50,7 +50,8 @@ LightMusket:
 	Projectile: Bullet
 		Inaccuracy: 560
 
-# Bayonet: only used while charging. Short range, heavy shock to morale.
+# Bayonet: used while charging or receiving a charge. Short range, heavy shock to morale.
+# Deliberately weaker than sustained musketry against steady troops: a charge decides things against shaken ones.
 Bayonet:
 	ReloadDelay: 40
 	Range: 1c512
@@ -59,15 +60,15 @@ Bayonet:
 	Warhead@1Cas: Casualty
 		ValidTargets: Ground, GroundActor, Water, WaterActor
 		Spread: 1c0
-		Casualties: 6
+		Casualties: 4
 		Damage: 5
 		ValidRelationships: Enemy, Neutral
 		DamageTypes: Melee
 		Versus:
 			Infantry: 100
 			Grenadier: 80
-			Cavalry: 60
-			HeavyCavalry: 40
+			Cavalry: 100
+			HeavyCavalry: 70
 			Artillery: 120
 			Wood: 20
 
@@ -75,7 +76,7 @@ GrenadierBayonet:
 	Inherits: Bayonet
 	Warhead@1Cas: Casualty
 		ValidTargets: Ground, GroundActor, Water, WaterActor
-		Casualties: 11
+		Casualties: 8
 
 # Lit iron grenades lobbed by the grenadiers, one per four men.
 HandGrenade:
@@ -131,7 +132,7 @@ Sabre:
 	Warhead@1Cas: Casualty
 		ValidTargets: Ground, GroundActor, Water, WaterActor
 		Spread: 1c0
-		Casualties: 10
+		Casualties: 7
 		Damage: 7
 		ValidRelationships: Enemy, Neutral
 		DamageTypes: Melee
@@ -149,13 +150,13 @@ Lance:
 	Range: 1c768
 	Warhead@1Cas: Casualty
 		ValidTargets: Ground, GroundActor, Water, WaterActor
-		Casualties: 12
+		Casualties: 9
 
 HeavySabre:
 	Inherits: Sabre
 	Warhead@1Cas: Casualty
 		ValidTargets: Ground, GroundActor, Water, WaterActor
-		Casualties: 15
+		Casualties: 11
 
 # Artillery: 10 s reload, all guns of the battery together.
 ^NWCannon:

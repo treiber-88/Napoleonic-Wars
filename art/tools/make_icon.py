@@ -14,7 +14,7 @@ from PIL import Image
 PALETTE_FILE = r"C:\Program Files\CnCTools\OS SHP Builder\Palettes\RA1\temperat.pal"
 RESERVED = {0, 1, 2, 3, 4} | set(range(80, 96))
 W, H = 64, 48
-FLAG_SHEET = "D:/Napoleonic Wars/mods/napoleonic/uibits/nwflags-3x.png"
+FLAG_SHEET = "C:/Users/mk-ki/Desktop/Napoleonic Wars/Napoleonic-Wars/mods/napoleonic/uibits/nwflags-3x.png"
 FLAGS = ["france", "england", "russia", "prussia", "austria"]
 
 

@@ -190,6 +190,13 @@ RU_CHESMA100:
 		Description: actor-ru-chesma100.description
 	Tooltip:
 		Name: actor-ru-chesma100.name
+	RenderSprites:
+		Image: ru_chesma_class
+	Selectable:
+		Bounds: 4096, 4096, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -1733,-717,200, -866,-717,200, 0,-717,200, 866,-717,200, 1733,-717,200, -1733,717,200, -866,717,200, 0,717,200, 866,717,200, 1733,717,200
+		ProjectilesPerModel: 5
 
 RU_SELAFAIL74:
 	Inherits: ^SeventyFour
@@ -200,6 +207,13 @@ RU_SELAFAIL74:
 		Description: actor-ru-selafail74.description
 	Tooltip:
 		Name: actor-ru-selafail74.name
+	RenderSprites:
+		Image: ru_selafail_class
+	Selectable:
+		Bounds: 3840, 3840, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -1637,-674,200, -819,-674,200, 0,-674,200, 819,-674,200, 1637,-674,200, -1637,674,200, -819,674,200, 0,674,200, 819,674,200, 1637,674,200
+		ProjectilesPerModel: 4
 
 RU_YAROSLAV74:
 	Inherits: ^SeventyFour
@@ -214,6 +228,13 @@ RU_YAROSLAV74:
 		Cost: 2000
 	Health:
 		HP: 3900
+	RenderSprites:
+		Image: ru_yaroslav_class
+	Selectable:
+		Bounds: 3840, 3840, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -1591,-657,200, -796,-657,200, 0,-657,200, 796,-657,200, 1591,-657,200, -1591,657,200, -796,657,200, 0,657,200, 796,657,200, 1591,657,200
+		ProjectilesPerModel: 4
 
 # ---- Prussia (no ships of the line in this period; names chosen for gameplay, see descriptions) ----
 PR_LINE74:
@@ -225,6 +246,13 @@ PR_LINE74:
 		Description: actor-pr-line74.description
 	Tooltip:
 		Name: actor-pr-line74.name
+	RenderSprites:
+		Image: pr_line74
+	Selectable:
+		Bounds: 3712, 3712, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -1582,-657,200, -791,-657,200, 0,-657,200, 791,-657,200, 1582,-657,200, -1582,657,200, -791,657,200, 0,657,200, 791,657,200, 1582,657,200
+		ProjectilesPerModel: 4
 
 PR_TWODECKER50:
 	Inherits: ^SmallTwoDecker
@@ -235,6 +263,13 @@ PR_TWODECKER50:
 		Description: actor-pr-twodecker50.description
 	Tooltip:
 		Name: actor-pr-twodecker50.name
+	RenderSprites:
+		Image: pr_twodecker50
+	Selectable:
+		Bounds: 3200, 3200, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -1367,-572,200, -684,-572,200, 0,-572,200, 684,-572,200, 1367,-572,200, -1367,572,200, -684,572,200, 0,572,200, 684,572,200, 1367,572,200
+		ProjectilesPerModel: 3
 
 PR_FRIGATE44:
 	Inherits: ^Frigate
@@ -245,6 +280,13 @@ PR_FRIGATE44:
 		Description: actor-pr-frigate44.description
 	Tooltip:
 		Name: actor-pr-frigate44.name
+	RenderSprites:
+		Image: pr_frigate44
+	Selectable:
+		Bounds: 3328, 3328, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -1382,-563,200, -691,-563,200, 0,-563,200, 691,-563,200, 1382,-563,200, -1382,563,200, -691,563,200, 0,563,200, 691,563,200, 1382,563,200
+		ProjectilesPerModel: 2
 
 # ---- Austria (the ex-Venetian Adriatic navy) ----
 AU_VENETIAN74:
@@ -256,6 +298,13 @@ AU_VENETIAN74:
 		Description: actor-au-venetian74.description
 	Tooltip:
 		Name: actor-au-venetian74.name
+	RenderSprites:
+		Image: au_venetian74
+	Selectable:
+		Bounds: 3712, 3712, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -1536,-657,200, -768,-657,200, 0,-657,200, 768,-657,200, 1536,-657,200, -1536,657,200, -768,657,200, 0,657,200, 768,657,200, 1536,657,200
+		ProjectilesPerModel: 4
 
 AU_VENETIAN64:
 	Inherits: ^SmallTwoDecker
@@ -266,6 +315,13 @@ AU_VENETIAN64:
 		Description: actor-au-venetian64.description
 	Tooltip:
 		Name: actor-au-venetian64.name
+	RenderSprites:
+		Image: au_venetian64
+	Selectable:
+		Bounds: 3328, 3328, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -1413,-606,200, -707,-606,200, 0,-606,200, 707,-606,200, 1413,-606,200, -1413,606,200, -707,606,200, 0,606,200, 707,606,200, 1413,606,200
+		ProjectilesPerModel: 3
 
 AU_FRIGATE44:
 	Inherits: ^Frigate
@@ -276,9 +332,17 @@ AU_FRIGATE44:
 		Description: actor-au-frigate44.description
 	Tooltip:
 		Name: actor-au-frigate44.name
+	RenderSprites:
+		Image: au_frigate44
+	Selectable:
+		Bounds: 3200, 3200, 0, -1024
+	VolleyArmament@BROADSIDE:
+		LocalOffset: -1336,-555,200, -668,-555,200, 0,-555,200, 668,-555,200, 1336,-555,200, -1336,555,200, -668,555,200, 0,555,200, 668,555,200, 1336,555,200
+		ProjectilesPerModel: 2
 
 TRADESHIP:
 	Inherits: ^Ship
+	Inherits@TROOPS: ^TroopCarrier
 	-RepairableNear:
 	-Chronoshiftable:
 	-GpsDot:
@@ -306,9 +370,10 @@ TRADESHIP:
 	Mobile:
 		Speed: 70
 		TurnSpeed: 16
-	RenderSprites:
-		Image: lst
 	TradeShip:
 		Payment: 500
+	Escortable:
+	RenderSprites:
+		Image: nw_merchantman
 	Selectable:
-		Priority: 6
+		Bounds: 2688, 2688, 0, -1024

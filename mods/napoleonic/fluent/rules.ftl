@@ -39,6 +39,10 @@ actor-shipyard =
 actor-countinghouse =
     .name = Counting House
     .description = Merchants and bankers who finance the war. Earns $500 every 30 seconds.
+actor-nwpowcamp =
+    .name = Prisoner of War Camp
+    .description = Holds enemy units that surrender. Earns $500 every 30 seconds for each 1,000 prisoners held.
+      If the camp is destroyed the prisoners are freed and rejoin their army.
 actor-tradepost-neutral =
     .name = Neutral Port
 
@@ -121,6 +125,8 @@ actor-battery =
 actor-tradeship =
     .name = Trading Ship
     .description = Sails to neutral or allied ports and earns $500 when it returns to your ship yard.
+      Right-click it with a warship to give it an escort. Like every ship, it can carry
+      one artillery battery and one regiment.
 
 ## Command bar
 button-regiment-charge =
@@ -132,6 +138,11 @@ button-regiment-run =
 button-regiment-stand =
     .tooltip = Stand
     .tooltipdesc = Halt, form up and hold this ground.
+button-regiment-surrender =
+    .tooltip = Surrender
+    .tooltipdesc = Lay down arms. The unit is marched off to the nearest enemy
+    prisoner of war camp, and stays there until the camp is destroyed.
+
 button-battery-canister =
     .tooltip = Canister
     .tooltipdesc = Short range, deadly against infantry and cavalry.

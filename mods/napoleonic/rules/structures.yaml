@@ -269,3 +269,31 @@ COUNTINGHOUSE:
 	CashTrickler:
 		Interval: 750
 		Amount: 500
+
+# Prisoner of war camp: holds surrendered enemy units and earns $500 per 1,000 prisoners every 30 seconds.
+# Destroying it frees the prisoners. Stockade armour: muskets, bayonets and sabres can break in.
+# Placeholder art: RA barr (palisaded barracks).
+NWPOWCAMP:
+	Inherits: ^NWBuilding
+	Inherits@shape: ^2x2Shape
+	Selectable:
+		Bounds: 2048, 2048
+	RenderSprites:
+		Image: barr
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 60
+		Prerequisites: nwhq
+		Description: actor-nwpowcamp.description
+	Valued:
+		Cost: 1000
+	Tooltip:
+		Name: actor-nwpowcamp.name
+	Building:
+		Footprint: xx xx
+		Dimensions: 2,2
+	Health:
+		HP: 2500
+	Armor:
+		Type: Stockade
+	PrisonerCamp:

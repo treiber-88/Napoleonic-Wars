@@ -78,6 +78,7 @@ World:
 	-StartingUnits@heavyallies:
 	-StartingUnits@heavysoviet:
 	CorpseLayer:
+	ValidateTransportSlots:
 	StartingUnits@hqonly:
 		Class: none
 		ClassName: options-starting-units.hq-only

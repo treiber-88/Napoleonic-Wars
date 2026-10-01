@@ -175,6 +175,11 @@ namespace OpenRA.Mods.Napoleonic.Traits
 
 		void INotifyAddedToWorld.AddedToWorld(Actor self)
 		{
+			// A unit that arrives under strength (e.g. freed prisoners) simply has fewer figures: nobody falls.
+			var desired = (int)Math.Min(Info.Models, ((long)health.HP * Info.Models + health.MaxHP - 1) / health.MaxHP);
+			if (alive.Count > desired)
+				alive.RemoveRange(desired, alive.Count - desired);
+
 			// Actors placed on the map or unloaded from a building appear formed up.
 			PlaceModelsInSlots(self);
 		}

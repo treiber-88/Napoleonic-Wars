@@ -57,6 +57,8 @@
 	DivisionName:
 	RejectsOrders@ROUTED:
 		RequiresCondition: routed
+		Except: NWSurrender
+	Surrenders:
 	SpeedMultiplier@ROUTED:
 		RequiresCondition: routed && !at-bay
 		Modifier: 170
@@ -122,7 +124,20 @@
 		Modifier: 180
 	SpeedMultiplier@CHARGE:
 		RequiresCondition: charging
-		Modifier: 200
+		Modifier: 160
+	# A charge is disordered and comes on in the open: musketry and canister tell half as much again.
+	CasualtyMultiplier@CHARGING:
+		RequiresCondition: charging
+		DamageTypes: Musket, Canister
+		Modifier: 150
+	# Formed troops who stand to receive a charge lose less in the melee than the men rushing them.
+	CasualtyMultiplier@RECEIVING:
+		RequiresCondition: receiving
+		DamageTypes: Melee
+		Modifier: 70
+	Passenger:
+		CargoType: NWRegiment
+		Weight: 1
 	RenderSprites:
 		Image: e1
 	Formation:
@@ -157,13 +172,13 @@
 		TurnSpeed: 8
 	VolleyArmament@MUSKET:
 		Weapon: Musket
-		RequiresCondition: !charging && !routed
+		RequiresCondition: !charging && !routed && !receiving
 		PauseOnCondition: forming
 		VolleyEffectImage: explosion
 		VolleyEffectSequence: piff
 	VolleyArmament@BAYONET:
 		Weapon: Bayonet
-		RequiresCondition: (charging && !routed) || at-bay
+		RequiresCondition: (charging && !routed) || at-bay || receiving
 		MaxStagger: 20
 
 ^LightInfantry:
@@ -215,20 +230,20 @@
 		LossPerPercent: 10
 	VolleyArmament@MUSKET:
 		Weapon: Musket
-		RequiresCondition: !charging && !routed
+		RequiresCondition: !charging && !routed && !receiving
 		PauseOnCondition: forming
 		VolleyEffectImage: explosion
 		VolleyEffectSequence: piff
 	VolleyArmament@GRENADE:
 		Weapon: HandGrenade
-		RequiresCondition: !charging && !routed
+		RequiresCondition: !charging && !routed && !receiving
 		PauseOnCondition: forming
 		ModelsPerProjectile: 4
 		ShootSequence: throw
 		MaxStagger: 15
 	VolleyArmament@BAYONET:
 		Weapon: GrenadierBayonet
-		RequiresCondition: (charging && !routed) || at-bay
+		RequiresCondition: (charging && !routed) || at-bay || receiving
 		MaxStagger: 20
 
 # Cavalry: 30 riders, numerical value 60, loose group. Riders fire their pistols independently.
@@ -262,14 +277,16 @@
 		TurnSpeed: 24
 	Morale:
 		LossPerPercent: 20
+	RegimentCommands:
+		CounterCharge: true
 	VolleyArmament@PISTOL:
 		Weapon: HorsePistol
-		RequiresCondition: !charging && !routed
+		RequiresCondition: !charging && !routed && !receiving
 		PauseOnCondition: forming
 		MaxStagger: 70
 	VolleyArmament@SABRE:
 		Weapon: Sabre
-		RequiresCondition: (charging && !routed) || at-bay
+		RequiresCondition: (charging && !routed) || at-bay || receiving
 		MaxStagger: 20
 	MapEditorData:
 		Categories: Cavalry
@@ -307,6 +324,9 @@
 		TurnSpeed: 6
 	Morale:
 		LossPerPercent: 15
+	Passenger:
+		CargoType: NWBattery
+		Weight: 1
 	FireModes:
 		Modes: solidshot, shell, canister
 	AttackFrontal:
@@ -344,9 +364,26 @@
 	MapEditorData:
 		Categories: Artillery
 
+# Every ship can carry troops: one battery and one regiment (infantry or cavalry of any kind).
+# Troops board from, and land on, the shore next to the ship; click the ship (deploy) to land them.
+^TroopCarrier:
+	Inherits@CARGOPIPS: ^CargoPips
+	Mobile:
+		PauseOnCondition: notmobile
+	Cargo:
+		Types: NWBattery, NWRegiment
+		MaxWeight: 2
+		PassengerFacing: 0
+		LoadingCondition: notmobile
+	TransportSlots:
+		Slots:
+			NWBattery: 1
+			NWRegiment: 1
+
 # Ships of the line fire every gun at once. Guns are spread along the hull as LocalOffsets.
 ^NWShip:
 	Inherits: ^Ship
+	Inherits@TROOPS: ^TroopCarrier
 	-RepairableNear:
 	-Chronoshiftable:
 	-GpsDot:
@@ -378,5 +415,7 @@
 		MaxStagger: 6
 		VolleyEffectImage: nwcannon
 		VolleyEffectSequence: muzzle
+	# Right-click one of your trading ships to sail with it as its escort.
+	EscortShip:
 	Tooltip:
 		GenericName: meta-warship-generic-name

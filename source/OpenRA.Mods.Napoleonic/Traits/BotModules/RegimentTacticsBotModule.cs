@@ -14,9 +14,9 @@ using OpenRA.Traits;
 namespace OpenRA.Mods.Napoleonic.Traits
 {
 	[TraitLocation(SystemActors.Player)]
-	[Desc("Lets the AI use the Charge and Run commands.",
-		"Charge: cavalry ride down batteries, routed or shaken units and weaker cavalry; grenadiers assault nearby infantry;",
-		"line and light infantry finish off shaken or routed enemies and guns at close range.",
+	[Desc("Lets the AI use the Charge and Run commands. It fights by fire and charges sparingly:",
+		"only steady units charge, only at batteries, routed or badly shaken units (cavalry also at clearly weaker cavalry),",
+		"and never into an enemy line that has more steady regiments than the charger has around it.",
 		"Run: a unit being shot at from beyond its own range runs in to close the distance.")]
 	public class RegimentTacticsBotModuleInfo : ConditionalTraitInfo
 	{
@@ -34,10 +34,17 @@ namespace OpenRA.Mods.Napoleonic.Traits
 		public readonly WDist InfantryChargeRange = WDist.FromCells(4);
 
 		[Desc("Enemies below this morale percentage count as shaken and are charged.")]
-		public readonly int ShakenMoralePercent = 40;
+		public readonly int ShakenMoralePercent = 30;
 
-		[Desc("Cavalry will not charge infantry above this morale percentage (formed infantry beats cavalry).")]
-		public readonly int CavalryAvoidFormedInfantryAbove = 60;
+		[Desc("A unit only charges while its own morale is at least this percentage; otherwise it stands off and fires.")]
+		public readonly int MinOwnMoralePercent = 65;
+
+		[Desc("Cavalry only charges other cavalry when it is at least this many strength percentage points better off.")]
+		public readonly int CavalryStrengthMargin = 15;
+
+		[Desc("Steady (unrouted, unshaken) regiments are counted within this distance of the target and of the charger.",
+			"A charge on anything but a routed unit only goes in when the enemy is not the stronger side there.")]
+		public readonly WDist SupportRange = WDist.FromCells(6);
 
 		[Desc("Infantry stop chasing once this far from where the charge started.")]
 		public readonly WDist InfantryPursuitLimit = WDist.FromCells(8);
@@ -49,7 +56,7 @@ namespace OpenRA.Mods.Napoleonic.Traits
 		public readonly int Interval = 20;
 
 		[Desc("Minimum ticks between two commands to the same unit.")]
-		public readonly int CommandCooldown = 150;
+		public readonly int CommandCooldown = 300;
 
 		public override object Create(ActorInitializer init) { return new RegimentTacticsBotModule(init.Self, this); }
 	}
@@ -148,7 +155,13 @@ namespace OpenRA.Mods.Napoleonic.Traits
 				: kind == Kind.Grenadier ? Info.GrenadierChargeRange
 				: Info.InfantryChargeRange;
 
+			// Shaken troops stand off and fire rather than go in.
+			var ownMorale = self.TraitOrDefault<Morale>();
+			if (ownMorale != null && ownMorale.Percent < Info.MinOwnMoralePercent)
+				return null;
+
 			var selfStrength = StrengthPercent(self);
+			var friendsNear = SteadyRegiments(self.CenterPosition, owner, PlayerRelationship.Ally);
 			Actor best = null;
 			var bestScore = 0;
 
@@ -163,11 +176,11 @@ namespace OpenRA.Mods.Napoleonic.Traits
 				var shaken = enemyMorale != null && enemyMorale.Percent < Info.ShakenMoralePercent;
 				var isGuns = Info.ArtilleryTypes.Contains(e.Info.Name);
 				var isCavalry = Info.CavalryTypes.Contains(e.Info.Name);
-				var isInfantry = !isGuns && !isCavalry;
 
 				var score = 0;
 				switch (kind)
 				{
+					// Steady infantry is never charged: it is worn down by fire first.
 					case Kind.Cavalry:
 						if (isGuns)
 							score = 100;
@@ -175,11 +188,8 @@ namespace OpenRA.Mods.Napoleonic.Traits
 							score = 90;
 						else if (shaken)
 							score = 70;
-						else if (isCavalry && selfStrength >= StrengthPercent(e))
+						else if (isCavalry && selfStrength >= StrengthPercent(e) + Info.CavalryStrengthMargin)
 							score = 50;
-						else if (isInfantry && enemyMorale != null && enemyMorale.Percent <= Info.CavalryAvoidFormedInfantryAbove
-							&& selfStrength >= 60)
-							score = 30;
 						break;
 
 					case Kind.Grenadier:
@@ -187,8 +197,6 @@ namespace OpenRA.Mods.Napoleonic.Traits
 							score = 90;
 						else if (routed || shaken)
 							score = 80;
-						else if (isInfantry)
-							score = 60;
 						break;
 
 					default:
@@ -200,6 +208,10 @@ namespace OpenRA.Mods.Napoleonic.Traits
 							score = 20;
 						break;
 				}
+
+				// Do not charge into a stronger enemy line: only broken units are fair game there.
+				if (score > 0 && !routed && SteadyRegiments(e.CenterPosition, owner, PlayerRelationship.Enemy, e) > friendsNear)
+					score = 0;
 
 				// Prefer the closest of equally attractive targets.
 				if (score > 0)
@@ -216,6 +228,30 @@ namespace OpenRA.Mods.Napoleonic.Traits
 			}
 
 			return best;
+		}
+
+		/// <summary>Counts unrouted, unshaken regiments of one side near a position (optionally leaving one out).</summary>
+		int SteadyRegiments(WPos pos, Player owner, PlayerRelationship relationship, Actor except = null)
+		{
+			var count = 0;
+			foreach (var a in world.FindActorsInCircle(pos, Info.SupportRange))
+			{
+				if (a == except || a.IsDead || !a.IsInWorld || a.TraitOrDefault<RegimentCommands>() == null)
+					continue;
+
+				var isFriend = a.Owner == owner || owner.RelationshipWith(a.Owner) == PlayerRelationship.Ally;
+				if (isFriend != (relationship == PlayerRelationship.Ally))
+					continue;
+
+				if (!isFriend && owner.RelationshipWith(a.Owner) != PlayerRelationship.Enemy)
+					continue;
+
+				var m = a.TraitOrDefault<Morale>();
+				if (m == null || (!m.IsRouted && m.Percent >= Info.ShakenMoralePercent))
+					count++;
+			}
+
+			return count;
 		}
 
 		static int StrengthPercent(Actor a)
@@ -251,8 +287,13 @@ namespace OpenRA.Mods.Napoleonic.Traits
 			var kind = KindOf(self);
 			var attackerIsGuns = Info.ArtilleryTypes.Contains(e.Attacker.Info.Name);
 
-			// Cavalry (and anyone already close) ride straight at guns that are shelling them.
-			if (attackerIsGuns && (kind == Kind.Cavalry || distance <= Info.GrenadierChargeRange.Length + 1024))
+			// Steady cavalry (and steady troops already close) go straight at guns that are shelling them,
+			// unless the battery is covered by more steady troops than we have to hand.
+			var ownMorale = self.TraitOrDefault<Morale>();
+			var steady = ownMorale == null || ownMorale.Percent >= Info.MinOwnMoralePercent;
+			if (attackerIsGuns && steady && (kind == Kind.Cavalry || distance <= Info.GrenadierChargeRange.Length + 1024)
+				&& SteadyRegiments(e.Attacker.CenterPosition, bot.Player, PlayerRelationship.Enemy, e.Attacker)
+					<= SteadyRegiments(self.CenterPosition, bot.Player, PlayerRelationship.Ally))
 			{
 				chargeStart[self] = self.CenterPosition;
 				Issue(bot, new Order(RegimentCommands.ChargeOrder, self, Target.FromActor(e.Attacker), false));

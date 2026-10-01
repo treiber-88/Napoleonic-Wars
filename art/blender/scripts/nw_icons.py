@@ -3,8 +3,8 @@
 import bpy, math, os, time
 from mathutils import Vector
 
-SCRIPTS = r"D:\Napoleonic Wars\art\blender\scripts"
-OUT = r"D:\Napoleonic Wars\art\renders\icons"
+SCRIPTS = r"C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\art\blender\scripts"
+OUT = r"C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\art\renders\icons"
 PLAYER_MATS = ["FR_Player", "SH_Player", "NW_PlayerColor"]
 ICON_RED = (0.42, 0.02, 0.02)
 
@@ -138,7 +138,7 @@ def ship_icon():
 def cannon_icon():
     """8-pounder on its carriage, appended from cannon_8pdr.blend; lit by the shared sprite sun and world."""
     if "NW_Cannon" not in bpy.data.scenes:
-        with bpy.data.libraries.load(r"D:\Napoleonic Wars\art\blender\cannon_8pdr.blend", link=False) as (src, dst):
+        with bpy.data.libraries.load(r"C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\art\blender\cannon_8pdr.blend", link=False) as (src, dst):
             dst.scenes = ["NW_Cannon"]
     scn = bpy.data.scenes["NW_Cannon"]
     scn.render.engine = 'CYCLES'
@@ -171,3 +171,24 @@ def run_all(groups=("infantry", "cavalry", "buildings")):
         return res
     finally:
         _restore(saved)
+
+
+def ship_class_icons(keys=None):
+    """A portrait of every ship class built by nw_ships.py, framed to its size, flying its own ensign."""
+    ships = _ns("nw_ships.py")
+    scn = bpy.data.scenes[ships["SCENE"]]
+    out = {}
+    saved = _player_colour(ICON_RED)
+    try:
+        for key in (keys or ships["ORDER"]):
+            c = ships["SPECS"][key]
+            ships["isolate"](key)
+            bpy.data.objects[c.P + "_Pivot"].rotation_euler.z = 0
+            k = c.L / 56.0
+            top = max(m[1] for m in c.masts)
+            cam = icon_camera(scn, "IconCam_Ship", (90 * k, -40 * k, 0.45 * top), (-3 * k, 6 * k, 0.48 * top), lens=35)
+            out[key] = render_icon(scn, cam, os.path.join(OUT, key + ".png"), hide=("SH_ShadowCatcher",))
+    finally:
+        _restore(saved)
+        ships["restore_visibility"]()
+    return out

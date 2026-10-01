@@ -210,6 +210,22 @@ Container@PLAYER_WIDGETS:
 			Width: 280
 			Height: 26
 			Children:
+				Container@SURRENDER_COMMANDS:
+					Y: 0 - 30
+					Width: 280
+					Height: 26
+					Children:
+						Button@SURRENDER:
+							X: 0
+							Width: 88
+							Height: 26
+							Background: command-button
+							Text: button-regiment-surrender.tooltip
+							Font: Bold
+							TooltipText: button-regiment-surrender.tooltip
+							TooltipDesc: button-regiment-surrender.tooltipdesc
+							TooltipContainer: TOOLTIP_CONTAINER
+							TooltipTemplate: BUTTON_WITH_DESC_HIGHLIGHT_TOOLTIP
 				Container@REGIMENT_COMMANDS:
 					Width: 280
 					Height: 26

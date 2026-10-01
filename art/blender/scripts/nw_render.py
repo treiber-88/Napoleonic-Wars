@@ -1,6 +1,6 @@
 # Renders an infantry sheet: stand 8, march 8x6, shoot 8x6, [throw 8x6], die1-3 8x8 (facing-major).
 import bpy, math, os, time
-SCRIPTS = r"D:\Napoleonic Wars\art\blender\scripts"
+SCRIPTS = r"C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\art\blender\scripts"
 
 
 def _load(name):

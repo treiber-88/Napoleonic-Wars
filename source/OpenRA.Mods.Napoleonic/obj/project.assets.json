@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Napoleonic Wars\\source\\OpenRA.Mods.Napoleonic\\OpenRA.Mods.Napoleonic.csproj",
+      "projectUniqueName": "C:\\Users\\mk-ki\\Desktop\\Napoleonic Wars\\Napoleonic-Wars\\source\\OpenRA.Mods.Napoleonic\\OpenRA.Mods.Napoleonic.csproj",
       "projectName": "OpenRA.Mods.Napoleonic",
-      "projectPath": "D:\\Napoleonic Wars\\source\\OpenRA.Mods.Napoleonic\\OpenRA.Mods.Napoleonic.csproj",
+      "projectPath": "C:\\Users\\mk-ki\\Desktop\\Napoleonic Wars\\Napoleonic-Wars\\source\\OpenRA.Mods.Napoleonic\\OpenRA.Mods.Napoleonic.csproj",
       "packagesPath": "C:\\Users\\mk-ki\\.nuget\\packages\\",
-      "outputPath": "D:\\Napoleonic Wars\\source\\OpenRA.Mods.Napoleonic\\obj\\",
+      "outputPath": "C:\\Users\\mk-ki\\Desktop\\Napoleonic Wars\\Napoleonic-Wars\\source\\OpenRA.Mods.Napoleonic\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mk-ki\\AppData\\Roaming\\NuGet\\NuGet.Config"

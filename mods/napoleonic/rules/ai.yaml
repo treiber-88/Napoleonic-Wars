@@ -21,14 +21,17 @@ Player:
 			foundry: 2
 			shipyard: 2
 			countinghouse: 4
+			nwpowcamp: 1
 		BuildingFractions:
 			barracks: 4
 			countinghouse: 3
+			nwpowcamp: 1
 			foundry: 2
 			shipyard: 1
 		BuildingDelays:
 			foundry: 2000
 			countinghouse: 500
+			nwpowcamp: 2500
 			shipyard: 3000
 	BuildingRepairBotModule:
 		RequiresCondition: enable-marshal-ai
@@ -45,7 +48,7 @@ Player:
 		NavalProductionTypes: shipyard
 		NavalUnitsTypes: fr_bucentaure80, fr_temeraire74, fr_ocean118, gb_firstrate104, gb_neptune98, gb_arrogant74, ru_chesma100, ru_selafail74, ru_yaroslav74, pr_line74, pr_twodecker50, pr_frigate44, au_venetian74, au_venetian64, au_frigate44
 		ExcludeFromSquadsTypes: tradeship
-		ProtectionTypes: nwhq, barracks, foundry, shipyard, countinghouse, tradeship
+		ProtectionTypes: nwhq, barracks, foundry, shipyard, countinghouse, nwpowcamp, tradeship
 		ProtectUnitScanRadius: 15
 		ProtectionScanRadius: 14
 		MaxBaseRadius: 24
@@ -109,9 +112,12 @@ Player:
 		Pickets: 1
 		Distance: 14c0
 		Interval: 50
+	EscortBotModule@marshal:
+		RequiresCondition: enable-marshal-ai
 	RegimentTacticsBotModule@marshal:
 		RequiresCondition: enable-marshal-ai
-		# Charge guns, routed/shaken units and weaker cavalry; run in when shot at from out of range.
+		# Fights by fire. Charges only guns, routed or badly shaken units (cavalry: also clearly weaker cavalry),
+		# never into a stronger line; runs in when shot at from out of range.
 		CavalryTypes: fr_dragoon, fr_cuirassier, gb_dragoon, gb_household, ru_dragoon, ru_cuirassier, ru_cossack, pr_dragoon, pr_cuirassier, au_dragoon, au_cuirassier
 		GrenadierTypes: fr_grenadier, gb_grenadier, ru_grenadier, pr_grenadier, au_grenadier
 		ArtilleryTypes: battery

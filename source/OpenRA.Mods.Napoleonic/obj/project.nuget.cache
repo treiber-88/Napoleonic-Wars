@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Bko4UQYWsA4=",
+  "dgSpecHash": "xlOK2hiUl1w=",
   "success": true,
-  "projectFilePath": "D:\\Napoleonic Wars\\source\\OpenRA.Mods.Napoleonic\\OpenRA.Mods.Napoleonic.csproj",
+  "projectFilePath": "C:\\Users\\mk-ki\\Desktop\\Napoleonic Wars\\Napoleonic-Wars\\source\\OpenRA.Mods.Napoleonic\\OpenRA.Mods.Napoleonic.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mk-ki\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.30\\microsoft.netcore.app.ref.8.0.30.nupkg.sha512",
     "C:\\Users\\mk-ki\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.30\\microsoft.windowsdesktop.app.ref.8.0.30.nupkg.sha512",

@@ -44,7 +44,8 @@ def main():
     wired = []
     for f in sorted(os.listdir(RENDERS)):
         key = f[:-4]
-        if key in ("fr_temeraire_class", "warship_noensign"):
+        # Ship class portraits are installed (with their flags) by wire_ships.py.
+        if key in ("fr_temeraire_class", "warship_noensign") or key.endswith(("_class", "74", "64", "50", "44")) or key in ("gb_firstrate", "nw_merchantman"):
             continue
         convert(os.path.join(RENDERS, f), os.path.join(OUT, key + ".png"))
         seq, ok = set_icon(seq, "fr_ligne" if key == "fr_line" else key, "icons/" + key + ".png")

@@ -1,7 +1,7 @@
 # Renders each building: frame 0 = idle, frames 1-8 = "make" (construction, rising into place).
 # Same RA projection, sun and world as the units; 2.4 px/m; camera centred on the footprint centre.
 import bpy, math, os, time
-SCRIPTS = r"D:\Napoleonic Wars\art\blender\scripts"
+SCRIPTS = r"C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\art\blender\scripts"
 PX_PER_M = 2.4
 FRAMES = {"headquarters": 128, "barracks": 96, "foundry": 128, "shipyard": 128, "countinghouse": 96}
 COLLS = {"headquarters": "BL_HQ", "barracks": "BL_Barracks", "foundry": "BL_Foundry",
@@ -63,7 +63,7 @@ def _save(scn, path):
     raise RuntimeError("could not save " + path)
 
 
-def render_building(name, out_root=r"D:\Napoleonic Wars\art\renders"):
+def render_building(name, out_root=r"C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\art\renders"):
     scn = bpy.data.scenes["NW_Buildings"]
     cam = setup(scn)
     rig = _ns("nw_sprite_rig.py")

@@ -1,6 +1,6 @@
 # Renders a cavalry sheet: stand 8, run 8x6, shoot 8x4, slash 8x4, die1 8x8, die2 8x8 (facing-major) = 248 frames.
 import bpy, math, os, time
-SCRIPTS = r"D:\Napoleonic Wars\art\blender\scripts"
+SCRIPTS = r"C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\art\blender\scripts"
 
 
 def _load(name):

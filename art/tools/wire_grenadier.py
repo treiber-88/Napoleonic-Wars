@@ -2,7 +2,7 @@
 Usage: python wire_grenadier.py <image> <ACTOR> "<comment>" """
 import sys
 image, actor, comment = sys.argv[1], sys.argv[2], sys.argv[3]
-root = r"D:\Napoleonic Wars\mods\napoleonic"
+root = r"C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\mods\napoleonic"
 seq = f"""
 
 # {comment}

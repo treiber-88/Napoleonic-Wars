@@ -87,6 +87,15 @@ def main():
         subprocess.run([sys.executable, os.path.join(ART, "tools", "make_sprite_sheet.py"),
                         os.path.join(ART, "renders", image), "idle", out, "--frame", "256", "--scale", "3"],
                        check=True, stdout=subprocess.DEVNULL)
+        # Class portrait (art/renders/icons/<image>.png from nw_icons.ship_class_icons), badged with the nation's flag.
+        portrait = os.path.join(ART, "renders", "icons", image + ".png")
+        if os.path.exists(portrait):
+            os.makedirs(os.path.join(MOD, "bits", "icons"), exist_ok=True)
+            nation = NATIONS.get(actor[:2])
+            subprocess.run([sys.executable, os.path.join(ART, "tools", "make_icon.py"), portrait,
+                            os.path.join(MOD, "bits", "icons", image + ".png")] + (["--flag", nation] if nation else []),
+                           check=True, stdout=subprocess.DEVNULL)
+
         m = re.search(r"^" + re.escape(image) + r":\n(?:\t.*\n|\n(?=\t))*", seq, re.M)
         block = sequence_block(image, actor)
         seq = seq[:m.start()] + block + seq[m.end():] if m else seq.rstrip("\n") + "\n\n" + block

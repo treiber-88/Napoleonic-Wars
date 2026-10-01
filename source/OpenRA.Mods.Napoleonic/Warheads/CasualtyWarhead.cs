@@ -50,7 +50,9 @@ namespace OpenRA.Mods.Napoleonic.Warheads
 
 					// Work in hundredths of a point of numerical value to keep fractional casualties.
 					var hundredths = (long)Casualties * struck * formation.NumericalPerModel;
-					hundredths = Util.ApplyPercentageModifiers((int)System.Math.Min(hundredths, int.MaxValue), args.DamageModifiers.Append(ArmorVersus(victim)));
+					var modifiers = args.DamageModifiers.Append(ArmorVersus(victim))
+						.Concat(victim.TraitsImplementing<CasualtyMultiplier>().Select(m => m.GetModifier(DamageTypes)));
+					hundredths = Util.ApplyPercentageModifiers((int)System.Math.Min(hundredths, int.MaxValue), modifiers);
 
 					var damage = (int)(hundredths / 100);
 					if (world.SharedRandom.Next(100) < hundredths % 100)

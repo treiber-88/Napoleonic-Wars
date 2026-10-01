@@ -2,7 +2,7 @@
 # Verify renders, build the sheet, wire it in and lint. Usage: finish_cavalry.sh <variant> "<comment>" ACTOR...
 set -e
 v="$1"; comment="$2"; shift 2
-cd "/d/Napoleonic Wars/art"
+cd "/c/Users/mk-ki/Desktop/Napoleonic Wars/Napoleonic-Wars/art"
 python -c "
 from PIL import Image
 import glob, sys
