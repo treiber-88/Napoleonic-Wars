@@ -224,7 +224,7 @@ TRADEPOST.NEUTRAL:
 	Selectable:
 		Bounds: 3072, 2048
 	RenderSprites:
-		Image: spen
+		Image: bld_tradingport
 	Tooltip:
 		Name: actor-tradepost-neutral.name
 	Targetable:
@@ -272,14 +272,13 @@ COUNTINGHOUSE:
 
 # Prisoner of war camp: holds surrendered enemy units and earns $500 per 1,000 prisoners every 30 seconds.
 # Destroying it frees the prisoners. Stockade armour: muskets, bayonets and sabres can break in.
-# Placeholder art: RA barr (palisaded barracks).
 NWPOWCAMP:
 	Inherits: ^NWBuilding
 	Inherits@shape: ^2x2Shape
 	Selectable:
 		Bounds: 2048, 2048
 	RenderSprites:
-		Image: barr
+		Image: bld_powcamp
 	Buildable:
 		Queue: Building
 		BuildPaletteOrder: 60

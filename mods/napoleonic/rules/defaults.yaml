@@ -152,6 +152,13 @@
 
 ^LineInfantry:
 	Inherits: ^Regiment
+	# On the march at the ordinary step (not running, charging or routed). Only one marching sound plays at a time:
+	# see MarchingSoundPlayer on the world actor.
+	GrantConditionOnMovement@MARCH:
+		Condition: marching
+		ValidMovementTypes: Horizontal
+	MarchingSound@MARCH:
+		RequiresCondition: marching && !running && !charging && !routed
 	Buildable:
 		Queue: Infantry
 		BuildDuration: 750
@@ -204,6 +211,13 @@
 
 ^Grenadiers:
 	Inherits: ^Regiment
+	# On the march at the ordinary step (not running, charging or routed). Only one marching sound plays at a time:
+	# see MarchingSoundPlayer on the world actor.
+	GrantConditionOnMovement@MARCH:
+		Condition: marching
+		ValidMovementTypes: Horizontal
+	MarchingSound@MARCH:
+		RequiresCondition: marching && !running && !charging && !routed
 	Buildable:
 		Queue: Infantry
 		BuildDuration: 750

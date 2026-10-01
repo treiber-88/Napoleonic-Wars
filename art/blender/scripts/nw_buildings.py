@@ -305,3 +305,142 @@ def build_all():
     for name, (fn, _) in BUILDINGS.items():
         fn()
     return scn
+
+
+# ---------------------------------------------------------------- prisoner of war camp and neutral trading port
+def extra_materials():
+    """Materials only the camp and the port use (does not rebuild the materials of the existing buildings)."""
+    if "BL_Earth" not in bpy.data.materials:
+        plain("BL_Earth", (0.20, 0.15, 0.09), rough=0.95)
+    if "BL_Palisade" not in bpy.data.materials:
+        pattern_material("BL_Palisade", (0.24, 0.16, 0.09), (0.09, 0.06, 0.04), 2.4, "STONE", bump=0.5)
+    if "BL_Sack" not in bpy.data.materials:
+        plain("BL_Sack", (0.50, 0.42, 0.28), rough=0.95)
+
+
+def palisade(c, root, name, a, b, height=3.2, spacing=0.5, radius=0.24):
+    """A run of pointed stakes from a to b (one mesh): the stockade of a prison camp."""
+    a = Vector(a); b = Vector(b)
+    n = max(1, int((b - a).length / spacing))
+    me = bpy.data.meshes.new(name); bm = bmesh.new()
+    for i in range(n + 1):
+        p = a.lerp(b, i / n)
+        h = height + (0.25 if i % 2 else 0.0)
+        ring_lo = [bm.verts.new((p.x + radius * math.cos(k * math.pi / 3), p.y + radius * math.sin(k * math.pi / 3), 0)) for k in range(6)]
+        ring_hi = [bm.verts.new((v.co.x, v.co.y, h)) for v in ring_lo]
+        tip = bm.verts.new((p.x, p.y, h + 0.55))
+        for k in range(6):
+            bm.faces.new([ring_lo[k], ring_lo[(k + 1) % 6], ring_hi[(k + 1) % 6], ring_hi[k]])
+            bm.faces.new([ring_hi[k], ring_hi[(k + 1) % 6], tip])
+    bm.to_mesh(me); bm.free()
+    return _link(c, root, bpy.data.objects.new(name, me), "BL_Palisade")
+
+
+def pow_camp():
+    """2x2 cells: timber stockade with a gate, two huts for the prisoners, an octagonal guard blockhouse
+    (as at Norman Cross, 1797), sentry boxes at the gate and the flag of the side holding the camp."""
+    extra_materials()
+    c, root = coll("BL_POWCamp")
+    box(c, root, "Ground", (0, 0, 0.05), (19, 19, 0.1), "BL_Earth")
+    # Stockade: three closed sides and a gate in the middle of the south (front) side.
+    h = 8.6
+    palisade(c, root, "Pal_N", (-h, h, 0), (h, h, 0))
+    palisade(c, root, "Pal_W", (-h, -h, 0), (-h, h, 0))
+    palisade(c, root, "Pal_E", (h, -h, 0), (h, h, 0))
+    palisade(c, root, "Pal_SW", (-h, -h, 0), (-1.9, -h, 0))
+    palisade(c, root, "Pal_SE", (1.9, -h, 0), (h, -h, 0))
+    for k, x in enumerate((-1.75, 1.75)):
+        box(c, root, f"GatePost_{k}", (x, -h, 2.3), (0.5, 0.5, 4.6), "BL_Timber")
+    box(c, root, "GateBeam", (0, -h, 4.5), (4.0, 0.45, 0.45), "BL_Timber")
+    # Gate leaves standing open inwards.
+    for k, (x, rz) in enumerate(((-1.45, -70), (1.45, 70))):
+        box(c, root, f"GateLeaf_{k}", (x, -h + 0.85, 1.6), (1.7, 0.15, 3.0), "BL_Planks", rz=rz)
+    # Huts for the prisoners: long, low, boarded, with tarred roofs.
+    for k, y in enumerate((4.6, 0.4)):
+        box(c, root, f"Hut_{k}", (0, y, 1.3), (13, 3.2, 2.6), "BL_Planks")
+        gable_roof(c, root, f"HutRoof_{k}", (0, y, 2.6), 13, 3.2, 1.3, "BL_Slate", overhang=0.3)
+        box(c, root, f"HutDoor_{k}", (-4.0, y - 1.65, 1.0), (1.0, 0.12, 2.0), "BL_Door")
+        windows(c, root, f"HutWin_{k}", -2.5, 6.0, y - 1.65, 1.6, 4, w=0.7, h=0.7)
+    # Octagonal blockhouse for the guard, in front of the huts, commanding the gate.
+    cyl(c, root, "Blockhouse", (-4.6, -4.6, 2.0), 2.0, 4.0, "BL_Whitewash", verts=8)
+    cyl(c, root, "BlockhouseRoof", (-4.6, -4.6, 4.9), 2.5, 1.8, "BL_Slate", r2=0.0, verts=8)
+    box(c, root, "BlockhouseDoor", (-4.6, -6.6, 1.0), (0.9, 0.15, 2.0), "BL_Door")
+    # Cooking fire and water butts.
+    cyl(c, root, "FirePit", (4.5, -4.2, 0.2), 0.7, 0.3, "BL_Iron", verts=10)
+    box(c, root, "Embers", (4.5, -4.2, 0.4), (0.7, 0.7, 0.12), "BL_Glow")
+    for k, (x, y) in enumerate(((6.6, -5.6), (7.3, -5.0))):
+        cyl(c, root, f"Butt_{k}", (x, y, 0.55), 0.42, 1.1, "BL_Timber", verts=10)
+    # Sentry boxes in the holding side's colour either side of the gate, and the flag.
+    for k, x in enumerate((-3.4, 3.4)):
+        box(c, root, f"SentryBox_{k}", (x, -9.4, 1.2), (1.0, 1.0, 2.4), "FR_Player")
+        gable_roof(c, root, f"SentryRoof_{k}", (x, -9.4, 2.4), 1.0, 1.0, 0.5, "BL_Slate", overhang=0.12)
+    flag(c, root, "CampFlag", (-4.6, -4.6, 5.6), 5.0, fw=3.2, fh=2.1)
+    return c, root
+
+
+def trading_port():
+    """3x3 cells on water: a stone mole (middle row) with a brick warehouse, the harbour office,
+    a light tower and a treadwheel crane; low timber jetties and boats in the rows ships sail through."""
+    extra_materials()
+    c, root = coll("BL_TradingPort")
+    top = 2.0
+    box(c, root, "Mole", (0, 0, top / 2), (29, 11, top), "BL_Stone")
+    box(c, root, "MolePaving", (0, 0, top + 0.05), (28.2, 10.2, 0.1), "BL_Cobbles")
+    # Warehouse: three storeys of brick, tiled roof, loading doors one above the other under a hoist beam.
+    box(c, root, "Warehouse", (-7.5, 1.6, top + 4.0), (11, 6.4, 8.0), "BL_Brick")
+    gable_roof(c, root, "WarehouseRoof", (-7.5, 1.6, top + 8.0), 11, 6.4, 3.0, "BL_RoofTile")
+    for k, z in enumerate((1.4, 4.2, 6.8)):
+        box(c, root, f"LoadDoor_{k}", (-7.5, -1.65, top + z), (1.8, 0.15, 2.2), "BL_Door")
+    for k, z in enumerate((1.9, 4.6, 7.0)):
+        windows(c, root, f"WhWinL_{k}", -12.6, -9.0, -1.65, top + z, 2, w=0.9, h=1.2)
+        windows(c, root, f"WhWinR_{k}", -6.0, -2.4, -1.65, top + z, 2, w=0.9, h=1.2)
+    box(c, root, "HoistBeam", (-7.5, -2.5, top + 9.0), (0.3, 1.9, 0.3), "BL_Timber")
+    cyl(c, root, "HoistRope", (-7.5, -3.3, top + 6.0), 0.05, 6.0, "BL_Iron", verts=6)
+    # Harbour office: whitewashed, slate hipped roof.
+    box(c, root, "HarbourHouse", (3.6, 2.0, top + 2.6), (6.0, 5.0, 5.2), "BL_Whitewash")
+    gable_roof(c, root, "HarbourRoof", (3.6, 2.0, top + 5.2), 6.0, 5.0, 2.2, "BL_Slate", hip=True)
+    windows(c, root, "HhWinLow", 0.9, 6.3, -0.55, top + 1.7, 3, w=0.9, h=1.4)
+    windows(c, root, "HhWinUp", 0.9, 6.3, -0.55, top + 4.0, 3, w=0.9, h=1.2)
+    box(c, root, "HarbourDoor", (3.6, -0.58, top + 1.1), (1.1, 0.15, 2.2), "BL_Door")
+    # Light tower at the seaward end.
+    cyl(c, root, "LightTower", (11.6, 1.6, top + 4.5), 1.6, 9.0, "BL_Whitewash", r2=1.15, verts=12)
+    cyl(c, root, "LightGallery", (11.6, 1.6, top + 9.1), 1.6, 0.25, "BL_Stone", verts=12)
+    cyl(c, root, "Lantern", (11.6, 1.6, top + 9.9), 0.85, 1.4, "BL_Glow", verts=8)
+    cyl(c, root, "LanternRoof", (11.6, 1.6, top + 11.1), 1.15, 1.0, "BL_Slate", r2=0.0, verts=8)
+    # Treadwheel crane on the quay edge: wheelhouse, post and jib over the water.
+    box(c, root, "CraneHouse", (9.0, -3.2, top + 1.5), (2.6, 2.6, 3.0), "BL_Planks")
+    cyl(c, root, "CraneHouseRoof", (9.0, -3.2, top + 3.7), 2.0, 1.4, "BL_Slate", r2=0.0, verts=4, rot=(0, 0, R(45)))
+    cyl(c, root, "CranePost", (9.0, -3.2, top + 5.4), 0.2, 2.2, "BL_Timber", verts=8)
+    box(c, root, "CraneJib", (9.0, -5.3, top + 6.3), (0.3, 5.0, 0.3), "BL_Timber")
+    cyl(c, root, "CraneRope", (9.0, -7.6, top + 3.6), 0.05, 5.4, "BL_Iron", verts=6)
+    box(c, root, "CraneLoad", (9.0, -7.6, top + 1.2), (1.1, 1.1, 1.0), "BL_Planks")
+    # Cargo on the quay: barrels, crates and sacks.
+    for k, (x, y) in enumerate(((-1.0, -3.4), (-0.1, -3.4), (-0.55, -2.6), (0.8, -3.6), (1.7, -3.2))):
+        cyl(c, root, f"Cask_{k}", (x, y, top + 0.55), 0.42, 1.1, "BL_Timber", verts=10)
+    for k, (x, y, s) in enumerate(((3.6, -3.6, 1.2), (4.9, -3.4, 1.0), (4.2, -3.5, 0.8))):
+        box(c, root, f"Crate_{k}", (x, y, top + s / 2 + (1.0 if k == 2 else 0.0)), (s, s, s), "BL_Planks")
+    for k in range(4):
+        box(c, root, f"Sack_{k}", (-12.4 + k * 0.9, -3.8, top + 0.3 + (k % 2) * 0.1), (0.8, 1.2, 0.55), "BL_Sack")
+    # Bollards along both quay edges.
+    for k in range(8):
+        x = -13.0 + k * 3.7
+        for s, y in enumerate((-5.1, 5.1)):
+            cyl(c, root, f"Bollard_{k}_{s}", (x, y, top + 0.45), 0.22, 0.9, "BL_Iron", verts=8)
+    # Low timber jetties, piles and boats in the outer rows (ships pass over these cells).
+    for k, (x, y0, y1) in enumerate(((-9.0, -5.5, -13.5), (6.0, 5.5, 13.5))):
+        box(c, root, f"Jetty_{k}", (x, (y0 + y1) / 2, 0.9), (3.4, abs(y1 - y0), 0.3), "BL_Planks")
+        for j in range(4):
+            y = y0 + (y1 - y0) * (j + 0.5) / 4
+            for sx in (-1.5, 1.5):
+                cyl(c, root, f"Pile_{k}_{j}_{sx}", (x + sx, y, 0.6), 0.2, 1.6, "BL_Timber", verts=8)
+    for k, (x, y, rz) in enumerate(((-4.5, -9.0, 20), (0.5, -11.0, -35), (11.0, 9.5, 80), (-1.5, 9.0, 10))):
+        bpy.ops.mesh.primitive_uv_sphere_add(segments=12, ring_count=6, radius=1.0, location=(x, y, 0.35), rotation=(0, 0, R(rz)))
+        o = bpy.context.active_object; o.name = f"Boat_{k}"; o.scale = (0.9, 2.4, 0.5)
+        bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+        _link(c, root, o, "BL_Timber")
+    flag(c, root, "PortFlag", (-13.4, -4.4, top), 7.0, fw=3.4, fh=2.2)
+    return c, root
+
+
+BUILDINGS["powcamp"] = (pow_camp, (2, 2))
+BUILDINGS["tradingport"] = (trading_port, (3, 3))

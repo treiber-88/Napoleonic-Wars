@@ -42,7 +42,7 @@ Musket:
 	Inherits: ^Smallarms
 	ReloadDelay: 125
 	Range: 5c0
-	Report: gun11.aud
+	Report: nw-musket-fire.wav
 
 LightMusket:
 	Inherits: Musket
@@ -161,7 +161,7 @@ HeavySabre:
 # Artillery: 10 s reload, all guns of the battery together.
 ^NWCannon:
 	ReloadDelay: 250
-	Report: cannon1.aud
+	Report: nw-cannon-fire.wav
 	ValidTargets: Ground, Water, GroundActor, WaterActor
 
 # Solid (round) shot: long range, strikes where it lands, best against buildings.
@@ -283,7 +283,7 @@ Canister:
 NavalGun:
 	Inherits: ^NWCannon
 	Range: 9c0
-	Report: cannon2.aud
+	Report: nw-cannon-fire.wav
 	Projectile: Bullet
 		Speed: 340
 		Image: roundshot

@@ -1,4 +1,5 @@
 # Walls and tree husks used by stock Red Alert maps (copied from ra rules).
+# Sandbags (SBAG) and concrete walls (BRIK) are map-only: they are not in the build menu.
 
 T01.Husk:
 	Inherits: ^TreeHusk
@@ -173,11 +174,6 @@ TC05.Husk:
 
 SBAG:
 	Inherits: ^Wall
-	Buildable:
-		Queue: Building
-		BuildPaletteOrder: 10
-		Prerequisites: nwhq
-		Description: actor-sbag.description
 	Valued:
 		Cost: 30
 	CustomSellValue:
@@ -221,11 +217,6 @@ FENC:
 
 BRIK:
 	Inherits: ^Wall
-	Buildable:
-		Queue: Building
-		BuildPaletteOrder: 30
-		Prerequisites: nwhq
-		Description: actor-brik.description
 	Valued:
 		Cost: 200
 	CustomSellValue:

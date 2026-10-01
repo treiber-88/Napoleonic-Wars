@@ -107,12 +107,16 @@ def cavalry_icons():
     return out
 
 
-def building_icons():
+def building_icons(only=None):
     scn = bpy.data.scenes["NW_Buildings"]
     colls = {"headquarters": ("BL_HQ", 30), "barracks": ("BL_Barracks", 22), "foundry": ("BL_Foundry", 30),
-             "shipyard": ("BL_Shipyard", 30), "countinghouse": ("BL_CountingHouse", 22)}
+             "shipyard": ("BL_Shipyard", 30), "countinghouse": ("BL_CountingHouse", 22),
+             "powcamp": ("BL_POWCamp", 22), "tradingport": ("BL_TradingPort", 30)}
+    colls = {k: v for k, v in colls.items() if v[0] in bpy.data.collections}
     out = {}
     for name, (cname, size) in colls.items():
+        if only and name not in only:
+            continue
         for c in colls.values():
             bpy.data.collections[c[0]].hide_render = c[0] != cname
         d = size * 1.25

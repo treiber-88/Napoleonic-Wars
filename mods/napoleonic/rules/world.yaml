@@ -79,6 +79,8 @@ World:
 	-StartingUnits@heavysoviet:
 	CorpseLayer:
 	ValidateTransportSlots:
+	MarchingSoundPlayer:
+		SoundFile: nw-march.wav
 	StartingUnits@hqonly:
 		Class: none
 		ClassName: options-starting-units.hq-only

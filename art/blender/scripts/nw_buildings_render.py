@@ -3,9 +3,11 @@
 import bpy, math, os, time
 SCRIPTS = r"C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\art\blender\scripts"
 PX_PER_M = 2.4
-FRAMES = {"headquarters": 128, "barracks": 96, "foundry": 128, "shipyard": 128, "countinghouse": 96}
+FRAMES = {"headquarters": 128, "barracks": 96, "foundry": 128, "shipyard": 128, "countinghouse": 96,
+          "powcamp": 96, "tradingport": 128}
 COLLS = {"headquarters": "BL_HQ", "barracks": "BL_Barracks", "foundry": "BL_Foundry",
-         "shipyard": "BL_Shipyard", "countinghouse": "BL_CountingHouse"}
+         "shipyard": "BL_Shipyard", "countinghouse": "BL_CountingHouse",
+         "powcamp": "BL_POWCamp", "tradingport": "BL_TradingPort"}
 
 
 def _ns(name):
@@ -23,10 +25,13 @@ def setup(scn):
     cam = O.get("BL_SpriteCamera") or bpy.data.objects.new("BL_SpriteCamera", bpy.data.cameras.new("BL_SpriteCamera"))
     if cam.name not in rig.objects:
         rig.objects.link(cam)
-    sun = O.get("BL_SpriteSun") or bpy.data.objects.new("BL_SpriteSun", O["FR_SpriteSun"].data)
+    # The infantry scene's sun is the reference (it may carry a .001 suffix after scenes are appended).
+    src = O.get("FR_SpriteSun") or O.get("FR_SpriteSun.001")
+    sun = O.get("BL_SpriteSun") or bpy.data.objects.new("BL_SpriteSun", src.data)
     if sun.name not in rig.objects:
         rig.objects.link(sun)
-    sun.rotation_euler = O["FR_SpriteSun"].rotation_euler.copy()
+    if src is not None:
+        sun.rotation_euler = src.rotation_euler.copy()
     plane = O.get("BL_ShadowCatcher")
     if plane is None:
         bpy.ops.mesh.primitive_plane_add(size=80, location=(0, 0, 0))
@@ -37,7 +42,8 @@ def setup(scn):
         rig.objects.link(plane)
     plane.is_shadow_catcher = True
     scn.camera = cam
-    scn.world = bpy.data.scenes["NW_FrenchInfantry"].world
+    if scn.world is None:
+        scn.world = bpy.data.scenes["NW_FrenchInfantry"].world
     r = scn.render
     r.engine = 'CYCLES'
     scn.cycles.samples = 24

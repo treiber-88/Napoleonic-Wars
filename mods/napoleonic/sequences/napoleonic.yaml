@@ -903,6 +903,28 @@ bld_countinghouse:
 		Filename: icons/bld_countinghouse.png
 		Offset: 0,0
 
+# Prisoner of war camp and neutral trading port (nw_buildings.py: pow_camp, trading_port).
+bld_powcamp:
+	idle:
+		Filename: bld_powcamp.png
+	make:
+		Filename: bld_powcamp.png
+		Start: 1
+		Length: 8
+		Tick: 120
+	icon:
+		Filename: icons/bld_powcamp.png
+		Offset: 0,0
+
+bld_tradingport:
+	idle:
+		Filename: bld_tradingport.png
+	make:
+		Filename: bld_tradingport.png
+		Start: 1
+		Length: 8
+		Tick: 120
+
 # Warship icons: Temeraire-class portrait with the nation's flag (art/tools/wire_icons.py).
 ca:
 	icon-france:
