@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Windows launcher for the Napoleonic Wars mod: NapoleonicWars.exe in the game folder.
+    Program.cs is OpenRA's own WindowsLauncher (GPLv3), compiled against the stock engine binaries
+    shipped in the game folder, with the mod id embedded as assembly metadata.
+
+    Build:  dotnet build source/NapoleonicWars.Launcher -c Release
+    The exe, dll and dll.config are written straight into the game folder. The game folder is a
+    self-contained .NET 8 install, so NapoleonicWars.runtimeconfig.json and NapoleonicWars.deps.json
+    are copies of RedAlert's (see art/tools/make_launcher.sh).
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>NapoleonicWars</AssemblyName>
+    <RootNamespace>OpenRA.WindowsLauncher</RootNamespace>
+    <TargetFramework>net8.0</TargetFramework>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+    <UseAppHost>true</UseAppHost>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationIcon>napoleonic.ico</ApplicationIcon>
+    <Product>Napoleonic Wars</Product>
+    <AssemblyTitle>Napoleonic Wars</AssemblyTitle>
+    <GameDir>$(MSBuildThisFileDirectory)..\..\</GameDir>
+    <OutputPath>$(MSBuildThisFileDirectory)bin\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <GenerateRuntimeConfigurationFiles>false</GenerateRuntimeConfigurationFiles>
+    <NoWarn>$(NoWarn);MSB3277</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>ModID</_Parameter1>
+      <_Parameter2>napoleonic</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>DisplayName</_Parameter1>
+      <_Parameter2>Napoleonic Wars</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>FaqUrl</_Parameter1>
+      <_Parameter2>https://wiki.openra.net/FAQ</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="OpenRA.Game"><HintPath>$(GameDir)OpenRA.Game.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="SDL2-CS"><HintPath>$(GameDir)SDL2-CS.dll</HintPath><Private>False</Private></Reference>
+  </ItemGroup>
+</Project>

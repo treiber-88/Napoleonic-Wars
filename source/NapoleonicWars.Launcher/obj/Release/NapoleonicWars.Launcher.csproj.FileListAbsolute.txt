@@ -1,0 +1,14 @@
+C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\source\NapoleonicWars.Launcher\bin\NapoleonicWars.exe
+C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\source\NapoleonicWars.Launcher\bin\NapoleonicWars.dll.config
+C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\source\NapoleonicWars.Launcher\bin\NapoleonicWars.dll
+C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\source\NapoleonicWars.Launcher\bin\NapoleonicWars.pdb
+C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\source\NapoleonicWars.Launcher\obj\Release\NapoleonicWars.Launcher.csproj.AssemblyReference.cache
+C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\source\NapoleonicWars.Launcher\obj\Release\NapoleonicWars.Launcher.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\source\NapoleonicWars.Launcher\obj\Release\NapoleonicWars.Launcher.AssemblyInfoInputs.cache
+C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\source\NapoleonicWars.Launcher\obj\Release\NapoleonicWars.Launcher.AssemblyInfo.cs
+C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\source\NapoleonicWars.Launcher\obj\Release\NapoleonicWars.Launcher.csproj.CoreCompileInputs.cache
+C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\source\NapoleonicWars.Launcher\obj\Release\NapoleonicWars.Launcher.sourcelink.json
+C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\source\NapoleonicWars.Launcher\obj\Release\NapoleonicWars.dll
+C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\source\NapoleonicWars.Launcher\obj\Release\refint\NapoleonicWars.dll
+C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\source\NapoleonicWars.Launcher\obj\Release\NapoleonicWars.pdb
+C:\Users\mk-ki\Desktop\Napoleonic Wars\Napoleonic-Wars\source\NapoleonicWars.Launcher\obj\Release\ref\NapoleonicWars.dll

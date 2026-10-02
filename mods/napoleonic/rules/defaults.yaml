@@ -179,6 +179,8 @@
 		TurnSpeed: 8
 	VolleyArmament@MUSKET:
 		Weapon: Musket
+		ReportPerShot: true
+		MaxStagger: 35
 		RequiresCondition: !charging && !routed && !receiving
 		PauseOnCondition: forming
 		VolleyEffectImage: explosion
@@ -207,7 +209,7 @@
 		LossPerPercent: 30
 	VolleyArmament@MUSKET:
 		Weapon: LightMusket
-		MaxStagger: 12
+		MaxStagger: 30
 
 ^Grenadiers:
 	Inherits: ^Regiment
@@ -244,6 +246,8 @@
 		LossPerPercent: 10
 	VolleyArmament@MUSKET:
 		Weapon: Musket
+		ReportPerShot: true
+		MaxStagger: 30
 		RequiresCondition: !charging && !routed && !receiving
 		PauseOnCondition: forming
 		VolleyEffectImage: explosion

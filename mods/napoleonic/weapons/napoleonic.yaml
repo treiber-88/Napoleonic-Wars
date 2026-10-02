@@ -199,6 +199,7 @@ SolidShot:
 		ValidTargets: Ground
 	Warhead@3Eff: CreateEffect
 		Explosions: piffs
+		ImpactSounds: nw-cannonball.wav
 		ValidTargets: Ground
 	Warhead@4EffWater: CreateEffect
 		Explosions: small_splash
@@ -312,6 +313,7 @@ NavalGun:
 			Wood: 100
 	Warhead@2Eff: CreateEffect
 		Explosions: small_explosion
+		ImpactSounds: nw-cannonball.wav
 		ValidTargets: Ground, Ship
 	Warhead@3EffWater: CreateEffect
 		Explosions: small_splash

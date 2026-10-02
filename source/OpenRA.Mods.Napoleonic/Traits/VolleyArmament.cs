@@ -38,6 +38,10 @@ namespace OpenRA.Mods.Napoleonic.Traits
 		[Desc("Random offset added to every aim point, on top of the projectile's own inaccuracy.")]
 		public readonly WDist AimScatter = WDist.Zero;
 
+		[Desc("Play the weapon's Report for every figure (or barrel) at its own position as it fires,",
+			"instead of once for the whole unit. The engine drops copies that start on top of each other.")]
+		public readonly bool ReportPerShot = false;
+
 		[Desc("Animation the firing figures play. Defaults to the Formation's ShootSequence.")]
 		public readonly string ShootSequence = null;
 
@@ -147,6 +151,10 @@ namespace OpenRA.Mods.Napoleonic.Traits
 						if (!first)
 							return;
 
+						// Each man's musket is heard where he stands, at the moment he fires.
+						if (info.ReportPerShot && Weapon.Report != null && Weapon.Report.Length > 0)
+							Game.Sound.Play(SoundType.World, Weapon.Report, world, src);
+
 						if (shooter != null)
 							formation.NotifyFired(shooter, info.ShootSequence);
 
@@ -163,7 +171,7 @@ namespace OpenRA.Mods.Napoleonic.Traits
 				if (self.IsDead)
 					return;
 
-				if (Weapon.Report != null && Weapon.Report.Length > 0)
+				if (!info.ReportPerShot && Weapon.Report != null && Weapon.Report.Length > 0)
 					Game.Sound.Play(SoundType.World, Weapon.Report, world, self.CenterPosition);
 
 				Recoil = Info.Recoil;
