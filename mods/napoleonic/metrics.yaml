@@ -1,6 +1,6 @@
 Metrics:
-	FactionSuffix-france: allies
-	FactionSuffix-england: allies
-	FactionSuffix-russia: allies
-	FactionSuffix-prussia: allies
-	FactionSuffix-austria: allies
+	FactionSuffix-france: france
+	FactionSuffix-england: england
+	FactionSuffix-russia: russia
+	FactionSuffix-prussia: prussia
+	FactionSuffix-austria: austria

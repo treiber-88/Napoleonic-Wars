@@ -112,6 +112,7 @@ Cursors:
 Chrome:
 	ra|chrome.yaml
 	napoleonic|chrome.yaml
+	napoleonic|chrome-sidebars.yaml
 
 Assemblies: OpenRA.Mods.Common.dll, OpenRA.Mods.Cnc.dll, OpenRA.Mods.Napoleonic.dll
 

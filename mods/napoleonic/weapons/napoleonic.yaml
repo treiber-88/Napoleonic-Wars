@@ -116,7 +116,8 @@ HandGrenade:
 HorsePistol:
 	Inherits: ^Smallarms
 	ReloadDelay: 75
-	Range: 2c512
+	# Longer reach (was 2c512), still short of the infantry musket's 5c0.
+	Range: 4c0
 	Report: gun27.aud
 	Projectile: Bullet
 		Inaccuracy: 768
