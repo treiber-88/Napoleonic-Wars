@@ -24,6 +24,11 @@ namespace OpenRA.Mods.Napoleonic.Widgets.Logic
 		Actor[] batteries = [];
 		Actor[] surrenderers = [];
 
+		// Rows are stacked upwards from the regiment row so they never overlap when unit types are mixed.
+		const int RowStep = 30;
+		Widget batteryPanel;
+		Widget surrenderPanel;
+
 		[ObjectCreator.UseCtor]
 		public RegimentCommandsLogic(Widget widget, World world)
 		{
@@ -33,7 +38,7 @@ namespace OpenRA.Mods.Napoleonic.Widgets.Logic
 			if (regimentPanel != null)
 				regimentPanel.IsVisible = () => { Update(); return regiments.Length > 0; };
 
-			var batteryPanel = widget.GetOrNull("BATTERY_COMMANDS");
+			batteryPanel = widget.GetOrNull("BATTERY_COMMANDS");
 			if (batteryPanel != null)
 				batteryPanel.IsVisible = () => { Update(); return batteries.Length > 0; };
 
@@ -73,7 +78,7 @@ namespace OpenRA.Mods.Napoleonic.Widgets.Logic
 				stand.OnKeyPress = _ => stand.OnClick();
 			}
 
-			var surrenderPanel = widget.GetOrNull("SURRENDER_COMMANDS");
+			surrenderPanel = widget.GetOrNull("SURRENDER_COMMANDS");
 			if (surrenderPanel != null)
 				surrenderPanel.IsVisible = () => { Update(); return surrenderers.Length > 0; };
 
@@ -115,6 +120,20 @@ namespace OpenRA.Mods.Napoleonic.Widgets.Logic
 			regiments = mine.Where(a => a.Info.HasTraitInfo<RegimentCommandsInfo>()).ToArray();
 			batteries = mine.Where(a => a.Info.HasTraitInfo<FireModesInfo>()).ToArray();
 			surrenderers = mine.Where(a => a.Info.HasTraitInfo<SurrendersInfo>()).ToArray();
+
+			// Regiment row at the bottom, battery row above it when both are selected, Surrender above whatever shows.
+			var rows = 0;
+			if (regiments.Length > 0)
+				rows++;
+
+			if (batteryPanel != null)
+				batteryPanel.Bounds.Y = -RowStep * rows;
+
+			if (batteries.Length > 0)
+				rows++;
+
+			if (surrenderPanel != null)
+				surrenderPanel.Bounds.Y = -RowStep * System.Math.Max(1, rows);
 			selectionHash = world.Selection.Hash;
 		}
 	}
