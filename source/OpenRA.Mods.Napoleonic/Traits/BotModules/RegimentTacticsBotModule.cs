@@ -36,6 +36,27 @@ namespace OpenRA.Mods.Napoleonic.Traits
 		[Desc("Enemies below this morale percentage count as shaken and are charged.")]
 		public readonly int ShakenMoralePercent = 30;
 
+		[Desc("Chance (percent) that a charge opportunity is taken. A unit that declines waits out CommandCooldown before reconsidering.")]
+		public readonly int ChargeChancePercent = 40;
+
+		[Desc("A careless commander does not count the steady regiments on each side before charging.")]
+		public readonly bool IgnoreOdds = false;
+
+		[Desc("Regiments whose morale falls below this percentage with enemies close are pulled back to recover",
+			"until their morale is WithdrawRecoverMargin points higher. 0 disables.")]
+		public readonly int WithdrawMoralePercent = 0;
+
+		public readonly int WithdrawRecoverMargin = 25;
+
+		[Desc("Enemies within this distance make a shaken regiment withdraw.")]
+		public readonly WDist WithdrawScanRange = WDist.FromCells(8);
+
+		[Desc("How far a shaken regiment falls back from the nearest enemy.")]
+		public readonly WDist WithdrawDistance = WDist.FromCells(8);
+
+		[Desc("Ticks between repeated withdraw orders (other AI modules may order the unit forward meanwhile).")]
+		public readonly int WithdrawReissueTicks = 60;
+
 		[Desc("A unit only charges while its own morale is at least this percentage; otherwise it stands off and fires.")]
 		public readonly int MinOwnMoralePercent = 65;
 
@@ -66,6 +87,7 @@ namespace OpenRA.Mods.Napoleonic.Traits
 		readonly World world;
 		readonly Dictionary<Actor, int> cooldownUntil = [];
 		readonly Dictionary<Actor, WPos> chargeStart = [];
+		readonly Dictionary<Actor, int> withdrawing = [];
 		int ticks;
 
 		public RegimentTacticsBotModule(Actor self, RegimentTacticsBotModuleInfo info)
@@ -82,6 +104,9 @@ namespace OpenRA.Mods.Napoleonic.Traits
 			: Kind.Infantry;
 
 		bool Ready(Actor a) => !cooldownUntil.TryGetValue(a, out var until) || until <= world.WorldTick;
+
+		// Bot decisions run on the host only and reach the game as orders, so local randomness is safe here.
+		bool TakesChance() => world.LocalRandom.Next(100) < Info.ChargeChancePercent;
 
 		void Issue(IBot bot, Order order)
 		{
@@ -115,6 +140,9 @@ namespace OpenRA.Mods.Napoleonic.Traits
 				chargeStart.Remove(dead);
 			}
 
+			foreach (var gone in withdrawing.Keys.Where(a => a.IsDead || !a.IsInWorld).ToList())
+				withdrawing.Remove(gone);
+
 			var regiments = world.ActorsHavingTrait<RegimentCommands>().Where(a => a.Owner == bot.Player).ToList();
 			foreach (var a in regiments)
 			{
@@ -137,10 +165,22 @@ namespace OpenRA.Mods.Napoleonic.Traits
 				}
 
 				chargeStart.Remove(a);
+
+				// A shaken regiment is brought out of the firing line to recover rather than left to rout.
+				if (Info.WithdrawMoralePercent > 0 && Withdraw(bot, a))
+					continue;
+
 				if (!Ready(a) || commands.IsRunning)
 					continue;
 
 				var target = ChooseChargeTarget(a, kind, bot.Player);
+				if (target != null && !TakesChance())
+				{
+					// Opportunity declined: stand off and fire, and do not reconsider for a while.
+					cooldownUntil[a] = world.WorldTick + Info.CommandCooldown;
+					continue;
+				}
+
 				if (target != null)
 				{
 					chargeStart[a] = a.CenterPosition;
@@ -210,7 +250,7 @@ namespace OpenRA.Mods.Napoleonic.Traits
 				}
 
 				// Do not charge into a stronger enemy line: only broken units are fair game there.
-				if (score > 0 && !routed && SteadyRegiments(e.CenterPosition, owner, PlayerRelationship.Enemy, e) > friendsNear)
+				if (score > 0 && !routed && !Info.IgnoreOdds && SteadyRegiments(e.CenterPosition, owner, PlayerRelationship.Enemy, e) > friendsNear)
 					score = 0;
 
 				// Prefer the closest of equally attractive targets.
@@ -228,6 +268,59 @@ namespace OpenRA.Mods.Napoleonic.Traits
 			}
 
 			return best;
+		}
+
+		/// <summary>Pulls a shaken regiment back from the nearest enemy. Returns true while the unit is withdrawing.</summary>
+		bool Withdraw(IBot bot, Actor a)
+		{
+			var morale = a.TraitOrDefault<Morale>();
+			if (morale == null || morale.IsRouted)
+			{
+				withdrawing.Remove(a);
+				return false;
+			}
+
+			var isWithdrawing = withdrawing.ContainsKey(a);
+			if (isWithdrawing && morale.Percent >= Info.WithdrawMoralePercent + Info.WithdrawRecoverMargin)
+			{
+				withdrawing.Remove(a);
+				return false;
+			}
+
+			if (!isWithdrawing && morale.Percent >= Info.WithdrawMoralePercent)
+				return false;
+
+			// Nearest armed enemy within reach; with none about, the unit can recover where it stands.
+			Actor nearest = null;
+			var best = long.MaxValue;
+			foreach (var e in world.FindActorsInCircle(a.CenterPosition, Info.WithdrawScanRange))
+			{
+				if (e.IsDead || !e.IsInWorld || bot.Player.RelationshipWith(e.Owner) != PlayerRelationship.Enemy
+					|| !e.Info.HasTraitInfo<AttackBaseInfo>() || !e.CanBeViewedByPlayer(bot.Player))
+					continue;
+
+				var d = (e.CenterPosition - a.CenterPosition).HorizontalLengthSquared;
+				if (d < best)
+				{
+					best = d;
+					nearest = e;
+				}
+			}
+
+			if (nearest == null)
+				return isWithdrawing;
+
+			if (withdrawing.TryGetValue(a, out var next) && next > world.WorldTick)
+				return true;
+
+			withdrawing[a] = world.WorldTick + Info.WithdrawReissueTicks;
+			var away = a.CenterPosition - nearest.CenterPosition;
+			away = new WVec(away.X, away.Y, 0);
+			var len = away.HorizontalLength;
+			away = len == 0 ? new WVec(0, 1024, 0) : away * 1024 / len;
+			var cell = world.Map.Clamp(world.Map.CellContaining(a.CenterPosition + away * Info.WithdrawDistance.Length / 1024));
+			bot.QueueOrder(new Order("Move", a, Target.FromCell(world, cell), false));
+			return true;
 		}
 
 		/// <summary>Counts unrouted, unshaken regiments of one side near a position (optionally leaving one out).</summary>
@@ -292,8 +385,9 @@ namespace OpenRA.Mods.Napoleonic.Traits
 			var ownMorale = self.TraitOrDefault<Morale>();
 			var steady = ownMorale == null || ownMorale.Percent >= Info.MinOwnMoralePercent;
 			if (attackerIsGuns && steady && (kind == Kind.Cavalry || distance <= Info.GrenadierChargeRange.Length + 1024)
-				&& SteadyRegiments(e.Attacker.CenterPosition, bot.Player, PlayerRelationship.Enemy, e.Attacker)
+				&& (Info.IgnoreOdds || SteadyRegiments(e.Attacker.CenterPosition, bot.Player, PlayerRelationship.Enemy, e.Attacker)
 					<= SteadyRegiments(self.CenterPosition, bot.Player, PlayerRelationship.Ally))
+				&& TakesChance())
 			{
 				chargeStart[self] = self.CenterPosition;
 				Issue(bot, new Order(RegimentCommands.ChargeOrder, self, Target.FromActor(e.Attacker), false));

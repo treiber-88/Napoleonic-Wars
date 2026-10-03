@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NapoleonicWars")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+20041b75f5981124c578c769d3d72c585e3173b9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6b4acaa4e800bce5636dd6b9a469146f79354af3")]
 [assembly: System.Reflection.AssemblyProductAttribute("Napoleonic Wars")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Napoleonic Wars")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

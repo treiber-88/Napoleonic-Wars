@@ -94,12 +94,6 @@ Actors:
 	Actor95: tc03
 		Owner: Neutral
 		Location: 113,6
-	Actor96: oilb
-		Owner: Neutral
-		Location: 54,7
-	Actor97: oilb
-		Owner: Neutral
-		Location: 56,7
 	Actor98: mine
 		Owner: Neutral
 		Location: 195,8
@@ -112,30 +106,12 @@ Actors:
 	Actor106: tc04
 		Owner: Neutral
 		Location: 110,10
-	Actor115: oilb
-		Owner: Neutral
-		Location: 61,16
 	Actor117: gmine
 		Owner: Neutral
 		Location: 59,17
-	Actor118: oilb
-		Owner: Neutral
-		Location: 60,18
 	Actor119: gmine
 		Owner: Neutral
 		Location: 58,19
-	Actor124: oilb
-		Owner: Neutral
-		Location: 155,27
-	Actor126: oilb
-		Owner: Neutral
-		Location: 153,28
-	Actor128: oilb
-		Owner: Neutral
-		Location: 126,29
-	Actor130: oilb
-		Owner: Neutral
-		Location: 128,30
 	Actor136: lhus
 		Owner: Neutral
 		Location: 40,32
@@ -148,12 +124,6 @@ Actors:
 	Actor148: tc05
 		Owner: Neutral
 		Location: 186,35
-	Actor153: oilb
-		Owner: Neutral
-		Location: 29,36
-	Actor156: oilb
-		Owner: Neutral
-		Location: 30,38
 	Actor157: tc02
 		Owner: Neutral
 		Location: 35,38
@@ -178,15 +148,6 @@ Actors:
 	Actor169: tc05
 		Owner: Neutral
 		Location: 150,45
-	Actor173: oilb
-		Owner: Neutral
-		Location: 104,47
-	Actor177: oilb
-		Owner: Neutral
-		Location: 167,48
-	Actor180: oilb
-		Owner: Neutral
-		Location: 104,49
 	Actor181: tc05
 		Owner: Neutral
 		Location: 146,49
@@ -301,12 +262,6 @@ Actors:
 	Actor244: tc01
 		Owner: Neutral
 		Location: 161,75
-	Actor246: oilb
-		Owner: Neutral
-		Location: 37,77
-	Actor247: oilb
-		Owner: Neutral
-		Location: 39,77
 	Actor249: t11
 		Owner: Neutral
 		Location: 154,76
@@ -526,18 +481,6 @@ Actors:
 	Actor431: tc03
 		Owner: Neutral
 		Location: 58,110
-	Actor432: oilb
-		Owner: Neutral
-		Location: 96,112
-	Actor437: oilb
-		Owner: Neutral
-		Location: 24,113
-	Actor442: oilb
-		Owner: Neutral
-		Location: 26,114
-	Actor444: oilb
-		Owner: Neutral
-		Location: 95,115
 	Actor452: gmine
 		Owner: Neutral
 		Location: 13,117
@@ -550,12 +493,6 @@ Actors:
 	Actor463: gmine
 		Owner: Neutral
 		Location: 49,127
-	Actor465: oilb
-		Owner: Neutral
-		Location: 95,127
-	Actor469: oilb
-		Owner: Neutral
-		Location: 95,129
 	Actor476: v03
 		Owner: Neutral
 		Location: 169,136
@@ -565,21 +502,6 @@ Actors:
 	Actor482: railmine
 		Owner: Neutral
 		Location: 166,143
-	Actor495: oilb
-		Owner: Neutral
-		Location: 113,149
-	Actor505: oilb
-		Owner: Neutral
-		Location: 115,150
-	Actor512: oilb
-		Owner: Neutral
-		Location: 89,151
-	Actor311: oilb
-		Owner: Neutral
-		Location: 189,140
-	Actor312: oilb
-		Owner: Neutral
-		Location: 187,139
 	Actor317: gmine
 		Owner: Neutral
 		Location: 81,157
@@ -598,12 +520,6 @@ Actors:
 	Actor304: t02
 		Owner: Neutral
 		Location: 36,40
-	Actor274: oilb
-		Owner: Neutral
-		Location: 113,116
-	Actor275: oilb
-		Owner: Neutral
-		Location: 114,118
 	Actor266: mpspawn
 		Owner: Neutral
 		Location: 60,49
@@ -634,15 +550,6 @@ Actors:
 	Actor277: mpspawn
 		Owner: Neutral
 		Location: 70,155
-	Actor278: miss
-		Owner: Neutral
-		Location: 24,45
-	Actor279: oilb
-		Owner: Neutral
-		Location: 32,48
-	Actor280: oilb
-		Owner: Neutral
-		Location: 29,49
 	Actor281: lhus
 		Owner: Neutral
 		Location: 24,49
@@ -655,9 +562,6 @@ Actors:
 	Actor284: t02
 		Owner: Neutral
 		Location: 34,42
-	Actor286: fcom
-		Owner: Neutral
-		Location: 117,147
 	Actor287: gmine
 		Owner: Neutral
 		Location: 110,147
@@ -685,12 +589,6 @@ Actors:
 	Actor319: t01
 		Owner: Neutral
 		Location: 106,146
-	Actor322: oilb
-		Owner: Neutral
-		Location: 89,153
-	Actor323: oilb
-		Owner: Neutral
-		Location: 88,155
 	Actor326: lhus
 		Owner: Neutral
 		Location: 21,153
@@ -718,51 +616,15 @@ Actors:
 	Actor334: t17
 		Owner: Neutral
 		Location: 168,46
-	Actor335: miss
-		Owner: Neutral
-		Location: 187,66
-	Actor336: oilb
-		Owner: Neutral
-		Location: 149,49
-	Actor339: oilb
-		Owner: Neutral
-		Location: 149,47
-	Actor340: oilb
-		Owner: Neutral
-		Location: 167,144
-	Actor341: oilb
-		Owner: Neutral
-		Location: 164,144
-	Actor344: oilb
-		Owner: Neutral
-		Location: 201,1
-	Actor345: fcom
-		Owner: Neutral
-		Location: 105,51
 	Actor346: lhus
 		Owner: Neutral
 		Location: 105,46
-	Actor351: oilb
-		Owner: Neutral
-		Location: 106,13
-	Actor352: oilb
-		Owner: Neutral
-		Location: 106,11
 	Actor355: tc01
 		Owner: Neutral
 		Location: 95,125
 	Actor356: t02
 		Owner: Neutral
 		Location: 95,123
-	Actor357: oilb
-		Owner: Neutral
-		Location: 142,134
-	Actor361: oilb
-		Owner: Neutral
-		Location: 141,132
-	Actor289: miss
-		Owner: Neutral
-		Location: 106,69
 	Actor290: v01
 		Owner: Neutral
 		Location: 110,66

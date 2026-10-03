@@ -55,8 +55,9 @@
 	Guard:
 	Guardable:
 	DivisionName:
+	# Routed units ignore their owner, except to surrender. Once they turn at bay they take orders again.
 	RejectsOrders@ROUTED:
-		RequiresCondition: routed
+		RequiresCondition: routed && !at-bay
 		Except: NWSurrender
 	Surrenders:
 	SpeedMultiplier@ROUTED:
@@ -210,6 +211,11 @@
 	VolleyArmament@MUSKET:
 		Weapon: LightMusket
 		MaxStagger: 30
+	# Skirmish fire is thin: light infantry musketry does 30% less than its weapon's nominal effect.
+	# (Only their fire: the bayonet, used when charging, receiving or at bay, is unaffected.)
+	FirepowerMultiplier@SKIRMISH:
+		RequiresCondition: !charging && !receiving && !at-bay
+		Modifier: 70
 
 ^Grenadiers:
 	Inherits: ^Regiment
@@ -419,7 +425,7 @@
 	AttackFrontal:
 		FacingTolerance: 512
 	AutoTarget:
-		ScanRadius: 10
+		ScanRadius: 12
 		AttackAnythingCondition: stance-attackanything
 	AutoTargetPriority@DEFAULT:
 		RequiresCondition: !stance-attackanything

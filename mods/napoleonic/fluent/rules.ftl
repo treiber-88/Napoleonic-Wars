@@ -163,6 +163,12 @@ hotkey-description-batteryshell = Shell
 ## ai.yaml
 bot-marshal =
     .name = Marshal
+bot-junot =
+    .name = Junot
+bot-kutuzov =
+    .name = Kutuzov
+bot-napoleon =
+    .name = Napoleon
 
 ## Factions added
 faction-nw-russia =

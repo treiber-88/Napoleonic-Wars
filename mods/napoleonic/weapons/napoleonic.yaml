@@ -283,7 +283,8 @@ Canister:
 # Naval great guns: a full broadside every 10 s.
 NavalGun:
 	Inherits: ^NWCannon
-	Range: 9c0
+	# 30% more than the original 9c0 (user request 2026-10-02).
+	Range: 11c717
 	Report: nw-cannon-fire.wav
 	Projectile: Bullet
 		Speed: 340
