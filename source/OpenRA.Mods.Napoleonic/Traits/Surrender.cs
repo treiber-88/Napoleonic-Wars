@@ -42,7 +42,7 @@ namespace OpenRA.Mods.Napoleonic.Traits
 			if (camp == null)
 			{
 				if (self.Owner == self.World.LocalPlayer)
-					TextNotificationsManager.AddMissionLine("Your army", "No enemy holds a prisoner of war camp to surrender to.",
+					DivisionNotice.Show("Your army", "No enemy holds a prisoner of war camp to surrender to.",
 						Color.FromArgb(255, 170, 60));
 
 				return;
@@ -54,7 +54,7 @@ namespace OpenRA.Mods.Napoleonic.Traits
 			var name = self.TraitOrDefault<DivisionName>()?.FullName ?? self.Info.Name;
 			var local = self.World.LocalPlayer;
 			if (local == null || self.Owner == local || camp.Owner == local || !self.World.FogObscures(self))
-				TextNotificationsManager.AddMissionLine(self.Owner == local ? "Your army" : self.Owner.ResolvedPlayerName,
+				DivisionNotice.Show(self.Owner == local ? "Your army" : self.Owner.ResolvedPlayerName,
 					$"{name} has surrendered! {men} men taken prisoner.", Color.FromArgb(255, 80, 60));
 
 			// The unit leaves the field: no casualties, no bodies.
@@ -194,7 +194,7 @@ namespace OpenRA.Mods.Napoleonic.Traits
 				var local = w.LocalPlayer;
 				foreach (var (owner, men) in liberated)
 					if (local == null || owner == local || self.Owner == local)
-						TextNotificationsManager.AddMissionLine(owner == local ? "Your army" : owner.ResolvedPlayerName,
+						DivisionNotice.Show(owner == local ? "Your army" : owner.ResolvedPlayerName,
 							$"{men} prisoners of war have been liberated!", Color.FromArgb(120, 220, 120));
 			});
 		}

@@ -90,6 +90,7 @@ def bot_yaml(name, b):
     y.append("\t\t# Look as far as the base reaches for water, so a ship yard is built wherever the coast allows.")
     y.append("\t\tCheckForWaterRadius: 16")
     y.append("\t\tBuildingLimits:")
+    y.append("\t\t\tnwhq: 1")
     for k in ("barracks", "foundry", "shipyard", "countinghouse"):
         y.append(f"\t\t\t{k}: {b[k]}")
     y.append("\t\t\tnwpowcamp: 1")

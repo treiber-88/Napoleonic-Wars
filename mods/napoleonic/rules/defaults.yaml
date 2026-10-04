@@ -24,7 +24,9 @@
 	Huntable:
 	OwnerLostAction:
 		Action: Kill
-	UpdatesPlayerStatistics:
+	# Kills, losses and score are counted in men (numerical value), not in units.
+	-GivesExperience:
+	CasualtyStatistics:
 	HiddenUnderFog:
 	BodyOrientation:
 		QuantizedFacings: 0

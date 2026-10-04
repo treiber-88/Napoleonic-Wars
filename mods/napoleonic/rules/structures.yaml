@@ -18,6 +18,11 @@ NWHQ:
 			BottomRight: 1536, 1536
 	Tooltip:
 		Name: actor-nwhq.name
+	# Any player can raise further headquarters (and replace a lost one while another still stands).
+	Buildable:
+		Queue: Building
+		BuildPaletteOrder: 5
+		Description: actor-nwhq.description
 	Health:
 		HP: 8000
 	Valued:
@@ -57,6 +62,7 @@ NWHQ:
 
 nwhq.colorpicker:
 	Inherits: NWHQ
+	-Buildable:
 	-MapEditorData:
 	-BaseBuilding:
 	RenderSprites:

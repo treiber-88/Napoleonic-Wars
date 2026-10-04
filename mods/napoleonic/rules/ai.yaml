@@ -24,6 +24,7 @@ Player:
 		# Look as far as the base reaches for water, so a ship yard is built wherever the coast allows.
 		CheckForWaterRadius: 16
 		BuildingLimits:
+			nwhq: 1
 			barracks: 3
 			foundry: 2
 			shipyard: 2
@@ -144,6 +145,7 @@ Player:
 		# Look as far as the base reaches for water, so a ship yard is built wherever the coast allows.
 		CheckForWaterRadius: 16
 		BuildingLimits:
+			nwhq: 1
 			barracks: 1
 			foundry: 1
 			shipyard: 1
@@ -257,6 +259,7 @@ Player:
 		# Look as far as the base reaches for water, so a ship yard is built wherever the coast allows.
 		CheckForWaterRadius: 16
 		BuildingLimits:
+			nwhq: 1
 			barracks: 4
 			foundry: 2
 			shipyard: 2
@@ -377,6 +380,7 @@ Player:
 		# Look as far as the base reaches for water, so a ship yard is built wherever the coast allows.
 		CheckForWaterRadius: 16
 		BuildingLimits:
+			nwhq: 1
 			barracks: 6
 			foundry: 3
 			shipyard: 2

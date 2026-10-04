@@ -26,6 +26,8 @@ meta-merchant-generic-name = Merchantman
 ## Buildings
 actor-nwhq =
     .name = Headquarters
+    .description = The army's command post: every other building is ordered from here.
+      Build more to extend your base or to keep a reserve.
 actor-barracks =
     .name = Barracks
     .description = Raises infantry battalions and cavalry regiments.
