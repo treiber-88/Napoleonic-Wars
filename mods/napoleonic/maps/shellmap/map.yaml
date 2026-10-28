@@ -1992,6 +1992,9 @@ Actors:
 		Owner: Britain
 		Location: 44,31
 		Facing: 512
+	Actor28: countinghouse
+		Owner: Neutral
+		Location: 54,33
 
 Rules:
 	World:

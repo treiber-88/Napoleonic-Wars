@@ -1,268 +1,185 @@
 """
-Builds the macOS version of the Napoleonic Wars mod on Windows.
+Builds the macOS package of the Napoleonic Wars mod on Windows, as loose files for the Napoleonic-Wars-MacOS
+git repository (GitHub's "Download ZIP" of that repository is what a Mac user gets).
 
-It takes the official "OpenRA - Red Alert.app" out of OpenRA's macOS release image (same engine release as the
-Windows build), adds the mod and writes "Napoleonic Wars.app" straight into a .zip with Unix permissions,
-because an app bundle copied or zipped through Windows loses its executable bits.
+The official OpenRA app for macOS is used UNMODIFIED, so Apple's signature and notarisation stay valid, nothing
+has to be signed on the Mac and no file needs to be anywhere near GitHub's 100 MB limit. (An earlier version put
+the mod inside a copy of the app: that breaks the signature, and an app that passes through Windows or git also
+loses its executable permissions, so macOS refused to launch it.) The mod is loaded from outside the app:
 
-Inputs
-  --hfs    raw HFS+ partition of OpenRA-<release>.dmg       (7z x -tdmg OpenRA-...dmg  ->  4.hfs)
-  --dll    OpenRA.Mods.Napoleonic.dll built with PlatformTarget=AnyCPU (the Windows build is x64-only)
-  --out    output folder
+  * the start script copies the mod folder and its DLL to /Users/Shared/NapoleonicWars,
+  * it starts the official launcher with  Engine.ModSearchPaths=<app>/Contents/Resources/mods,/Users/Shared/NapoleonicWars/mods
+    and  Game.Mod=napoleonic  (the launcher passes arguments through; later arguments override its own Game.Mod),
+  * the Mac copy of mod.yaml names the DLL by absolute path: the engine joins assembly names to its binary
+    folder with Path.Combine, which returns an absolute second argument unchanged.
+
+The only file that should be executable is the start script. Git on Windows does not record that by itself:
+    git add --chmod=+x "Play Napoleonic Wars.command"
+(The READ ME also explains how to start it with `bash`, which works without the permission.)
 
 Usage
-  7z x -tdmg -oC:/Temp/nw_macos/raw OpenRA-playtest-20260222.dmg
   dotnet build source/OpenRA.Mods.Napoleonic -c Release -p:PlatformTarget=AnyCPU -p:OutputPath=C:/Temp/nw_macos/dll/ -p:IntermediateOutputPath=C:/Temp/nw_macos/obj/
-  python art/tools/macos/build_macos.py --hfs C:/Temp/nw_macos/raw/4.hfs --dll C:/Temp/nw_macos/dll/OpenRA.Mods.Napoleonic.dll --out "C:/Users/<you>/Desktop/Napoleonic Wars MacOS"
+  python art/tools/macos/build_macos.py --dll C:/Temp/nw_macos/dll/OpenRA.Mods.Napoleonic.dll --out "<path to the Napoleonic-Wars-MacOS repository>"
 """
 import argparse
-import io
 import os
+import shutil
 import time
-import zipfile
-
-from PIL import Image
-
-from hfs_read import Volume
 
 GAME = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".."))
-SOURCE_APP = "OpenRA - Red Alert.app"
-APP = "Napoleonic Wars.app"
 MOD_ID = "napoleonic"
-ZIP_NAME = "Napoleonic Wars macOS.zip"
-SETUP = "First time setup.command"
-README = "READ ME.txt"
+INSTALL_DIR = "/Users/Shared/NapoleonicWars"
+DLL = "OpenRA.Mods.Napoleonic.dll"
+SCRIPT = "Play Napoleonic Wars.command"
+README = "README.md"
+OPENRA_RELEASES = "https://github.com/OpenRA/OpenRA/releases/tag/{engine}"
+OPENRA_DMG = "https://github.com/OpenRA/OpenRA/releases/download/{engine}/OpenRA-{engine}.dmg"
 
-INFO_PLIST = """<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleDisplayName</key>
-	<string>Napoleonic Wars</string>
-	<key>CFBundleExecutable</key>
-	<string>Launcher</string>
-	<key>CFBundleIconFile</key>
-	<string>napoleonic.icns</string>
-	<key>CFBundleIdentifier</key>
-	<string>net.openra.mod.napoleonic</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>Napoleonic Wars</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>{version}</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>{version}</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>10.15</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-	<key>LSApplicationCategoryType</key>
-	<string>public.app-category.games</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>OpenRA Server</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>openra-napoleonic-{version}</string>
-			</array>
-		</dict>
-	</array>
-	<key>ModId</key>
-	<string>napoleonic</string>
-	<key>FaqUrl</key>
-	<string>https://wiki.openra.net/FAQ</string>
-	<key>JoinServerUrlScheme</key>
-	<string>openra-napoleonic-{version}</string>
-	<key>NSRequiresAquaSystemAppearance</key>
-	<false/>
-	<key>NSPrefersDisplaySafeAreaCompatibilityMode</key>
-	<false/>
-</dict>
-</plist>
-"""
+PLAY_SCRIPT = """#!/bin/bash
+# Napoleonic Wars for macOS.
+# Starts the official, unmodified OpenRA app with the Napoleonic Wars mod loaded from outside the app,
+# so nothing has to be signed and macOS has nothing to object to.
+HERE="$(cd "$(dirname "$0")" && pwd)"
+DEST="{install_dir}"
+ENGINE="{engine}"
 
-SETUP_SCRIPT = """#!/bin/bash
-# Napoleonic Wars - first time setup on a Mac.
-# The app is the official OpenRA Red Alert app with the Napoleonic Wars mod added, so Apple's original
-# signature no longer matches and macOS refuses to open it until it is signed again on this Mac.
-cd "$(dirname "$0")"
-APP="Napoleonic Wars.app"
-if [ ! -d "$APP" ]; then
-	echo "Put this file in the same folder as '$APP' and run it again."
-	read -r -p "Press Return to close." _
+pause() {{ echo; read -r -p "Press Return to close this window." _; }}
+
+APP=""
+for c in "/Applications/OpenRA - Red Alert.app" "$HOME/Applications/OpenRA - Red Alert.app" "$HERE/OpenRA - Red Alert.app" "$HOME/Desktop/OpenRA - Red Alert.app" "$HOME/Downloads/OpenRA - Red Alert.app"; do
+	if [ -d "$c" ]; then APP="$c"; break; fi
+done
+
+if [ -z "$APP" ]; then
+	echo "OpenRA is not installed yet."
+	echo
+	echo "Download OpenRA $ENGINE for macOS:"
+	echo "  {dmg_url}"
+	echo "Open the .dmg, drag 'OpenRA - Red Alert' into Applications, open it once, quit it, then run this again."
+	pause
 	exit 1
 fi
-echo "Removing the download quarantine flag..."
-xattr -cr "$APP"
-echo "Signing the app for this Mac (ad hoc)..."
-codesign --force --deep --sign - "$APP" || echo "Signing failed; trying to open it anyway."
-echo "Opening Napoleonic Wars..."
-open "$APP"
-echo "Done. From now on just double-click '$APP' (you can move it to Applications)."
+
+VERSION="$(cat "$APP/Contents/Resources/VERSION" 2>/dev/null)"
+if [ "$VERSION" != "$ENGINE" ]; then
+	echo "Warning: this mod was built for OpenRA $ENGINE, but '$APP' is version '$VERSION'."
+	echo "It may not start. Install OpenRA $ENGINE from {releases_url}"
+	echo
+fi
+
+if [ ! -f "$HERE/files/{dll}" ] || [ ! -d "$HERE/files/mods/{mod}" ]; then
+	echo "The 'files' folder is missing. Keep this script in the folder it came in."
+	pause
+	exit 1
+fi
+
+echo "Installing the mod files to $DEST ..."
+mkdir -p "$DEST" || {{ echo "Could not create $DEST"; pause; exit 1; }}
+rm -rf "$DEST/mods"
+cp -R "$HERE/files/mods" "$DEST/mods" && cp "$HERE/files/{dll}" "$DEST/{dll}" || {{ echo "Copying the mod files failed."; pause; exit 1; }}
+xattr -cr "$DEST" 2>/dev/null
+
+echo "Starting Napoleonic Wars with $APP ..."
+open -n "$APP" --args "Engine.ModSearchPaths=$APP/Contents/Resources/mods,$DEST/mods" "Game.Mod={mod}" || {{ echo "macOS could not open OpenRA."; pause; exit 1; }}
+echo "Started. You can close this window."
 """
 
-README_TEXT = """NAPOLEONIC WARS - macOS VERSION
-===============================
+README_TEXT = """# Napoleonic Wars for macOS
 
-What this is
-    "Napoleonic Wars.app": the official OpenRA Red Alert app for macOS ({release}) with the
-    Napoleonic Wars mod added. It runs on Intel Macs and Apple Silicon (M1 and later), macOS 10.15 or newer.
+The Napoleonic Wars mod, running on the official OpenRA app for macOS (`{engine}`).
+The OpenRA app itself is not changed, so there is nothing to sign and no "damaged app" warning.
+Works on Intel Macs and Apple Silicon (M1 and later), macOS 10.15 or newer.
 
-    It was assembled on Windows and has NOT been tested on a Mac.
+> Put together on Windows and **not yet tested on a Mac**.
 
-How to install (on the Mac)
-    1. Copy "{zip}" to the Mac and double-click it to unzip. Unzip it ON THE MAC:
-       do not unzip it on Windows and copy the folder over, or the app loses the permissions it needs to start.
-    2. Double-click "{setup}".
-       macOS may refuse because the file was downloaded. If so: right-click it and choose Open, or go to
-       System Settings > Privacy & Security and click "Open Anyway", then run it again.
-       It removes the download quarantine flag, signs the app for that Mac and opens the game.
-    3. After that, open "Napoleonic Wars.app" normally. You can move it to Applications.
+## Install
 
-    The same thing by hand, in Terminal, from the folder that holds the app:
-        xattr -cr "Napoleonic Wars.app"
-        codesign --force --deep --sign - "Napoleonic Wars.app"
-        open "Napoleonic Wars.app"
+1. **Install OpenRA `{engine}`.** Download [OpenRA-{engine}.dmg]({dmg_url})
+   (from the [official release page]({releases_url})), open it and drag **OpenRA - Red Alert** into Applications.
+   Open it once so macOS asks its usual "downloaded from the internet" question, then quit it.
+2. **Download this repository on the Mac**: the green **Code** button, then **Download ZIP**, and double-click the zip.
+   Do the download and unzip on the Mac itself, not on Windows.
+3. **Start the game**: in the unzipped folder, double-click **{script}**.
 
-Why step 2 is needed
-    The official app is signed by the OpenRA developers. Adding the mod changes the app, so that signature
-    no longer matches and macOS reports the app as "damaged" or from an unidentified developer.
-    Signing it again on the Mac itself ("ad hoc") fixes that. Nothing is sent anywhere.
+macOS will not open a downloaded script by double-click the first time. Any one of these gets past that:
 
-First start
-    The mod uses some original Red Alert files (sounds, terrain). On a Mac that does not have them yet the game
-    shows OpenRA's content installer first, which can download them. They are stored in
-    ~/Library/Application Support/OpenRA, not inside the app.
+- right-click the script and choose **Open**, then **Open** again; or
+- **System Settings > Privacy & Security**, scroll down and click **Open Anyway**; or
+- open **Terminal**, type `bash` and a space, drag the script into the Terminal window and press Return.
+  This last way always works, including when macOS says the file "could not be executed".
 
-Multiplayer with Windows players
-    Everyone needs the same version of the mod. This build was made {date} from the Windows copy of that day.
-    After changing the mod on Windows, build this again:  python art/tools/macos/build_macos.py  (see its header).
+## Playing
 
-Contents of this folder
-    {zip}      the app, to be unzipped on a Mac
-    {readme}   this file
+Start the game with **{script}** every time. It copies the mod to `{install_dir}` and starts OpenRA
+with the mod. Starting "OpenRA - Red Alert" directly gives you plain Red Alert.
+
+The first start may show OpenRA's content installer: the mod uses some original Red Alert files (sounds, terrain),
+and the installer can download them.
+
+## If something goes wrong
+
+The script prints what it is doing in the Terminal window: send that text.
+If the game itself crashes, its logs are in `~/Library/Application Support/OpenRA/Logs`.
+
+## Multiplayer with Windows players
+
+Everyone needs the same version of the mod. This build was made {date} from the Windows copy of that day.
+
+## What is in this repository
+
+| Path | What it is |
+|---|---|
+| `{script}` | starts the game |
+| `files/mods/napoleonic/` | the mod |
+| `files/{dll}` | the mod's code |
 """
-
-
-class Bundle:
-    """Collects the files of the app; written as a zip with Unix permissions and no Windows detour."""
-
-    def __init__(self):
-        self.files = {}     # arcname -> (bytes, mode)
-        self.dirs = {}      # arcname -> mode
-
-    def add_dir(self, name, mode=0o755):
-        parts = name.strip("/").split("/")
-        for i in range(1, len(parts) + 1):
-            self.dirs.setdefault("/".join(parts[:i]), 0o755)
-        self.dirs[name.strip("/")] = mode or 0o755
-
-    def add(self, name, data, mode=0o644):
-        self.add_dir(os.path.dirname(name))
-        self.files[name] = (data, mode or 0o644)
-
-    def write(self, path):
-        stamp = time.localtime()[:6]
-        with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as z:
-            for d in sorted(self.dirs):
-                if not d:
-                    continue
-                zi = zipfile.ZipInfo(d + "/", stamp)
-                zi.create_system = 3
-                zi.external_attr = ((0o040000 | self.dirs[d]) << 16) | 0x10
-                z.writestr(zi, b"")
-            for name in sorted(self.files):
-                data, mode = self.files[name]
-                zi = zipfile.ZipInfo(name, stamp)
-                zi.create_system = 3
-                zi.compress_type = zipfile.ZIP_DEFLATED
-                zi.external_attr = (0o100000 | mode) << 16
-                z.writestr(zi, data)
-
-
-def make_icns():
-    """App icon from the mod's own French line infantry portrait (the same picture as the Windows launcher icon)."""
-    src = Image.open(os.path.join(GAME, "art", "renders", "icons", "fr_line.png")).convert("RGBA")
-    side = 1024
-    bg = Image.new("RGBA", (side, side), (32, 44, 72, 255))
-    im = src.resize((int(src.width * side / src.height), side), Image.LANCZOS)
-    bg.alpha_composite(im, ((side - im.width) // 2, 0))
-    buf = io.BytesIO()
-    bg.save(buf, format="ICNS")
-    return buf.getvalue()
-
-
-def mod_version():
-    for line in open(os.path.join(GAME, "mods", MOD_ID, "mod.yaml"), encoding="utf-8"):
-        if line.strip().startswith("Version:"):
-            return line.split(":", 1)[1].strip()
-    return "dev"
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--hfs", required=True)
     ap.add_argument("--dll", required=True)
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
-    vol = Volume(open(args.hfs, "rb"))
-    b = Bundle()
-    release = "unknown release"
-    skipped = 0
-    for rel, e in vol.walk(SOURCE_APP):
-        # The original signature covers the original contents; it is recreated on the Mac.
-        if rel.startswith("Contents/_CodeSignature") or rel in ("Contents/CodeResources", "Contents/Info.plist"):
-            skipped += 1
-            continue
-        name = APP + "/" + rel
-        if e.kind == "dir":
-            b.add_dir(name, e.mode)
-        elif e.kind == "file":
-            data = vol.read(e)
-            if rel == "Contents/Resources/VERSION":
-                release = data.decode().strip()
-            b.add(name, data, e.mode)
-        else:
-            raise SystemExit("unexpected %s in the official app: %s" % (e.kind, rel))
+    engine = open(os.path.join(GAME, "VERSION"), encoding="utf-8").read().strip()
+    fmt = dict(engine=engine, install_dir=INSTALL_DIR, dll=DLL, mod=MOD_ID, script=SCRIPT, date=time.strftime("%Y-%m-%d"),
+               dmg_url=OPENRA_DMG.format(engine=engine), releases_url=OPENRA_RELEASES.format(engine=engine))
 
-    # The mod itself, exactly as in the Windows game folder.
+    out = args.out
+    files_dir = os.path.join(out, "files")
+    if os.path.isdir(files_dir):
+        shutil.rmtree(files_dir)                      # only ever this script's own output
+    mod_out = os.path.join(files_dir, "mods", MOD_ID)
+
     mod_root = os.path.join(GAME, "mods", MOD_ID)
-    mod_files = 0
-    for folder, _, files in os.walk(mod_root):
-        for f in files:
-            full = os.path.join(folder, f)
-            rel = os.path.relpath(full, mod_root).replace(os.sep, "/")
-            b.add(f"{APP}/Contents/Resources/mods/{MOD_ID}/{rel}", open(full, "rb").read())
-            mod_files += 1
+    count = 0
+    for folder, _, names in os.walk(mod_root):
+        for n in names:
+            full = os.path.join(folder, n)
+            rel = os.path.relpath(full, mod_root)
+            dest = os.path.join(mod_out, rel)
+            os.makedirs(os.path.dirname(dest), exist_ok=True)
+            data = open(full, "rb").read()
+            if rel == "mod.yaml":
+                # The DLL lives outside the app on the Mac: name it by absolute path.
+                text = data.decode("utf-8")
+                old = f"Assemblies: OpenRA.Mods.Common.dll, OpenRA.Mods.Cnc.dll, {DLL}"
+                if text.count(old) != 1:
+                    raise SystemExit("mod.yaml: Assemblies line not found as expected")
+                data = text.replace(old, f"Assemblies: OpenRA.Mods.Common.dll, OpenRA.Mods.Cnc.dll, {INSTALL_DIR}/{DLL}").encode("utf-8")
+            open(dest, "wb").write(data)
+            count += 1
 
-    # The mod's code, next to the engine, for both processor types.
-    dll = open(args.dll, "rb").read()
-    for arch in ("arm64", "x86_64"):
-        b.add(f"{APP}/Contents/MacOS/{arch}/OpenRA.Mods.Napoleonic.dll", dll)
+    shutil.copyfile(args.dll, os.path.join(files_dir, DLL))
+    with open(os.path.join(out, SCRIPT), "w", encoding="utf-8", newline="\n") as f:
+        f.write(PLAY_SCRIPT.format(**fmt))
+    with open(os.path.join(out, README), "w", encoding="utf-8", newline="\n") as f:
+        f.write(README_TEXT.format(**fmt))
 
-    version = mod_version()
-    b.add(f"{APP}/Contents/Info.plist", INFO_PLIST.format(version=version).encode("utf-8"))
-    b.add(f"{APP}/Contents/Resources/napoleonic.icns", make_icns())
-    b.add(SETUP, SETUP_SCRIPT.replace("\r\n", "\n").encode("utf-8"), 0o755)
-
-    os.makedirs(args.out, exist_ok=True)
-    zip_path = os.path.join(args.out, ZIP_NAME)
-    b.write(zip_path)
-    text = README_TEXT.format(release=release, zip=ZIP_NAME, setup=SETUP, readme=README, date=time.strftime("%Y-%m-%d"))
-    with open(os.path.join(args.out, README), "w", encoding="utf-8", newline="\r\n") as f:
-        f.write(text)
-    print(f"engine {release}; official files {len(b.files) - mod_files - 5}, signature files left out {skipped}, mod files {mod_files}")
-    print(f"wrote {zip_path} ({os.path.getsize(zip_path) / 1e6:.1f} MB)")
+    biggest = max((os.path.getsize(os.path.join(d, n)), os.path.relpath(os.path.join(d, n), out)) for d, _, ns in os.walk(files_dir) for n in ns)
+    print(f"engine {engine}; mod files {count}; largest file {biggest[0] / 1e6:.1f} MB ({biggest[1]})")
+    print(f"wrote {out}")
+    print(f'remember:  git add --chmod=+x "{SCRIPT}"')
 
 
 if __name__ == "__main__":

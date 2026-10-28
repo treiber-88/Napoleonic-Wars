@@ -299,7 +299,7 @@ namespace OpenRA.Mods.Napoleonic.Traits
 
 			var name = division?.FullName ?? self.Info.Name;
 			var prefix = self.Owner == localPlayer ? "Your army" : self.Owner.ResolvedPlayerName;
-			DivisionNotice.Show(prefix, $"{name} {what}", color);
+			DivisionNotice.Show(self.World, prefix, $"{name} {what}", color);
 		}
 	}
 }

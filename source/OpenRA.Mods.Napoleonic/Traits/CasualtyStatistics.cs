@@ -129,8 +129,13 @@ namespace OpenRA.Mods.Napoleonic.Traits
 	/// <summary>On-screen notices about divisions (routed, rallied, surrendered...). Shown without the chat sound.</summary>
 	public static class DivisionNotice
 	{
-		public static void Show(string prefix, string text, Color color)
+		public static void Show(World world, string prefix, string text, Color color)
 		{
+			// Only in a real game. The battle behind the main menu runs while the lobby is open, and the lobby's
+			// chat box has no template for transient lines: sending one there crashes the game.
+			if (world.Type != WorldType.Regular)
+				return;
+
 			// The transient notification panel plays no sound in this mod; mission lines in the chat always do.
 			// Its line template has no prefix label, so the prefix goes into the text.
 			Ui.Send(new TextNotification(TextNotificationPool.Transients, TextNotificationsManager.SystemClientId, null,

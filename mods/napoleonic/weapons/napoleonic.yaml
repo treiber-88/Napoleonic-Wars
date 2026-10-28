@@ -41,12 +41,12 @@
 Musket:
 	Inherits: ^Smallarms
 	ReloadDelay: 125
-	Range: 5c0
+	Range: 12c0
 	Report: nw-musket-fire.wav
 
 LightMusket:
 	Inherits: Musket
-	Range: 5c512
+	Range: 12c512
 	Projectile: Bullet
 		Inaccuracy: 560
 
@@ -117,7 +117,7 @@ HorsePistol:
 	Inherits: ^Smallarms
 	ReloadDelay: 75
 	# Longer reach (was 2c512), still short of the infantry musket's 5c0.
-	Range: 4c0
+	Range: 8c0
 	Report: gun27.aud
 	Projectile: Bullet
 		Inaccuracy: 768
@@ -168,7 +168,7 @@ HeavySabre:
 # Solid (round) shot: long range, strikes where it lands, best against buildings.
 SolidShot:
 	Inherits: ^NWCannon
-	Range: 14c0
+	Range: 20c0
 	Projectile: Bullet
 		Speed: 320
 		Image: roundshot
@@ -210,7 +210,7 @@ SolidShot:
 # Common shell: explodes in the air or on landing, hits everything around it.
 Shell:
 	Inherits: ^NWCannon
-	Range: 12c0
+	Range: 20c0
 	MinRange: 3c0
 	Projectile: Bullet
 		Speed: 220
@@ -252,7 +252,7 @@ Shell:
 # Canister: a tin of musket balls, devastating at short range.
 Canister:
 	Inherits: ^NWCannon
-	Range: 5c0
+	Range: 14c0
 	Projectile: Bullet
 		Speed: 480
 		Image: musketball
@@ -285,7 +285,7 @@ Canister:
 NavalGun:
 	Inherits: ^NWCannon
 	# 30% more than the original 9c0 (user request 2026-10-02).
-	Range: 11c717
+	Range: 22c717
 	Report: nw-cannon-fire.wav
 	Projectile: Bullet
 		Speed: 340
